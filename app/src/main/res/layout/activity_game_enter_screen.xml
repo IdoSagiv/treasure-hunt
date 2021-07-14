@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/editTextEnterCodeGame"
+        android:id="@+id/editTextEnterNickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -33,7 +33,7 @@
         android:background="@color/white"
         android:ems="10"
         android:gravity="center"
-        android:hint="Enter Game Code"
+        android:hint="Enter Nickname"
         android:inputType="text"
         android:textColor="@color/black"
         android:textSize="20dp"
@@ -51,7 +51,7 @@
         android:background="@android:color/darker_gray" />
 
     <Button
-        android:id="@+id/buttonEnter"
+        android:id="@+id/buttonJoinGame"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -60,21 +60,7 @@
         android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="278dp"
-        android:text="Enter"
-        android:textColor="@color/black"
-        tools:backgroundTint="#A3EEEEEE" />
-
-    <Button
-        android:id="@+id/buttonLoginAsCreator"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="189dp"
-        android:text="Login As Creator"
+        android:text="Join Game"
         android:textColor="@color/black"
         tools:backgroundTint="#A3EEEEEE" />
 
