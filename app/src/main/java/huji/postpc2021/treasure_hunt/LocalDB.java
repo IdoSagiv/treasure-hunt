@@ -7,16 +7,19 @@ import android.preference.PreferenceManager;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
-public class LocalDB extends Application {
+import huji.postpc2021.treasure_hunt.Utils.Game;
 
-    SharedPreferences sharedPref;
-    Context context;
+public class LocalDB extends Application {
+    private final Context context;
+    private final FirebaseFirestore fireStore;
 
     public LocalDB(Context context) {
         this.context = context;
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        this.fireStore = FirebaseFirestore.getInstance();
     }
 
     public LiveData<ArrayList<Game>> getAvailableGames() {
