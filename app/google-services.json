@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "334206204893",
+    "project_id": "treasure-hunt-53e15",
+    "storage_bucket": "treasure-hunt-53e15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334206204893:android:38cd7df43c992968e61434",
+        "android_client_info": {
+          "package_name": "huji.postpc2021.treasure_hunt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334206204893-l40l2m4enhdl936oamioqk7s089rm3ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOMt_VsqVrJX51qqPU6s0FWCHb-RLegSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334206204893-l40l2m4enhdl936oamioqk7s089rm3ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
