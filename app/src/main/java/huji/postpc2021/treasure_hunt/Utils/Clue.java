@@ -1,11 +1,26 @@
 package huji.postpc2021.treasure_hunt.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Clue {
-    String id;
-    String description;
-    GeoPoint location;
-    List<Player> visitedPlayers;
+    private final String id;
+    private String description;
+    private GeoPoint location;
+    private List<Player> visitedPlayers;
+    private int index;
     // TODO AR
+
+    public Clue(String description, int index, GeoPoint location) {
+        this.id = UUID.randomUUID().toString();
+        this.description = description;
+        this.location = location;
+        this.visitedPlayers = new ArrayList<>();
+        this.index = index;
+    }
+
+    public void changeIndex(int newIndex) {
+        this.index = newIndex;
+    }
 }
