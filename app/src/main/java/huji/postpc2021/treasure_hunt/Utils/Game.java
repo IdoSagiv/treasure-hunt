@@ -55,7 +55,7 @@ public class Game {
     }
 
     public void addClue(Clue newClue) {
-        clues.put(newClue.id, newClue);
+        clues.put(newClue.getId(), newClue);
         TreasureHuntApp.getInstance().getDb().updateGame(this);
     }
 
