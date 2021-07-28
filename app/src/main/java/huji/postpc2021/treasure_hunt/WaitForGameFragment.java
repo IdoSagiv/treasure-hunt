@@ -34,14 +34,15 @@ public class WaitForGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//
-//      todo: handle back pressed
-//        requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                leaveGame(view);
-//            }
-//        });
+
+        // on back pressed callback for this fragment
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                leaveGame(view);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void leaveGame(View view) {
@@ -56,7 +57,7 @@ public class WaitForGameFragment extends Fragment {
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("leave game?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener)
