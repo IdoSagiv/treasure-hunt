@@ -1,26 +1,18 @@
 package huji.postpc2021.treasure_hunt;
 
-import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import huji.postpc2021.treasure_hunt.Utils.Game;
-import huji.postpc2021.treasure_hunt.Utils.GameStatus;
+import huji.postpc2021.treasure_hunt.DataObjects.Game;
+import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
 
 public class LocalDB {
     private final static String GAMES_FB_COLLECTION = "games";

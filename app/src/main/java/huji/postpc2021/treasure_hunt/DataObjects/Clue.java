@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt.Utils;
+package huji.postpc2021.treasure_hunt.DataObjects;
 
 import java.util.ArrayList;
 import java.util.List;
