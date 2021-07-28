@@ -38,7 +38,7 @@
 
 
     <View
-        android:id="@+id/sepLineInEntrySceren"
+        android:id="@+id/sepLineInEntryScreen"
         android:layout_width="250dp"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@id/editTextEnterCodeGame" />
 
     <Button
-        android:id="@+id/buttonEnter"
+        android:id="@+id/buttonEnterGame"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -59,7 +59,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sepLineInEntrySceren"
+        app:layout_constraintTop_toBottomOf="@+id/sepLineInEntryScreen"
         tools:backgroundTint="#A3EEEEEE" />
 
     <Button
@@ -74,7 +74,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonEnter"
+        app:layout_constraintTop_toBottomOf="@id/buttonEnterGame"
         tools:backgroundTint="#A3EEEEEE" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
