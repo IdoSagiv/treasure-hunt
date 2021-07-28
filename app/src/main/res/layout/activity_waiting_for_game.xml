@@ -6,32 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/buttonLeaveGame2"
-        android:layout_width="124dp"
-        android:layout_height="36dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:fontFamily="casual"
-        android:text="Leave Game"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEnterCodeGame"
-        app:layout_constraintVertical_bias="0.733"
-        tools:backgroundTint="#A3EEEEEE" />
-
     <ImageView
-        android:id="@+id/imageViewLogo"
+        android:id="@+id/imageViewLogoInUserWaitScreen"
         android:layout_width="264dp"
         android:layout_height="159dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,34 +20,27 @@
         android:id="@+id/waitingGameParticipants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
         android:fontFamily="casual"
         android:gravity="center"
         android:text="Participants"
         android:textColor="@color/black"
-        android:textSize="28dp"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogoInUserWaitScreen" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerRoots"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/waitingGameParticipants"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
         android:layout_marginBottom="16dp"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toTopOf="@+id/editTextEnterCodeGame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/waitingGameParticipants"
         app:layout_constraintVertical_bias="1.0" />
@@ -81,20 +52,29 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
         android:background="@color/white"
-        android:ems="10"
         android:fontFamily="casual"
         android:gravity="center"
-        android:inputType="text"
         android:text="Waiting for manager to start the game"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLeaveGame2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:fontFamily="casual"
+        android:text="Leave Game"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.862" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnterCodeGame"
+        tools:backgroundTint="#A3EEEEEE" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
