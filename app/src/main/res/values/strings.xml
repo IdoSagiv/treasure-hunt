@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">treasure_hunt</string>
+    <string name="join_game_btn">Join Game</string>
+    <string name="enter_nickname_hint">Enter Nickname</string>
+    <string name="enter_code_btn">Enter</string>
+    <string name="login_as_creator_btn">Login As Creator</string>
+    <string name="enter_code_hint">Enter Game Code</string>
+    <string name="wait_for_game">Waiting for manager to start the game</string>
+    <string name="leave_game_btn">Leave Game</string>
+    <string name="participants">Participants</string>
 </resources>

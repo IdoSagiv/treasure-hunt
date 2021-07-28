@@ -27,7 +27,7 @@
         android:background="@color/white"
         android:fontFamily="casual"
         android:gravity="center"
-        android:hint="Enter Game Code"
+        android:hint="@string/enter_code_hint"
         android:inputType="text"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -55,12 +55,12 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:fontFamily="casual"
-        android:text="Enter"
+        android:text="@string/enter_code_btn"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sepLineInEntryScreen"
-        tools:backgroundTint="#A3EEEEEE" />
+        app:backgroundTint="#A3EEEEEE" />
 
     <Button
         android:id="@+id/buttonLoginAsCreator"
@@ -70,11 +70,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
         android:fontFamily="casual"
-        android:text="Login As Creator"
+        android:text="@string/login_as_creator_btn"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonEnterGame"
-        tools:backgroundTint="#A3EEEEEE" />
+        app:backgroundTint="#A3EEEEEE" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

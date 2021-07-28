@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageViewLogoInUserWaitScreen"
         android:layout_width="264dp"
-        android:layout_height="159dp"
+        android:layout_height="160dp"
         android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="casual"
         android:gravity="center"
-        android:text="Participants"
+        android:text="@string/participants"
         android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
         android:background="@color/white"
         android:fontFamily="casual"
         android:gravity="center"
-        android:text="Waiting for manager to start the game"
+        android:text="@string/wait_for_game"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,12 +69,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:fontFamily="casual"
-        android:text="Leave Game"
+        android:text="@string/leave_game_btn"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEnterCodeGame"
-        tools:backgroundTint="#A3EEEEEE" />
+        app:backgroundTint="#A3EEEEEE" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
