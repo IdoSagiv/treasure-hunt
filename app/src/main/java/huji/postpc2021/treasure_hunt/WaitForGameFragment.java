@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class WaitForGameFragment extends Fragment {
-    private View view;
 
     public WaitForGameFragment() {
         // Required empty public constructor
@@ -25,7 +24,7 @@ public class WaitForGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_wait_for_game, container, false);
+        View view = inflater.inflate(R.layout.fragment_wait_for_game, container, false);
 
         view.findViewById(R.id.buttonLeaveGameInWaitScreen).setOnClickListener(this::leaveGame);
 
