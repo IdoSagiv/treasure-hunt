@@ -34,14 +34,14 @@ public class WaitForGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // handle BackPressed
-        requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                leaveGame(view);
-            }
-        });
+//
+//      todo: handle back pressed
+//        requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                leaveGame(view);
+//            }
+//        });
     }
 
     private void leaveGame(View view) {
