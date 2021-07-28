@@ -71,10 +71,10 @@
         android:fontFamily="casual"
         android:text="@string/leave_game_btn"
         android:textColor="@color/black"
+        app:backgroundTint="#A3EEEEEE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEnterCodeGame"
-        app:backgroundTint="#A3EEEEEE" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnterCodeGame" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

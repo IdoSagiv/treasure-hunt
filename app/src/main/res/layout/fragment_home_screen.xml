@@ -57,10 +57,10 @@
         android:fontFamily="casual"
         android:text="@string/enter_code_btn"
         android:textColor="@color/black"
+        app:backgroundTint="#A3EEEEEE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sepLineInEntryScreen"
-        app:backgroundTint="#A3EEEEEE" />
+        app:layout_constraintTop_toBottomOf="@+id/sepLineInEntryScreen" />
 
     <Button
         android:id="@+id/buttonLoginAsCreator"
@@ -72,9 +72,9 @@
         android:fontFamily="casual"
         android:text="@string/login_as_creator_btn"
         android:textColor="@color/black"
+        app:backgroundTint="#A3EEEEEE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonEnterGame"
-        app:backgroundTint="#A3EEEEEE" />
+        app:layout_constraintTop_toBottomOf="@id/buttonEnterGame" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
