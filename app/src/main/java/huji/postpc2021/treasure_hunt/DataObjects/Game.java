@@ -65,4 +65,20 @@ public class Game {
             TreasureHuntApp.getInstance().getDb().updateGame(this);
         }
     }
+
+    public HashMap<String, Clue> getClues() {
+        return new HashMap<>(clues);
+    }
+
+    public HashMap<String, Player> getPlayers() {
+        return new HashMap<>(players);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCode() {
+        return code;
+    }
 }
