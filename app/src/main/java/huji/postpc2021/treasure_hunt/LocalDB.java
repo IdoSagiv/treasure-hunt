@@ -15,7 +15,7 @@ import huji.postpc2021.treasure_hunt.DataObjects.Game;
 import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
 
 public class LocalDB {
-    private final static String GAMES_FB_COLLECTION = "games";
+    private final static String GAMES_FB_COLLECTION = "Games";
 
     private final Context context; // todo: need?
     private final FirebaseFirestore fireStore;
@@ -73,6 +73,24 @@ public class LocalDB {
         return gameLD;
     }
 
+    /**
+     * @param gameCode code to check
+     * @return true in the given code is associated to a game that is waiting for players
+     */
+    public boolean isAvailableGame(String gameCode) {
+        for (Game game : availableGamesMutableLD.getValue()) {
+            if (game.getCode().equals(gameCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * add or change game in the db
+     *
+     * @param game game to add/change
+     */
     public void updateGame(Game game) {
         fireStore.collection(GAMES_FB_COLLECTION).document(game.getId()).set(game);
     }

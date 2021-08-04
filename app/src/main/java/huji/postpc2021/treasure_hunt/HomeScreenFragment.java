@@ -8,11 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import huji.postpc2021.treasure_hunt.DataObjects.Game;
 
 public class HomeScreenFragment extends Fragment {
 
@@ -25,9 +35,39 @@ public class HomeScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
+        Button enterGameButton = view.findViewById(R.id.buttonEnterGame);
+        EditText gameCodeEditText = view.findViewById(R.id.editTextEnterCodeGame);
 
-        view.findViewById(R.id.buttonEnterGame).setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(R.id.action_homeScreenFragment_to_enterGameFragment));
+        gameCodeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                enterGameButton.setEnabled(!gameCodeEditText.getText().toString().isEmpty());
+            }
+        });
+
+        // enter game button
+        enterGameButton.setOnClickListener(v -> {
+                    if (TreasureHuntApp.getInstance().getDb().isAvailableGame(gameCodeEditText.getText().toString())) {
+                        Navigation.findNavController(view).navigate(R.id.action_homeScreenFragment_to_enterGameFragment);
+                    } else {
+                        gameCodeEditText.setError("invalid code");
+                    }
+                }
+        );
+
+        // login as creator button
+        view.findViewById(R.id.buttonLoginAsCreator).setOnClickListener(v -> {
+            Toast.makeText(getContext(), "not available", Toast.LENGTH_SHORT).show();
+        });
+
 
         return view;
     }
