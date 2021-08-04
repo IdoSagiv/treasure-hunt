@@ -5,11 +5,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class EnterGameFragment extends Fragment {
     public EnterGameFragment() {
@@ -21,9 +26,26 @@ public class EnterGameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_enter_game, container, false);
+        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        Button joinGameBtn = view.findViewById(R.id.buttonJoinGame);
+        EditText nickNameEditText = view.findViewById(R.id.editTextEnterNickname);
+        nickNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        view.findViewById(R.id.buttonJoinGame).setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(R.id.action_enterGameFragment_to_waitForGameFragment));
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                playerViewModel.nickName.setValue(nickNameEditText.getText().toString());
+                joinGameBtn.setEnabled(!nickNameEditText.getText().toString().isEmpty());
+            }
+        });
+
+        joinGameBtn.setOnClickListener(playerViewModel::clickChooseNickName);
 
         return view;
     }

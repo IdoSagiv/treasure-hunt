@@ -8,7 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.text.Editable;
@@ -20,10 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import huji.postpc2021.treasure_hunt.DataObjects.Game;
-
 public class HomeScreenFragment extends Fragment {
 
     public HomeScreenFragment() {
@@ -31,10 +28,11 @@ public class HomeScreenFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
+        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+
         Button enterGameButton = view.findViewById(R.id.buttonEnterGame);
         EditText gameCodeEditText = view.findViewById(R.id.editTextEnterCodeGame);
 
@@ -49,19 +47,13 @@ public class HomeScreenFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                playerViewModel.gameCode.setValue(gameCodeEditText.getText().toString());
                 enterGameButton.setEnabled(!gameCodeEditText.getText().toString().isEmpty());
             }
         });
 
         // enter game button
-        enterGameButton.setOnClickListener(v -> {
-                    if (TreasureHuntApp.getInstance().getDb().isAvailableGame(gameCodeEditText.getText().toString())) {
-                        Navigation.findNavController(view).navigate(R.id.action_homeScreenFragment_to_enterGameFragment);
-                    } else {
-                        gameCodeEditText.setError("invalid code");
-                    }
-                }
-        );
+        enterGameButton.setOnClickListener(playerViewModel::clickEnterGame);
 
         // login as creator button
         view.findViewById(R.id.buttonLoginAsCreator).setOnClickListener(v -> {

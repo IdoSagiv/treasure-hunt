@@ -3,6 +3,7 @@ package huji.postpc2021.treasure_hunt.DataObjects;
 import java.util.HashMap;
 import java.util.UUID;
 
+import huji.postpc2021.treasure_hunt.LocalDB;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class Game {
@@ -12,6 +13,7 @@ public class Game {
     private HashMap<String, Player> players;
     private HashMap<String, Clue> clues;
     private GameStatus status;
+    private LocalDB db;
 
 
     public Game(String name) {
@@ -21,6 +23,7 @@ public class Game {
         this.players = new HashMap<>();
         this.clues = new HashMap<>();
         this.status = GameStatus.editMode;
+        this.db = TreasureHuntApp.getInstance().getDb();
     }
 
     /**
@@ -39,30 +42,30 @@ public class Game {
 
     public void changeStatus(GameStatus newStatus) {
         status = newStatus;
-        TreasureHuntApp.getInstance().getDb().updateGame(this);
+        db.updateGame(this);
     }
 
     public void addPlayer(Player newPlayer) {
         players.put(newPlayer.id, newPlayer);
-        TreasureHuntApp.getInstance().getDb().updateGame(this);
+        db.updateGame(this);
     }
 
     public void removePlayer(String playerId) {
         if (players.containsKey(playerId)) {
             players.remove(playerId);
-            TreasureHuntApp.getInstance().getDb().updateGame(this);
+            db.updateGame(this);
         }
     }
 
     public void addClue(Clue newClue) {
         clues.put(newClue.getId(), newClue);
-        TreasureHuntApp.getInstance().getDb().updateGame(this);
+        db.updateGame(this);
     }
 
     public void removeClue(String clueId) {
         if (clues.containsKey(clueId)) {
             clues.remove(clueId);
-            TreasureHuntApp.getInstance().getDb().updateGame(this);
+            db.updateGame(this);
         }
     }
 

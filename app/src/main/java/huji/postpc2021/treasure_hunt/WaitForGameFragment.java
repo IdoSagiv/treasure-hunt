@@ -49,7 +49,7 @@ public class WaitForGameFragment extends Fragment {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE: {
-                    Navigation.findNavController(view).navigate(R.id.action_waitForGameFragment_to_homeScreenFragment);
+                    Navigation.findNavController(view).navigate(R.id.action_waitForGame_to_homeScreen);
                     break;
                 }
                 case DialogInterface.BUTTON_NEGATIVE:

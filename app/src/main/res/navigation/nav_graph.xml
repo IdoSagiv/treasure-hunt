@@ -11,7 +11,7 @@
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen">
         <action
-            android:id="@+id/action_homeScreenFragment_to_enterGameFragment"
+            android:id="@+id/action_homeScreen_to_enterGame"
             app:destination="@id/enterGameFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -24,20 +24,23 @@
         android:label="fragment_enter_game"
         tools:layout="@layout/fragment_enter_game">
         <action
-            android:id="@+id/action_enterGameFragment_to_waitForGameFragment"
+            android:id="@+id/action_enterGame_to_waitForGame"
             app:destination="@id/waitForGameFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="gameCode"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/waitForGameFragment"
         android:name="huji.postpc2021.treasure_hunt.WaitForGameFragment"
         android:label="fragment_wait_for_game"
-        tools:layout="@layout/fragment_wait_for_game" >
+        tools:layout="@layout/fragment_wait_for_game">
         <action
-            android:id="@+id/action_waitForGameFragment_to_homeScreenFragment"
+            android:id="@+id/action_waitForGame_to_homeScreen"
             app:destination="@id/homeScreenFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

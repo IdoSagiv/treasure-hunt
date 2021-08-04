@@ -73,6 +73,15 @@ public class LocalDB {
         return gameLD;
     }
 
+    public LiveData<Game> getGameFromCode(String gameCode) {
+        for (Game game : allGames.values()) {
+            if (game.getCode().equals(gameCode)) {
+                return getGameInfo(game.getId());
+            }
+        }
+        return null;
+    }
+
     /**
      * @param gameCode code to check
      * @return true in the given code is associated to a game that is waiting for players
