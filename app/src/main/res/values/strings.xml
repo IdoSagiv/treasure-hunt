@@ -8,4 +8,6 @@
     <string name="wait_for_game">Waiting for manager to start the game</string>
     <string name="leave_game_btn">Leave Game</string>
     <string name="participants">Participants</string>
+    <string name="exit_game">Exit</string>
+    <string name="score_list">Score list</string>
 </resources>
