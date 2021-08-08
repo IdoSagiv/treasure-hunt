@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/buttonSaveAddHintScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonSaveDelete"
+        android:id="@+id/buttonDeleteAddHintScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="240dp"
@@ -54,10 +54,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButtonAddImage"
+        android:id="@+id/imageButtonAddImageAddHintScreen"
         android:layout_width="98dp"
         android:layout_height="93dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSaveDelete"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteAddHintScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEnterRiddle"

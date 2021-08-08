@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/buttonLeaveScoreScreen"
+        android:id="@+id/buttonLeaveLastHintScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="236dp"
@@ -36,7 +36,7 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <EditText
-        android:id="@+id/editTextGameCode"
+        android:id="@+id/editTextLastHint"
         android:layout_width="319dp"
         android:layout_height="217dp"
         android:layout_marginStart="20dp"

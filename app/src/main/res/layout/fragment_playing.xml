@@ -14,7 +14,7 @@
         tools:layout_editor_absoluteY="-9dp" />
 
     <Button
-        android:id="@+id/buttonLeaveGame"
+        android:id="@+id/buttonLeaveGameInPlayingScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="236dp"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.utils.widget.ImageFilterButton
-        android:id="@+id/imageFilterButtonScore"
+        android:id="@+id/imageFilterButtonSeeScore"
         android:layout_width="80dp"
         android:layout_height="70dp"
         app:backgroundTint="#A3EEEEEE"
@@ -37,7 +37,7 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <Button
-        android:id="@+id/buttonHint"
+        android:id="@+id/buttonSeeLastHint"
         android:layout_width="150dp"
         android:layout_height="70dp"
         android:layout_marginEnd="240dp"

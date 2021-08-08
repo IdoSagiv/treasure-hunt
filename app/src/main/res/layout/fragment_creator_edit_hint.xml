@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editTextEnterRiddle"
+        android:id="@+id/editTextOldHintInEditHintScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/buttonSaveInEditHintScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonDelete"
+        android:id="@+id/buttonDeleteInEditHintScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="240dp"
@@ -54,13 +54,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButtonAddImage"
+        android:id="@+id/imageButtonAddImageInEditHintScreen"
         android:layout_width="98dp"
         android:layout_height="93dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDelete"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteInEditHintScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEnterRiddle"
+        app:layout_constraintTop_toBottomOf="@+id/editTextOldHintInEditHintScreen"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
 

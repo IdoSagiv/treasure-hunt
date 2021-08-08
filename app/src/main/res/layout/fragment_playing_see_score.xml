@@ -36,7 +36,7 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerScore"
+        android:id="@+id/recyclerScoreInGame"
         android:layout_width="338dp"
         android:layout_height="306dp"
         android:layout_marginStart="20dp"
