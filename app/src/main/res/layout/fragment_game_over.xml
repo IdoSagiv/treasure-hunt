@@ -56,7 +56,7 @@
         android:fontFamily="casual"
         android:text="@string/exit_game"
         android:textColor="@color/black"
-        app:backgroundTint="#A3EEEEEE"
+        app:backgroundTint="@color/buttons_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

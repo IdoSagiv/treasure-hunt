@@ -71,7 +71,7 @@
         android:fontFamily="casual"
         android:text="@string/leave_game_btn"
         android:textColor="@color/black"
-        app:backgroundTint="#A3EEEEEE"
+        app:backgroundTint="@color/buttons_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEnterCodeGame" />

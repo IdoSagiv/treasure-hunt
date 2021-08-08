@@ -26,7 +26,7 @@
         android:fontFamily="casual"
         android:text="@string/creator_edit_game"
         android:textColor="@color/black"
-        app:backgroundTint="#A3EEEEEE"
+        app:backgroundTint="@color/buttons_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogoInCreatorNewEditGame" />
@@ -42,7 +42,7 @@
         android:fontFamily="casual"
         android:text="@string/creator_new_game"
         android:textColor="@color/black"
-        app:backgroundTint="#A3EEEEEE"
+        app:backgroundTint="@color/buttons_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLoginEditGame" />
