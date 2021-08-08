@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="240dp"
+        android:fontFamily="casual"
+        android:text="@string/creator_new_game_save"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/buttons_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+        android:id="@+id/buttonCreateNewGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="casual"
+        android:text="@string/creator_new_game_create"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/buttons_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonAddHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="casual"
+        android:text="@string/creator_new_game_add_hint"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/buttons_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/listOfLocationCreatorNewGameScreen"
+        android:layout_width="150dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/creator_new_game_location"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddHint" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerLocationInNewGameScreen"
+        android:layout_width="145dp"
+        android:layout_height="209dp"
+        android:layout_marginTop="8dp"
+        android:foregroundGravity="center"
+        app:layout_constraintStart_toStartOf="@id/listOfLocationCreatorNewGameScreen"
+        app:layout_constraintTop_toBottomOf="@+id/listOfLocationCreatorNewGameScreen" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
