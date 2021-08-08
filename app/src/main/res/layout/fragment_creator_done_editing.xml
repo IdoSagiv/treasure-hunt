@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <org.osmdroid.views.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-9dp" />
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/GameCodeDoneEditingScreen"
@@ -20,19 +17,17 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="240dp"
-        android:background="?android:attr/selectableItemBackground"
         android:fontFamily="casual"
         android:gravity="center"
         android:text="@string/creator_game_code"
         android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextGameCode"
+    <TextView
+        android:id="@+id/textViewGameCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -40,15 +35,13 @@
         android:layout_marginEnd="240dp"
         android:background="@color/white"
         android:fontFamily="casual"
-        android:hint="game_code 12"
-        android:inputType="text"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/GameCodeDoneEditingScreen" />
+        app:layout_constraintTop_toBottomOf="@id/GameCodeDoneEditingScreen"
+        tools:text="game_code 12" />
 
     <TextView
         android:id="@+id/ParticipantsDoneEditing"
@@ -64,20 +57,17 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerParticipants"
-        android:layout_width="163dp"
+        android:layout_width="164dp"
         android:layout_height="204dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20sp"
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.995"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ParticipantsDoneEditing" />
 
     <Button
@@ -89,7 +79,7 @@
         android:fontFamily="casual"
         android:text="@string/creator_start_game"
         android:textColor="@color/black"
-        app:backgroundTint="#A3EEEEEE"
+        app:backgroundTint="@color/buttons_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -103,11 +93,10 @@
         android:fontFamily="casual"
         android:text="@string/creator_delete_game"
         android:textColor="@color/black"
-        app:backgroundTint="#A3EEEEEE"
+        app:backgroundTint="@color/buttons_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
