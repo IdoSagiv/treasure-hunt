@@ -21,6 +21,21 @@
     <string name="Register_sign_in">Sign-in</string>
     <string name="creator_edit_game">Edit Game</string>
     <string name="creator_new_game">New Game</string>
+    <string name="creator_new_game_create">Create New Game</string>
+    <string name="creator_new_game_save">Save Game</string>
+    <string name="creator_new_game_add_hint">Add Hint</string>
+    <string name="creator_new_game_location">locations</string>
+
+    <string name="creator_finish_edit_game">Finish Editing</string>
+    <string name="creator_add_hint">Enter Riddle</string>
+    <string name="creator_save_hint">Save</string>
+    <string name="creator_delete_hint">delete</string>
+
+
+
+
+
+
 
 
 
