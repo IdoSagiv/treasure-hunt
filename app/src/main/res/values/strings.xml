@@ -30,6 +30,11 @@
     <string name="creator_add_hint">Enter Riddle</string>
     <string name="creator_save_hint">Save</string>
     <string name="creator_delete_hint">delete</string>
+    <string name="creator_game_code">Game Code:</string>
+
+    <string name="creator_start_game">Start Game!</string>
+    <string name="creator_delete_game">delete game</string>
+
 
 
 
