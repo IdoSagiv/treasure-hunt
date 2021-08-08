@@ -34,7 +34,11 @@
 
     <string name="creator_start_game">Start Game!</string>
     <string name="creator_delete_game">delete game</string>
+    <string name="creator_end_game">End game</string>
 
+    <string name="player_see_hint">See Hint</string>
+    <string name="player_teams_score">Teams score</string>
+    <string name="player_back_to_map">back to map</string>
 
 
 
