@@ -10,7 +10,7 @@
     <string name="participants">Participants</string>
     <string name="exit_game">Exit</string>
     <string name="score_list">Score list</string>
-    <string name="enter_Email_or_user_name">Enter Email or User name</string>
+    <string name="enter_Email">Enter Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>

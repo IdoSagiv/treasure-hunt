@@ -42,8 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editTextEnterCodeGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waitingGameParticipants"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/waitingGameParticipants" />
 
     <TextView
         android:id="@+id/editTextEnterCodeGame"
