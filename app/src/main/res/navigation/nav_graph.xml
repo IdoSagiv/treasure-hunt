@@ -17,6 +17,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_creatorLoginFragment"
+            app:destination="@id/creatorLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/enterGameFragment"
@@ -47,4 +54,55 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/creatorLoginFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorLoginFragment"
+        android:label="fragment_creator_login"
+        tools:layout="@layout/fragment_creator_login" >
+        <action
+            android:id="@+id/action_creatorLoginFragment_to_creatorRegisterFragment"
+            app:destination="@id/creatorRegisterFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_creatorLoginFragment_to_creatorNewOrEditGameFragment"
+            app:destination="@id/creatorNewOrEditGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/creatorRegisterFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorRegisterFragment"
+        android:label="fragment_creator_register"
+        tools:layout="@layout/fragment_creator_register" >
+        <action
+            android:id="@+id/action_creatorRegisterFragment_to_creatorNewGameFragment"
+            app:destination="@id/creatorNewGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/creatorNewOrEditGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorNewOrEditGameFragment"
+        android:label="fragment_creator_new_or_edit_game"
+        tools:layout="@layout/fragment_creator_new_or_edit_game" >
+        <action
+            android:id="@+id/action_creatorNewOrEditGameFragment_to_creatorNewGameFragment"
+            app:destination="@id/creatorNewGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/creatorNewGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorNewGameFragment"
+        android:label="fragment_creator_new_game"
+        tools:layout="@layout/fragment_creator_new_game" />
 </navigation>
