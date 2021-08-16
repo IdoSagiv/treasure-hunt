@@ -66,6 +66,7 @@ public class HomeScreenFragment extends Fragment {
 //            Toast.makeText(getContext(), "not available", Toast.LENGTH_SHORT).show();
 //        });
 
+        // todo: move to the viewModel
         enterGameAsCreator.setOnClickListener(v ->
         {
             Navigation.findNavController(view).navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreatorLoginFragment());
