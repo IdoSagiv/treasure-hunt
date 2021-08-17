@@ -31,7 +31,7 @@ public class EnterGameFragment extends Fragment {
         Button joinGameBtn = view.findViewById(R.id.buttonJoinGame);
         EditText nickNameEditText = view.findViewById(R.id.editTextEnterNickname);
 
-        nickNameEditText.setText(playerViewModel.nickName.getValue());
+        joinGameBtn.setEnabled(!nickNameEditText.getText().toString().isEmpty());
 
         nickNameEditText.addTextChangedListener(new TextWatcher() {
             @Override

@@ -39,6 +39,7 @@ public class HomeScreenFragment extends Fragment {
         Button enterGameAsCreator = view.findViewById(R.id.buttonLoginAsCreator);
 
         gameCodeEditText.setText(playerViewModel.gameCode.getValue());
+        enterGameButton.setEnabled(!gameCodeEditText.getText().toString().isEmpty());
 
         gameCodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
