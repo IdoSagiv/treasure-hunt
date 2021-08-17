@@ -36,7 +36,6 @@ public class CreatorNewGameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creator_new_game, container, false);
-        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         Button createNewGameButton = view.findViewById(R.id.buttonCreateNewGame);
         Button addHintButton = view.findViewById(R.id.buttonAddHint);
         Button saveButton = view.findViewById(R.id.buttonSave);

@@ -31,7 +31,6 @@ public class CreatorNewOrEditGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_creator_new_or_edit_game, container, false);
-        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         Button creatorEditGameButton = view.findViewById(R.id.buttonLoginEditGame);
         Button creatorNewGameButton = view.findViewById(R.id.buttonLoginNewGame);
 

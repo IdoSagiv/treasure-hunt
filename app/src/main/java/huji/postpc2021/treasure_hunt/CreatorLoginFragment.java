@@ -30,7 +30,6 @@ public class CreatorLoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_creator_login, container, false);
-        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         Button creatorRegisterButton = view.findViewById(R.id.buttonRegister);
         Button creatorLoginButton = view.findViewById(R.id.buttonLogin);
 
