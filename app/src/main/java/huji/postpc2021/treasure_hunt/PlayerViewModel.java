@@ -16,7 +16,7 @@ import huji.postpc2021.treasure_hunt.DataObjects.Player;
 
 public class PlayerViewModel extends ViewModel {
     private final LocalDB db;
-    private LiveData<Game> gameLiveData = new MutableLiveData<>();
+    public LiveData<Game> gameLiveData = new MutableLiveData<>();
     private Player currentPlayer;
 
 

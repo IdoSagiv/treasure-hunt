@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,15 @@ public class WaitForGameFragment extends Fragment {
         playerViewModel = PlayerViewModel.getInstance();
 
         view.findViewById(R.id.buttonLeaveGameInWaitScreen).setOnClickListener(v -> leaveGame(view));
+
+        ParticipantsItemAdapter adapter = new ParticipantsItemAdapter();
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewParticipantsPlayerWait);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+
+        playerViewModel.gameLiveData.observe(requireActivity(), game ->
+                adapter.setItems(game.getPlayers().values())
+        );
 
         return view;
     }
