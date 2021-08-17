@@ -69,9 +69,15 @@ public class PlayerViewModel extends ViewModel {
                 .navigate(R.id.action_enterGame_to_waitForGame);
     }
 
-    public void leaveGame(View view) {
+    public void leaveGameFromWaitScreen(View view) {
         gameLiveData.getValue().removePlayer(currentPlayer.getId());
         currentPlayer = null;
         Navigation.findNavController(view).navigate(R.id.action_waitForGame_to_homeScreen);
+    }
+
+    public void leaveGameFromGameScreen(View view) {
+        gameLiveData.getValue().removePlayer(currentPlayer.getId());
+        currentPlayer = null;
+        Navigation.findNavController(view).navigate(R.id.action_playerGameFragment_to_homeScreenFragment);
     }
 }

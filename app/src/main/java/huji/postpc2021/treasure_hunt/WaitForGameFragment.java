@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 public class WaitForGameFragment extends Fragment {
     private PlayerViewModel playerViewModel;
@@ -70,7 +69,7 @@ public class WaitForGameFragment extends Fragment {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE: {
-                    playerViewModel.leaveGame(view);
+                    playerViewModel.leaveGameFromWaitScreen(view);
                     break;
                 }
                 case DialogInterface.BUTTON_NEGATIVE:
