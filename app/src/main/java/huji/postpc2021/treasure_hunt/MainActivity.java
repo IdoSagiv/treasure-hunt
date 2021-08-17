@@ -8,8 +8,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+
+import org.osmdroid.config.Configuration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,5 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         // disable dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
     }
 }
