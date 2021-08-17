@@ -15,10 +15,12 @@ public class Player {
         this.gameId = gameId;
         this.score = 0;
 //        todo: initialize the currentClueId (using the game?)
+        this.currentClueId = "0";
     }
 
     // empty constructor for firebase
-    public Player(){}
+    public Player() {
+    }
 
     public String getId() {
         return id;
@@ -26,5 +28,17 @@ public class Player {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public String getCurrentClueId() {
+        return currentClueId;
     }
 }

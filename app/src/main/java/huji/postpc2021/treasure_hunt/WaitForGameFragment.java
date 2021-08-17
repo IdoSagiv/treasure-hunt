@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 public class WaitForGameFragment extends Fragment {
     private PlayerViewModel playerViewModel;
@@ -33,7 +34,7 @@ public class WaitForGameFragment extends Fragment {
 
         view.findViewById(R.id.buttonLeaveGameInWaitScreen).setOnClickListener(v -> leaveGame(view));
 
-        ParticipantsItemAdapter adapter = new ParticipantsItemAdapter();
+        ParticipantsListAdapter adapter = new ParticipantsListAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewParticipantsPlayerWait);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
@@ -41,6 +42,12 @@ public class WaitForGameFragment extends Fragment {
         playerViewModel.gameLiveData.observe(requireActivity(), game ->
                 adapter.setItems(game.getPlayers().values())
         );
+
+
+        //  todo: this is temporary for debugging!
+        view.findViewById(R.id.temp_move_to_game).setOnClickListener(v ->
+                Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameFragmentToPlayerGameFragment()));
+
 
         return view;
     }
