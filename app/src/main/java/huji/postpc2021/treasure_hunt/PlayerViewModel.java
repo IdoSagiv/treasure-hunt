@@ -1,14 +1,11 @@
 package huji.postpc2021.treasure_hunt;
 
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
+
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.Navigation;
 
