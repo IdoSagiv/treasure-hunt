@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.osmdroid.views.MapView;
+
 public class PlayerGameFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout scoreListDrawerLayout;
     private PlayerViewModel playerViewModel;
@@ -41,6 +43,10 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         ImageView exitGameButton = view.findViewById(R.id.buttonExitGamePlayerGame);
         exitGameButton.setOnClickListener(v -> leaveGame(view));
+
+        MapView mMapView = view.findViewById(R.id.mapViewPlayerGame);
+        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.Player);
+
         return view;
     }
 
