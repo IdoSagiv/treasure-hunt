@@ -25,19 +25,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_exit_game"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--     the old score list icon -  @android:drawable/btn_star_big_on-->
         <ImageView
             android:id="@+id/buttonSeeScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:background="?android:attr/selectableItemBackground"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            app:srcCompat="@drawable/ic_trophy" />
 
         <ImageView
             android:id="@+id/buttonCenterLocationPlayerGame"
@@ -83,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48sp"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"/>
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
