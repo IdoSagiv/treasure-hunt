@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class WaitForGameFragment extends Fragment {
+    private PlayerViewModel playerViewModel;
 
     public WaitForGameFragment() {
         // Required empty public constructor
@@ -25,8 +26,10 @@ public class WaitForGameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_wait_for_game, container, false);
+//        playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        playerViewModel = PlayerViewModel.getInstance();
 
-        view.findViewById(R.id.buttonLeaveGameInWaitScreen).setOnClickListener(this::leaveGame);
+        view.findViewById(R.id.buttonLeaveGameInWaitScreen).setOnClickListener(v -> leaveGame(view));
 
         return view;
     }
@@ -49,7 +52,7 @@ public class WaitForGameFragment extends Fragment {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE: {
-                    Navigation.findNavController(view).navigate(R.id.action_waitForGame_to_homeScreen);
+                    playerViewModel.leaveGame(view);
                     break;
                 }
                 case DialogInterface.BUTTON_NEGATIVE:

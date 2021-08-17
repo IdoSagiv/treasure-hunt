@@ -31,12 +31,12 @@ public class HomeScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
-        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+//        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        PlayerViewModel playerViewModel = PlayerViewModel.getInstance();
 
         Button enterGameButton = view.findViewById(R.id.buttonEnterGame);
         EditText gameCodeEditText = view.findViewById(R.id.editTextEnterCodeGame);
         Button enterGameAsCreator = view.findViewById(R.id.buttonLoginAsCreator);
-
 
         gameCodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -55,7 +55,7 @@ public class HomeScreenFragment extends Fragment {
         });
 
         // enter game button
-        enterGameButton.setOnClickListener(playerViewModel::clickEnterGame);
+        enterGameButton.setOnClickListener(v -> playerViewModel.clickEnterGame(view));
 //        enterGameButton.setOnClickListener(v -> {
 //
 //        });

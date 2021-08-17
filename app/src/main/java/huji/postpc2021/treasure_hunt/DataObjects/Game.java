@@ -13,8 +13,6 @@ public class Game {
     private HashMap<String, Player> players;
     private HashMap<String, Clue> clues;
     private GameStatus status;
-    private LocalDB db;
-
 
     public Game(String name) {
         this.id = UUID.randomUUID().toString();
@@ -23,7 +21,6 @@ public class Game {
         this.players = new HashMap<>();
         this.clues = new HashMap<>();
         this.status = GameStatus.editMode;
-        this.db = TreasureHuntApp.getInstance().getDb();
     }
 
     /**
@@ -42,30 +39,30 @@ public class Game {
 
     public void changeStatus(GameStatus newStatus) {
         status = newStatus;
-        db.updateGame(this);
+        TreasureHuntApp.getInstance().getDb().updateGame(this);
     }
 
     public void addPlayer(Player newPlayer) {
-        players.put(newPlayer.id, newPlayer);
-        db.updateGame(this);
+        players.put(newPlayer.getId(), newPlayer);
+        TreasureHuntApp.getInstance().getDb().updateGame(this);
     }
 
     public void removePlayer(String playerId) {
         if (players.containsKey(playerId)) {
             players.remove(playerId);
-            db.updateGame(this);
+            TreasureHuntApp.getInstance().getDb().updateGame(this);
         }
     }
 
     public void addClue(Clue newClue) {
         clues.put(newClue.getId(), newClue);
-        db.updateGame(this);
+        TreasureHuntApp.getInstance().getDb().updateGame(this);
     }
 
     public void removeClue(String clueId) {
         if (clues.containsKey(clueId)) {
             clues.remove(clueId);
-            db.updateGame(this);
+            TreasureHuntApp.getInstance().getDb().updateGame(this);
         }
     }
 

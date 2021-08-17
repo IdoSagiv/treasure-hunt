@@ -26,7 +26,8 @@ public class EnterGameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_enter_game, container, false);
-        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+//        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        PlayerViewModel playerViewModel = PlayerViewModel.getInstance();
         Button joinGameBtn = view.findViewById(R.id.buttonJoinGame);
         EditText nickNameEditText = view.findViewById(R.id.editTextEnterNickname);
         nickNameEditText.addTextChangedListener(new TextWatcher() {
@@ -45,7 +46,7 @@ public class EnterGameFragment extends Fragment {
             }
         });
 
-        joinGameBtn.setOnClickListener(playerViewModel::clickChooseNickName);
+        joinGameBtn.setOnClickListener(v-> playerViewModel.clickChooseNickName(view));
 
         return view;
     }

@@ -58,7 +58,12 @@ public class LocalDB {
     }
 
     public LiveData<Game> getGameInfo(String gameId) {
-        MutableLiveData<Game> gameLD = new MutableLiveData<>();
+        if (!allGames.containsKey(gameId)) {
+            return null;
+        }
+
+        MutableLiveData<Game> gameLD = new MutableLiveData<>(allGames.get(gameId));
+
         fireStore.collection(GAMES_FB_COLLECTION).document(gameId).addSnapshotListener((value, error) -> {
             if (error != null) {
                 // todo: error
