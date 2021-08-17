@@ -14,6 +14,6 @@ public class ParticipantsListItemViewHolder extends RecyclerView.ViewHolder {
     public ParticipantsListItemViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
-        this.ParticipantNicknameTextView = itemView.findViewById(R.id.textViewParticipantNickname);
+        this.ParticipantNicknameTextView = itemView.findViewById(R.id.textViewNicknameParticipantList);
     }
 }
