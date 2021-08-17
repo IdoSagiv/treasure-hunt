@@ -12,7 +12,7 @@ import java.util.Collection;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Player;
 
-public class ParticipantsItemAdapter extends RecyclerView.Adapter<ParticipantItemViewHolder> {
+public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsListItemViewHolder> {
     private final ArrayList<Player> players = new ArrayList<>();
 
 
@@ -25,14 +25,14 @@ public class ParticipantsItemAdapter extends RecyclerView.Adapter<ParticipantIte
 
     @NonNull
     @Override
-    public ParticipantItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ParticipantsListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.participant_item, parent, false);
-        return new ParticipantItemViewHolder(view);
+                .inflate(R.layout.participant_list_item, parent, false);
+        return new ParticipantsListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ParticipantItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ParticipantsListItemViewHolder holder, int position) {
         Player player = players.get(position);
         holder.ParticipantNicknameTextView.setText(player.getNickname());
     }
