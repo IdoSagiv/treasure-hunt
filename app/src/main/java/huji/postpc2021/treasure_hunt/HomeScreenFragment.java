@@ -38,6 +38,8 @@ public class HomeScreenFragment extends Fragment {
         EditText gameCodeEditText = view.findViewById(R.id.editTextEnterCodeGame);
         Button enterGameAsCreator = view.findViewById(R.id.buttonLoginAsCreator);
 
+        gameCodeEditText.setText(playerViewModel.gameCode.getValue());
+
         gameCodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -56,22 +58,12 @@ public class HomeScreenFragment extends Fragment {
 
         // enter game button
         enterGameButton.setOnClickListener(v -> playerViewModel.clickEnterGame(view));
-//        enterGameButton.setOnClickListener(v -> {
-//
-//        });
-
-// real main
-//        // login as creator button
-//        view.findViewById(R.id.buttonLoginAsCreator).setOnClickListener(v -> {
-//            Toast.makeText(getContext(), "not available", Toast.LENGTH_SHORT).show();
-//        });
 
         // todo: move to the viewModel
         enterGameAsCreator.setOnClickListener(v ->
         {
 //            Navigation.findNavController(view).navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreatorLoginFragment());
             Navigation.findNavController(view).navigate(R.id.action_homeScreenFragment_to_creatorLoginFragment);
-
         });
 
 

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import androidx.lifecycle.ViewModel;
@@ -70,14 +71,20 @@ public class PlayerViewModel extends ViewModel {
     }
 
     public void leaveGameFromWaitScreen(View view) {
-        gameLiveData.getValue().removePlayer(currentPlayer.getId());
-        currentPlayer = null;
+        resetGameData();
         Navigation.findNavController(view).navigate(R.id.action_waitForGame_to_homeScreen);
     }
 
     public void leaveGameFromGameScreen(View view) {
+        resetGameData();
+        Navigation.findNavController(view).navigate(R.id.action_playerGameFragment_to_homeScreenFragment);
+    }
+
+    private void resetGameData() {
         gameLiveData.getValue().removePlayer(currentPlayer.getId());
         currentPlayer = null;
-        Navigation.findNavController(view).navigate(R.id.action_playerGameFragment_to_homeScreenFragment);
+        gameLiveData = new MediatorLiveData<>();
+        gameCode.setValue("");
+        nickName.setValue("");
     }
 }

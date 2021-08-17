@@ -30,6 +30,9 @@ public class EnterGameFragment extends Fragment {
         PlayerViewModel playerViewModel = PlayerViewModel.getInstance();
         Button joinGameBtn = view.findViewById(R.id.buttonJoinGame);
         EditText nickNameEditText = view.findViewById(R.id.editTextEnterNickname);
+
+        nickNameEditText.setText(playerViewModel.nickName.getValue());
+
         nickNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,7 +49,7 @@ public class EnterGameFragment extends Fragment {
             }
         });
 
-        joinGameBtn.setOnClickListener(v-> playerViewModel.clickChooseNickName(view));
+        joinGameBtn.setOnClickListener(v -> playerViewModel.clickChooseNickName(view));
 
         return view;
     }
