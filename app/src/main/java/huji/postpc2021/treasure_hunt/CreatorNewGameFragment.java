@@ -71,11 +71,16 @@ public class CreatorNewGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
 
-        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.Player);
+        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
 
-        Clue c = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
+        Clue c1 = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
 
-        mapHandler.showHintOnMap(c);
+        mapHandler.showHintOnMap(c1);
+
+        Clue c2 = new Clue("my second hint!!!", 2, new com.google.firebase.firestore.GeoPoint(32.1015, 34.8079));
+
+        mapHandler.showHintOnMap(c1);
+        mapHandler.showHintOnMap(c2);
 
     }
 
