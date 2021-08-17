@@ -10,11 +10,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
-public class myMarkerWindow extends InfoWindow {
+public class CreatorEditHintWindow extends InfoWindow {
     public int index = 0;
     private final Marker relatedMarker;
 
-    public myMarkerWindow(int layoutResId, MapView mapView, Marker marker) {
+    public CreatorEditHintWindow(int layoutResId, MapView mapView, Marker marker) {
         super(layoutResId, mapView);
         this.relatedMarker = marker;
 //        todo: get the ruleId in order to save/delete it

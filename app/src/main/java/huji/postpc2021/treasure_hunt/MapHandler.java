@@ -177,7 +177,7 @@ public class MapHandler {
             case CreatorEdit: {
                 // marker window with option to edit or delete
                 // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new myMarkerWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
+                myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
                 break;
             }
             case CreatorOnPlay: {
