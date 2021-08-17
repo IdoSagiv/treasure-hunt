@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">treasure_hunt</string>
+    <string name="app_name">treasure hunt</string>
     <string name="join_game_btn">Join Game</string>
     <string name="enter_nickname_hint">Enter Nickname</string>
     <string name="enter_code_btn">Enter</string>
