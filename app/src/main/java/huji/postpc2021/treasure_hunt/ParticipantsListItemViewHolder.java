@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ParticipantsListItemViewHolder extends RecyclerView.ViewHolder {
     View view;
-    TextView ParticipantNicknameTextView;
+    TextView nicknameTextView;
 
 
     public ParticipantsListItemViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
-        this.ParticipantNicknameTextView = itemView.findViewById(R.id.textViewNicknameParticipantList);
+        this.nicknameTextView = itemView.findViewById(R.id.textViewNicknameParticipantList);
     }
 }

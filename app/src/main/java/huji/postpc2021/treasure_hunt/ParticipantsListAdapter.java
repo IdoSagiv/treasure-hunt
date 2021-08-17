@@ -34,7 +34,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     @Override
     public void onBindViewHolder(@NonNull ParticipantsListItemViewHolder holder, int position) {
         Player player = players.get(position);
-        holder.ParticipantNicknameTextView.setText(player.getNickname());
+        holder.nicknameTextView.setText(player.getNickname());
     }
 
     @Override
