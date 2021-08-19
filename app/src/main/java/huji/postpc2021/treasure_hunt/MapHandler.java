@@ -35,8 +35,13 @@ public class MapHandler {
     private final MapView mMapView;
     private GeoPoint currentLocation = null;
     private final boolean centerToLoc;
-    private ArrayList<Clue> clues = new ArrayList<Clue>();
-    private MutableLiveData<ArrayList<Clue>> clueMutableLiveData = new MutableLiveData<ArrayList<Clue>>();
+
+//    private MutableLiveData<ArrayList<Clue>> clueMutableLiveData = new MutableLiveData<ArrayList<Clue>>();
+
+    CreatorViewModal creatorViewModal = CreatorViewModal.getInstance();
+    private ArrayList<Clue> clues = creatorViewModal.getClues();
+
+
 
 
     private final ViewerType viewerType;
@@ -187,6 +192,7 @@ public class MapHandler {
                 // marker window with option to edit or delete
                 // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
+
                 break;
             }
             case CreatorOnPlay: {
@@ -228,20 +234,20 @@ public class MapHandler {
         }
     }
 
-    public void addClue(Clue clue) {
-        clues.add(clue);
-        showHints(this.clues);
-    }
+//    public void addClue(Clue clue) {
+//        clues.add(clue);
+//        showHints(this.clues);
+//    }
 
-    public void removeClue(Clue clue) {
-        for (Clue clue1 : clues) {
-            if (clue1.getId().equals(clue.getId())) {
-                clues.remove(clue1);
-                break;
-            }
-        }
-        showHints(this.clues);
-    }
+//    public void removeClue(Clue clue) {
+//        for (Clue clue1 : clues) {
+//            if (clue1.getId().equals(clue.getId())) {
+//                clues.remove(clue1);
+//                break;
+//            }
+//        }
+//        showHints(this.clues);
+//    }
 }
 
 /*

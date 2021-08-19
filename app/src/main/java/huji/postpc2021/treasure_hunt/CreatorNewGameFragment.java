@@ -28,6 +28,8 @@ public class CreatorNewGameFragment extends Fragment {
     MapHandler mapHandler = null;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private GeoPoint currentLocation = null;
+    CreatorViewModal creatorViewModal = CreatorViewModal.getInstance();
+
 
     public CreatorNewGameFragment() {
         // Required empty public constructor
@@ -40,6 +42,9 @@ public class CreatorNewGameFragment extends Fragment {
         Button createNewGameButton = view.findViewById(R.id.buttonCreateNewGame);
         Button addHintButton = view.findViewById(R.id.buttonAddHint);
         Button saveButton = view.findViewById(R.id.buttonSave);
+
+
+
 
 
 //        map = view.findViewById(R.id.mapView);
@@ -71,19 +76,18 @@ public class CreatorNewGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
-        if (mapHandler==null) {
-            mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
-        }
+        mapHandler =creatorViewModal.setScreen(mMapView);
 
-        Clue c1 = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
-
-        Clue c2 = new Clue("my second hint!!!", 2, new com.google.firebase.firestore.GeoPoint(32.1015, 34.8079));
+//
+//        Clue c1 = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
+//
+//        Clue c2 = new Clue("my second hint!!!", 2, new com.google.firebase.firestore.GeoPoint(32.1015, 34.8079));
 
         mapHandler.setLongPressCallback(new OnMapLongPressCallback() {
             @Override
             public void OnLongPressCallback(GeoPoint p) {
                 Clue c = new Clue("my new hint!!!", 3, new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
-                mapHandler.addClue(c);
+                creatorViewModal.addclue(c);
             }
         });
 //        mapHandler.showHintOnMap(c1);
