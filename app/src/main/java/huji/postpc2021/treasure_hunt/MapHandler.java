@@ -20,6 +20,10 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
@@ -31,6 +35,9 @@ public class MapHandler {
     private final MapView mMapView;
     private GeoPoint currentLocation = null;
     private final boolean centerToLoc;
+    private ArrayList<Clue> clues = new ArrayList<Clue>();
+    private MutableLiveData<ArrayList<Clue>> clueMutableLiveData = new MutableLiveData<ArrayList<Clue>>();
+
 
     private final ViewerType viewerType;
 
@@ -51,6 +58,8 @@ public class MapHandler {
         this.context = TreasureHuntApp.getInstance();
         this.centerToLoc = centerToLoc;
         this.viewerType = viewerType;
+//        this.clues = clues;
+//        this.clueMutableLiveData.setValue(this.clues);
         initMap();
     }
 
@@ -189,9 +198,11 @@ public class MapHandler {
 
         myMarker.setOnMarkerClickListener((marker, mapView) -> {
             if (marker.isInfoWindowShown()) {
+                System.out.println("----close window " + marker.getId());
                 marker.closeInfoWindow();
             } else {
                 marker.showInfoWindow();
+                System.out.println("----open window " + marker.getId());
             }
             return false;
         });
@@ -215,6 +226,21 @@ public class MapHandler {
         for (Clue clue : clues) {
             showHintOnMap(clue);
         }
+    }
+
+    public void addClue(Clue clue) {
+        clues.add(clue);
+        showHints(this.clues);
+    }
+
+    public void removeClue(Clue clue) {
+        for (Clue clue1 : clues) {
+            if (clue1.getId().equals(clue.getId())) {
+                clues.remove(clue1);
+                break;
+            }
+        }
+        showHints(this.clues);
     }
 }
 

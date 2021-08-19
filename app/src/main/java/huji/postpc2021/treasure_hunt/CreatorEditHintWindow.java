@@ -13,6 +13,10 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 public class CreatorEditHintWindow extends InfoWindow {
     public int index = 0;
     private final Marker relatedMarker;
+    private EditText hintContentEditText;
+    ImageView saveButton;
+    ImageView deleteButton;
+
 
     public CreatorEditHintWindow(int layoutResId, MapView mapView, Marker marker) {
         super(layoutResId, mapView);
@@ -24,9 +28,11 @@ public class CreatorEditHintWindow extends InfoWindow {
     }
 
     public void onOpen(Object arg0) {
-        EditText hintContentEditText = mView.findViewById(R.id.editTextHintContent);
-        ImageView saveButton = mView.findViewById(R.id.buttonSaveHint);
-        ImageView deleteButton = mView.findViewById(R.id.buttonDeleteHint);
+        hintContentEditText = mView.findViewById(R.id.editTextHintContent);
+        saveButton = mView.findViewById(R.id.buttonSaveHint);
+        deleteButton = mView.findViewById(R.id.buttonDeleteHint);
+
+        hintContentEditText.setText(relatedMarker.getTitle());
 
         saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
 
@@ -41,7 +47,8 @@ public class CreatorEditHintWindow extends InfoWindow {
 
             @Override
             public void afterTextChanged(Editable s) {
-                saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
+//                saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
+                relatedMarker.setTitle(hintContentEditText.getText().toString());
             }
         });
 
@@ -49,6 +56,7 @@ public class CreatorEditHintWindow extends InfoWindow {
         deleteButton.setOnClickListener(v -> {
 //            todo: delete hint and close the window
             Toast.makeText(TreasureHuntApp.getInstance(), "todo: delete hint", Toast.LENGTH_SHORT).show();
+            relatedMarker.remove(mMapView);
             relatedMarker.closeInfoWindow();
         });
 
@@ -59,3 +67,9 @@ public class CreatorEditHintWindow extends InfoWindow {
         });
     }
 }
+
+/*
+    todo:
+    1) need save button? or should we save automaticaly(afterTextChanged)
+
+* */

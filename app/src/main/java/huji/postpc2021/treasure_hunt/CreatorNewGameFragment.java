@@ -25,6 +25,7 @@ import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 public class CreatorNewGameFragment extends Fragment {
 
     MapView map = null;
+    MapHandler mapHandler = null;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private GeoPoint currentLocation = null;
 
@@ -68,18 +69,25 @@ public class CreatorNewGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
 
-        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
+        MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
+        if (mapHandler==null) {
+            mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
+        }
 
         Clue c1 = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
 
-        mapHandler.showHintOnMap(c1);
-
         Clue c2 = new Clue("my second hint!!!", 2, new com.google.firebase.firestore.GeoPoint(32.1015, 34.8079));
 
-        mapHandler.showHintOnMap(c1);
-        mapHandler.showHintOnMap(c2);
+        mapHandler.setLongPressCallback(new OnMapLongPressCallback() {
+            @Override
+            public void OnLongPressCallback(GeoPoint p) {
+                Clue c = new Clue("my new hint!!!", 3, new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
+                mapHandler.addClue(c);
+            }
+        });
+//        mapHandler.showHintOnMap(c1);
+//        mapHandler.showHintOnMap(c2);
 
     }
 
