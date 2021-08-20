@@ -54,6 +54,7 @@ public class CreatorViewModal extends ViewModel {
                 break;
             }
         }
+        mapHandler.showHints(clues);
     }
 
     public MapHandler setScreen(MapView mMapView)
@@ -74,6 +75,11 @@ public class CreatorViewModal extends ViewModel {
     }
 
     public ArrayList<Clue> getClues(){return this.clues;}
+
+    public void  deleteAllClues( )
+    {
+        this.clues.clear();
+    }
 
 
 

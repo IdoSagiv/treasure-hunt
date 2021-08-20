@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,11 +25,13 @@ import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 
 public class CreatorNewGameFragment extends Fragment {
 
-    MapView map = null;
+
     MapHandler mapHandler = null;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private GeoPoint currentLocation = null;
     CreatorViewModal creatorViewModal = CreatorViewModal.getInstance();
+    MapView mMapView = null;
+
 
 
     public CreatorNewGameFragment() {
@@ -60,11 +63,23 @@ public class CreatorNewGameFragment extends Fragment {
 
 
 //
-//        creatorSignInButton.setOnClickListener(v ->
-//        {
-//            Navigation.findNavController(view)
-//                    .navigate(CreatorRegisterFragmentDirections.actionCreatorRegisterFragmentToCreatorNewOrEditGameFragment());
-//        });
+        createNewGameButton.setOnClickListener(v ->
+        {
+            creatorViewModal.deleteAllClues();
+            mapHandler.showHints(creatorViewModal.getClues());
+            //TODO check
+        });
+
+        addHintButton.setOnClickListener(v ->
+                {
+
+                }
+                );
+
+        saveButton.setOnClickListener(v ->
+        {
+            //TODO upload all the data to firebase
+        });
 
 
         return view;
@@ -90,6 +105,8 @@ public class CreatorNewGameFragment extends Fragment {
                 creatorViewModal.addclue(c);
             }
         });
+
+
 //        mapHandler.showHintOnMap(c1);
 //        mapHandler.showHintOnMap(c2);
 

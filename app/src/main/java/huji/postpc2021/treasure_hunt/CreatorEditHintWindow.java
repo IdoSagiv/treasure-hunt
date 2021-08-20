@@ -64,13 +64,13 @@ public class CreatorEditHintWindow extends InfoWindow {
             Toast.makeText(TreasureHuntApp.getInstance(), "todo: delete hint", Toast.LENGTH_SHORT).show();
             creatorViewModal.deleteid.setValue(relatedMarker.getId().toString());
             creatorViewModal.removeClue();
-            relatedMarker.remove(mMapView);
+//            relatedMarker.remove(mMapView);
             relatedMarker.closeInfoWindow();
         });
 
         saveButton.setOnClickListener(v -> {
 //            todo: save hint and close the window
-            Toast.makeText(TreasureHuntApp.getInstance(), "todo: save hint", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(TreasureHuntApp.getInstance(), "todo: save hint", Toast.LENGTH_SHORT).show();
             relatedMarker.closeInfoWindow();
         });
     }
