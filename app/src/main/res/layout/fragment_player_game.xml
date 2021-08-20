@@ -5,7 +5,6 @@
     android:id="@+id/drawerLayoutScoreList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".PlayerGameFragment"
     tools:openDrawer="start">
 
@@ -57,14 +56,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--  score list drawer  -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationViewScoreList"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#E6E2E2"
+        android:background="@drawable/drawer_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -87,7 +86,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48sp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="24dp"
+                tools:listitem="@layout/score_list_item" />
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
