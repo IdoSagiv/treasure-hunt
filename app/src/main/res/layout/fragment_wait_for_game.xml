@@ -42,7 +42,8 @@
         app:layout_constraintBottom_toTopOf="@+id/editTextWaitingForGameStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waitingGameParticipants" />
+        app:layout_constraintTop_toBottomOf="@+id/waitingGameParticipants"
+        tools:listitem="@layout/participant_list_item" />
 
     <TextView
         android:id="@+id/editTextWaitingForGameStart"
@@ -74,12 +75,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/editTextWaitingForGameStart" />
 
-<!--    todo: delete -->
+    <!--    todo: delete -->
     <Button
         android:id="@+id/temp_move_to_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TEMP"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
