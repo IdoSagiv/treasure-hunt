@@ -5,21 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 
 //
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-
-import java.util.ArrayList;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 
@@ -29,7 +23,7 @@ public class CreatorNewGameFragment extends Fragment {
     MapHandler mapHandler = null;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private GeoPoint currentLocation = null;
-    CreatorViewModal creatorViewModal = CreatorViewModal.getInstance();
+    CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
     MapView mMapView = null;
 
 
@@ -65,8 +59,8 @@ public class CreatorNewGameFragment extends Fragment {
 //
         createNewGameButton.setOnClickListener(v ->
         {
-            creatorViewModal.deleteAllClues();
-            mapHandler.showHints(creatorViewModal.getClues());
+            creatorViewModel.deleteAllClues();
+            mapHandler.showHints(creatorViewModel.getClues());
             //TODO check
         });
 
@@ -91,7 +85,7 @@ public class CreatorNewGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
-        mapHandler =creatorViewModal.setScreen(mMapView);
+        mapHandler = creatorViewModel.setScreen(mMapView);
 
 //
 //        Clue c1 = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
@@ -102,7 +96,7 @@ public class CreatorNewGameFragment extends Fragment {
             @Override
             public void OnLongPressCallback(GeoPoint p) {
                 Clue c = new Clue("my new hint!!!", 3, new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
-                creatorViewModal.addclue(c);
+                creatorViewModel.addclue(c);
             }
         });
 

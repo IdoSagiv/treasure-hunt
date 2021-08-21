@@ -20,9 +20,6 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -36,10 +33,8 @@ public class MapHandler {
     private GeoPoint currentLocation = null;
     private final boolean centerToLoc;
 
-//    private MutableLiveData<ArrayList<Clue>> clueMutableLiveData = new MutableLiveData<ArrayList<Clue>>();
-
-    CreatorViewModal creatorViewModal = CreatorViewModal.getInstance();
-    private ArrayList<Clue> clues = creatorViewModal.getClues();
+    CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
+    private ArrayList<Clue> clues = creatorViewModel.getClues();
 
 
 
@@ -269,6 +264,12 @@ public class MapHandler {
   * track the user (when the user moves, move its avatar on the map)
  */
 // ToDo:
+
+/*
+* bugs:
+* 1) when leaving open infowindow, and creating a new marker, the opened infowindow isn't closed
+* when tapping the marker
+* */
 
 
 

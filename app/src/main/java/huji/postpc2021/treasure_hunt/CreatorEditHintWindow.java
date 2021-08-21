@@ -16,7 +16,7 @@ public class CreatorEditHintWindow extends InfoWindow {
     private EditText hintContentEditText;
     ImageView saveButton;
     ImageView deleteButton;
-    CreatorViewModal creatorViewModal = CreatorViewModal.getInstance();
+    CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
 
 
 
@@ -52,9 +52,9 @@ public class CreatorEditHintWindow extends InfoWindow {
 //                saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
                 relatedMarker.setTitle(hintContentEditText.getText().toString());
 
-                creatorViewModal.changeHintId.setValue(relatedMarker.getId().toString());
-                creatorViewModal.changeHintText.setValue(hintContentEditText.getText().toString());
-                creatorViewModal.changeHint();
+                creatorViewModel.changeHintId.setValue(relatedMarker.getId().toString());
+                creatorViewModel.changeHintText.setValue(hintContentEditText.getText().toString());
+                creatorViewModel.changeHint();
             }
         });
 
@@ -62,8 +62,8 @@ public class CreatorEditHintWindow extends InfoWindow {
         deleteButton.setOnClickListener(v -> {
 //            todo: delete hint and close the window
             Toast.makeText(TreasureHuntApp.getInstance(), "todo: delete hint", Toast.LENGTH_SHORT).show();
-            creatorViewModal.deleteid.setValue(relatedMarker.getId().toString());
-            creatorViewModal.removeClue();
+            creatorViewModel.deleteid.setValue(relatedMarker.getId().toString());
+            creatorViewModel.removeClue();
 //            relatedMarker.remove(mMapView);
             relatedMarker.closeInfoWindow();
         });

@@ -1,24 +1,18 @@
 package huji.postpc2021.treasure_hunt;
 
-import android.view.View;
-import android.widget.EditText;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import org.osmdroid.views.MapView;
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
-import huji.postpc2021.treasure_hunt.DataObjects.Game;
 
-public class CreatorViewModal extends ViewModel {
+public class CreatorViewModel extends ViewModel {
 
-    public LiveData<Clue> clueLiveData = new MutableLiveData<>();
+    public LiveData<Clue> cluesLiveData = new MutableLiveData<>();
     public MutableLiveData<String> deleteid = new MutableLiveData<>("");
     public MutableLiveData<String> changeHintId = new MutableLiveData<>("");
     public MutableLiveData<String> changeHintText = new MutableLiveData<>("");
@@ -27,11 +21,11 @@ public class CreatorViewModal extends ViewModel {
     MapHandler mapHandler = null;
 
 
-    private static CreatorViewModal instance = null;
+    private static CreatorViewModel instance = null;
 
-    public static CreatorViewModal getInstance() {
+    public static CreatorViewModel getInstance() {
         if (instance == null) {
-            instance = new CreatorViewModal();
+            instance = new CreatorViewModel();
         }
         return instance;
     }
