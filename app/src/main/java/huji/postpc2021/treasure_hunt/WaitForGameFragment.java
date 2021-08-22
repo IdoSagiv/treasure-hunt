@@ -40,6 +40,7 @@ public class WaitForGameFragment extends Fragment {
 
         playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
                 adapter.setItems(game.getPlayers().values())
+                // todo: when game status changes to "running" move to "game" fragment
         );
 
 
