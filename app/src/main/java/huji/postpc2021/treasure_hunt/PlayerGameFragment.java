@@ -82,7 +82,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
-        playerViewModel.gameLiveData.observe(requireActivity(), game ->
+        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
                 adapter.setItems(game.getPlayers().values())
         );
     }

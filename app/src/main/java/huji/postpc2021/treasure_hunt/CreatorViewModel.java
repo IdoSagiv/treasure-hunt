@@ -15,23 +15,12 @@ import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.DataObjects.Game;
 
 public class CreatorViewModel extends ViewModel {
-
-    public final MutableLiveData<ArrayList<Clue>> cluesMutableLiveData = new MutableLiveData<>();
-//    private LiveData<ArrayList<Clue>> cluesLiveData = cluesMutableLiveData;
-
-//    public MutableLiveData<String> changeHintId = new MutableLiveData<>("");
-//    public MutableLiveData<String> changeHintText = new MutableLiveData<>("");
-
+    private final MutableLiveData<ArrayList<Clue>> cluesMutableLiveData = new MutableLiveData<>();
+    public LiveData<ArrayList<Clue>> cluesLiveData = cluesMutableLiveData;
 
 //    public MutableLiveData<Game> gameLiveData = new MutableLiveData<>();
 
-    private ArrayList<Clue> clues = new ArrayList<>();
-
-
-    public LiveData<ArrayList<Clue>> getCluesLiveData()
-    {
-        return cluesMutableLiveData;
-    }
+    private final HashMap<String, Clue> allClues = new HashMap<>();
 
     private static CreatorViewModel instance = null;
 
@@ -42,59 +31,31 @@ public class CreatorViewModel extends ViewModel {
         return instance;
     }
 
-    public void addclue(Clue c) {
-        clues.add(c);
-        cluesMutableLiveData.setValue(clues);
-
+    public void addClue(Clue c) {
+        allClues.put(c.getId(), c);
+        cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
     }
-
-    public ArrayList<Clue> getclues() {
-        return clues;
-    }
-
 
     public void removeClue(String id) {
-        for (Clue clue1 : clues) {
-            if (clue1.getId().equals(id)) {
-                clues.remove(clue1);
-                break;
-            }
+        if (allClues.containsKey(id)) {
+            allClues.remove(id);
+            cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
         }
-        cluesMutableLiveData.setValue(clues);
-//            todo: update SP
     }
 
-//    public MapHandler setScreen(MapView mMapView) {
-//        mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
-//        mapHandler.showHints(this.clues);
-//        return mapHandler;
-//    }
-
     public void editHint(String id, String newDescription) {
-        for (Clue clue1 : clues) {
-            if (clue1.getId().equals(id)) {
-                clue1.setDescription(newDescription);
-                break;
-            }
+        if (allClues.containsKey(id)) {
+            allClues.get(id).setDescription(newDescription);
+            cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
         }
-        cluesMutableLiveData.setValue(clues);
-
     }
 
     public ArrayList<Clue> getClues() {
-
-        return new ArrayList<>( this.clues);
+        return new ArrayList<>(allClues.values());
     }
 
     public void deleteAllClues() {
-        this.clues.clear();
-        cluesMutableLiveData.setValue(clues);
+        this.allClues.clear();
+        cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
     }
-
-
-//    private CreatorViewModal() {
-//        db = TreasureHuntApp.getInstance().getDb();
-//    }
-
-
 }

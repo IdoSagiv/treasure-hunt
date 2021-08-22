@@ -22,6 +22,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 
@@ -32,13 +33,6 @@ public class MapHandler {
     private final MapView mMapView;
     private GeoPoint currentLocation = null;
     private final boolean centerToLoc;
-
-//    CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
-//    private ArrayList<Clue> clues = creatorViewModel.getClues();
-
-
-
-
     private final ViewerType viewerType;
 
     private OnMapLongPressCallback longPressCallback = null;
@@ -58,8 +52,7 @@ public class MapHandler {
         this.context = TreasureHuntApp.getInstance();
         this.centerToLoc = centerToLoc;
         this.viewerType = viewerType;
-//        this.clues = clues;
-//        this.clueMutableLiveData.setValue(this.clues);
+
         initMap();
     }
 
@@ -187,8 +180,6 @@ public class MapHandler {
                 // marker window with option to edit or delete
                 // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
-                myMarker.closeInfoWindow();
-
                 break;
             }
             case CreatorOnPlay: {
@@ -218,6 +209,7 @@ public class MapHandler {
 
     public void showHints(Collection<Clue> clues) {
         // remove the old markers
+        List<Overlay> overlays = mMapView.getOverlays();
         for (Overlay overlay : mMapView.getOverlays()) {
             if (overlay instanceof Marker) {
                 mMapView.getOverlays().remove(overlay);
@@ -229,21 +221,6 @@ public class MapHandler {
             showHintOnMap(clue);
         }
     }
-
-//    public void addClue(Clue clue) {
-//        clues.add(clue);
-//        showHints(this.clues);
-//    }
-
-//    public void removeClue(Clue clue) {
-//        for (Clue clue1 : clues) {
-//            if (clue1.getId().equals(clue.getId())) {
-//                clues.remove(clue1);
-//                break;
-//            }
-//        }
-//        showHints(this.clues);
-//    }
 }
 
 /*
@@ -267,10 +244,10 @@ public class MapHandler {
 // ToDo:
 
 /*
-* bugs:
-* 1) when leaving open infowindow, and creating a new marker, the opened infowindow isn't closed
-* when tapping the marker
-* */
+ * bugs:
+ * 1) when leaving open infowindow, and creating a new marker, the opened infowindow isn't closed
+ * when tapping the marker
+ * */
 
 
 

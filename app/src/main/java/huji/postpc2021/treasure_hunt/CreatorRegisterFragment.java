@@ -25,10 +25,8 @@ public class CreatorRegisterFragment extends Fragment {
         Button creatorSignInButton = view.findViewById(R.id.buttonSignIn);
 
         creatorSignInButton.setOnClickListener(v ->
-        {
-            Navigation.findNavController(view)
-                    .navigate(CreatorRegisterFragmentDirections.actionCreatorRegisterFragmentToCreatorNewGameFragment());
-        });
+                Navigation.findNavController(view)
+                        .navigate(CreatorRegisterFragmentDirections.actionCreatorRegisterFragmentToCreatorNewGameFragment()));
         return view;
     }
 

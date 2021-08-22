@@ -50,38 +50,14 @@ public class CreatorEditHintWindow extends InfoWindow {
 
         saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
 
-        hintContentEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-//                saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
-//                relatedMarker.setTitle(hintContentEditText.getText().toString());
-
-//                creatorViewModel.changeHintId.setValue(relatedMarker.getId().toString());
-//                creatorViewModel.changeHintText.setValue(hintContentEditText.getText().toString());
-                            }
-        });
-
-
         deleteButton.setOnClickListener(v -> {
 //            todo: delete hint and close the window
-//            Toast.makeText(TreasureHuntApp.getInstance(), "todo: delete hint", Toast.LENGTH_SHORT).show();
-//            creatorViewModel.removeClue(relatedMarker.getId());
-//            relatedMarker.remove(mMapView);
             isDeleted = true;
             relatedMarker.closeInfoWindow();
         });
 
         saveButton.setOnClickListener(v -> {
 //            todo: save hint and close the window
-//            Toast.makeText(TreasureHuntApp.getInstance(), "todo: save hint", Toast.LENGTH_SHORT).show();
             relatedMarker.closeInfoWindow();
         });
     }

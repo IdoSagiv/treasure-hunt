@@ -5,15 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.*;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -44,6 +41,7 @@ public class CreatorNewGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("----oncreate view1");
         View view = inflater.inflate(R.layout.fragment_creator_new_game, container, false);
+
         Button creatorResetButton = view.findViewById(R.id.buttonCreateNewGame);
         Button addHintButton = view.findViewById(R.id.buttonAddHint);
         Button saveButton = view.findViewById(R.id.buttonSave);
@@ -51,24 +49,9 @@ public class CreatorNewGameFragment extends Fragment {
         TextView location = view.findViewById(R.id.listOfLocationCreatorNewGameScreen);
         location.setVisibility(View.INVISIBLE);
 
-
-//        map = view.findViewById(R.id.mapView);
-//
-//        map.getOverlays().clear();
-//        map.setTileSource(TileSourceFactory.OpenTopo);
-//        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
-//        map.setMultiTouchControls(true);
-//        IMapController mapController = map.getController();
-//        mapController.setZoom(18);
-//        GeoPoint startPoint = new GeoPoint(32.1007, 34.8070);
-//        mapController.setCenter(startPoint);
-//
-
-
         creatorResetButton.setOnClickListener(v ->
         {
             creatorViewModel.deleteAllClues();
-//            mapHandler.showHints(creatorViewModel.getClues());
             //TODO check
         });
 
@@ -103,7 +86,6 @@ public class CreatorNewGameFragment extends Fragment {
             //TODO upload all the data to firebase
         });
 
-
         return view;
     }
 
@@ -113,29 +95,15 @@ public class CreatorNewGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
-//        mapHandler = creatorViewModel.setScreen(mMapView);
         mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
 
-//        cluesLiveData = creatorViewModel.getCluesLiveData();
-
-        creatorViewModel.cluesMutableLiveData.observe(requireActivity(), clues ->
+        creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
                 mapHandler.showHints(clues)
         );
 
-
-        mapHandler.setLongPressCallback(new OnMapLongPressCallback() {
-            @Override
-            public void OnLongPressCallback(GeoPoint p) {
-                Clue c = new Clue("my new hint!!!", 3, new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
-                creatorViewModel.addclue(c);
-            }
+        mapHandler.setLongPressCallback(p -> {
+            Clue c = new Clue("my new hint!!!", 3, new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
+            creatorViewModel.addClue(c);
         });
-
-
-//        mapHandler.showHintOnMap(c1);
-//        mapHandler.showHintOnMap(c2);
-
     }
-
-
 }
