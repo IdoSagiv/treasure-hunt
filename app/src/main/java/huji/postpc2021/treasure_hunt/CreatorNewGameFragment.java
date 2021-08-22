@@ -5,15 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.*;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 //
+
+import java.util.ArrayList;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 
@@ -25,7 +32,7 @@ public class CreatorNewGameFragment extends Fragment {
     private GeoPoint currentLocation = null;
     CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
     MapView mMapView = null;
-
+    private LiveData<ArrayList<Clue>> cluesLiveData;
 
 
     public CreatorNewGameFragment() {
@@ -35,13 +42,14 @@ public class CreatorNewGameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("----oncreate view1");
         View view = inflater.inflate(R.layout.fragment_creator_new_game, container, false);
-        Button createNewGameButton = view.findViewById(R.id.buttonCreateNewGame);
+        Button creatorResetButton = view.findViewById(R.id.buttonCreateNewGame);
         Button addHintButton = view.findViewById(R.id.buttonAddHint);
         Button saveButton = view.findViewById(R.id.buttonSave);
 
-
-
+        TextView location = view.findViewById(R.id.listOfLocationCreatorNewGameScreen);
+        location.setVisibility(View.INVISIBLE);
 
 
 //        map = view.findViewById(R.id.mapView);
@@ -54,21 +62,41 @@ public class CreatorNewGameFragment extends Fragment {
 //        mapController.setZoom(18);
 //        GeoPoint startPoint = new GeoPoint(32.1007, 34.8070);
 //        mapController.setCenter(startPoint);
-
-
 //
-        createNewGameButton.setOnClickListener(v ->
+
+
+        creatorResetButton.setOnClickListener(v ->
         {
             creatorViewModel.deleteAllClues();
-            mapHandler.showHints(creatorViewModel.getClues());
+//            mapHandler.showHints(creatorViewModel.getClues());
             //TODO check
         });
 
         addHintButton.setOnClickListener(v ->
                 {
+//                    LocationListAdapter adapter = new LocationListAdapter();
+//                    RecyclerView recyclerView = view.findViewById(R.id.recyclerLocationInNewGameScreen);
+//                    recyclerView.setAdapter(adapter);
+//                    recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+//
+//
+//                    cluesLiveData.observe(requireActivity(), clues ->
+//                            adapter.setItems(cluesLiveData.getValue())
+//                    );
 
+//
+//                    if (location.getVisibility() == View.INVISIBLE) {
+//                        location.setVisibility(View.VISIBLE);
+//                        recyclerView.setVisibility(View.VISIBLE);
+//
+//                    } else {
+//                        location.setVisibility(View.INVISIBLE);
+//                        recyclerView.setVisibility(View.INVISIBLE);
+//                    }
+//
+//
                 }
-                );
+        );
 
         saveButton.setOnClickListener(v ->
         {
@@ -84,13 +112,16 @@ public class CreatorNewGameFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
-        mapHandler = creatorViewModel.setScreen(mMapView);
+        mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
+//        mapHandler = creatorViewModel.setScreen(mMapView);
+        mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
 
-//
-//        Clue c1 = new Clue("my first hint!!!", 1, new com.google.firebase.firestore.GeoPoint(32.1007, 34.8070));
-//
-//        Clue c2 = new Clue("my second hint!!!", 2, new com.google.firebase.firestore.GeoPoint(32.1015, 34.8079));
+//        cluesLiveData = creatorViewModel.getCluesLiveData();
+
+        creatorViewModel.cluesMutableLiveData.observe(requireActivity(), clues ->
+                mapHandler.showHints(clues)
+        );
+
 
         mapHandler.setLongPressCallback(new OnMapLongPressCallback() {
             @Override

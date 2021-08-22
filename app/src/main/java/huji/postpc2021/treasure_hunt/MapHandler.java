@@ -33,8 +33,8 @@ public class MapHandler {
     private GeoPoint currentLocation = null;
     private final boolean centerToLoc;
 
-    CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
-    private ArrayList<Clue> clues = creatorViewModel.getClues();
+//    CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
+//    private ArrayList<Clue> clues = creatorViewModel.getClues();
 
 
 
@@ -187,6 +187,7 @@ public class MapHandler {
                 // marker window with option to edit or delete
                 // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
+                myMarker.closeInfoWindow();
 
                 break;
             }
