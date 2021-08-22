@@ -1,69 +1,54 @@
 package huji.postpc2021.treasure_hunt;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import com.google.firebase.firestore.GeoPoint;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Clue;
-
 public class CreatorEditHintWindow extends InfoWindow {
-    public int index = 0;
     private final Marker relatedMarker;
     private EditText hintContentEditText;
-    private ImageView saveButton;
-    private ImageView deleteButton;
-    private CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
-    private boolean isDeleted;
+    private final CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
+    private boolean deleteHint;
+    private boolean saveHint;
 
 
     public CreatorEditHintWindow(int layoutResId, MapView mapView, Marker marker) {
         super(layoutResId, mapView);
         this.relatedMarker = marker;
-        this.isDeleted = false;
-//        todo: get the ruleId in order to save/delete it
+        this.deleteHint = false;
+        this.saveHint = false;
     }
 
     public void onClose() {
-        if (isDeleted) {
+        if (deleteHint) {
             creatorViewModel.removeClue(relatedMarker.getId());
-        } else {
+        } else if (saveHint) {
+            relatedMarker.setTitle(hintContentEditText.getText().toString()); // todo: temp
             creatorViewModel.editHint(relatedMarker.getId(), hintContentEditText.getText().toString());
         }
     }
 
     public void onOpen(Object arg0) {
         hintContentEditText = mView.findViewById(R.id.editTextHintContent);
-        saveButton = mView.findViewById(R.id.buttonSaveHint);
-        deleteButton = mView.findViewById(R.id.buttonDeleteHint);
+        ImageView saveButton = mView.findViewById(R.id.buttonSaveHint);
+        ImageView deleteButton = mView.findViewById(R.id.buttonDeleteHint);
 
-        hintContentEditText.setText(this.relatedMarker.getTitle());
+        // todo: get the hints description and set it as the text
+        hintContentEditText.setText(this.relatedMarker.getTitle()); // todo: temp
 
         saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
 
         deleteButton.setOnClickListener(v -> {
-//            todo: delete hint and close the window
-            isDeleted = true;
+            deleteHint = true;
             relatedMarker.closeInfoWindow();
         });
 
         saveButton.setOnClickListener(v -> {
-//            todo: save hint and close the window
+            saveHint = true;
             relatedMarker.closeInfoWindow();
         });
-
-
     }
 }
-
-/*
-    todo:
-    1) need save button? or should we save automaticaly(afterTextChanged)
-
-* */
