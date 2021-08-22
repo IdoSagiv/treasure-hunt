@@ -17,6 +17,7 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -179,6 +180,7 @@ public class MapHandler {
             case CreatorEdit: {
                 // marker window with option to edit or delete
                 // icon - default (according to the marker index?)
+                System.out.println("----" + myMarker.getId());
                 myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
                 break;
             }
@@ -190,10 +192,12 @@ public class MapHandler {
         }
 
         myMarker.setOnMarkerClickListener((marker, mapView) -> {
-            if (marker.isInfoWindowShown()) {
+
+            if (marker.isInfoWindowShown()  ) {
                 System.out.println("----close window " + marker.getId());
-                marker.closeInfoWindow();
+                InfoWindow.closeAllInfoWindowsOn(mapView);
             } else {
+                InfoWindow.closeAllInfoWindowsOn(mapView);
                 marker.showInfoWindow();
                 System.out.println("----open window " + marker.getId());
             }

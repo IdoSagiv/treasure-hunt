@@ -43,9 +43,6 @@ public class CreatorEditHintWindow extends InfoWindow {
         saveButton = mView.findViewById(R.id.buttonSaveHint);
         deleteButton = mView.findViewById(R.id.buttonDeleteHint);
 
-//        todo: get the clue
-//        Clue clue = new Clue(this.relatedMarker.getTitle(), 0, new GeoPoint (this.relatedMarker.getPosition().getLatitude(),this.relatedMarker.getPosition().getLongitude()));
-
         hintContentEditText.setText(this.relatedMarker.getTitle());
 
         saveButton.setEnabled(!hintContentEditText.getText().toString().isEmpty());
@@ -60,6 +57,8 @@ public class CreatorEditHintWindow extends InfoWindow {
 //            todo: save hint and close the window
             relatedMarker.closeInfoWindow();
         });
+
+
     }
 }
 
