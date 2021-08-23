@@ -35,9 +35,7 @@
             android:id="@+id/action_enterGame_to_waitForGame"
             app:destination="@id/waitForGameFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popEnterAnim="@anim/slide_in_left" />
         <argument
             android:name="gameCode"
             app:argType="string" />
@@ -57,9 +55,7 @@
             android:id="@+id/action_waitForGameFragment_to_playerGameFragment"
             app:destination="@id/playerGameFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
@@ -125,6 +121,22 @@
             android:id="@+id/action_playerGameFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment"
             app:enterAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_playerGameFragment_to_playerGameOverFragment"
+            app:destination="@id/playerGameOverFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerGameOverFragment"
+        android:name="huji.postpc2021.treasure_hunt.PlayerGameOverFragment"
+        android:label="fragment_game_over"
+        tools:layout="@layout/fragment_game_over">
+        <action
+            android:id="@+id/action_playerGameOverFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment"
+            app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 </navigation>

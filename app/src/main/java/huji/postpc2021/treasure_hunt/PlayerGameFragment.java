@@ -15,12 +15,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
 import org.osmdroid.views.MapView;
+
+import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
 
 public class PlayerGameFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout scoreListDrawerLayout;
@@ -83,8 +86,13 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
         playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
-                adapter.setItems(game.getPlayers().values())
-                // todo: when game status changes to "finished" move to "end game" fragment
+                {
+                    adapter.setItems(game.getPlayers().values());
+                    if (game.getStatus() == GameStatus.finished) {
+//                        playerViewModel.gameOver();
+                        Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameFragmentToPlayerGameOverFragment());
+                    }
+                }
         );
     }
 

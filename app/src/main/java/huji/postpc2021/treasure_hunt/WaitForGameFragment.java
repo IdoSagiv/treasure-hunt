@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
+
 public class WaitForGameFragment extends Fragment {
     private PlayerViewModel playerViewModel;
 
@@ -39,15 +41,19 @@ public class WaitForGameFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
         playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
-                adapter.setItems(game.getPlayers().values())
-                // todo: when game status changes to "running" move to "game" fragment
+                {
+                    adapter.setItems(game.getPlayers().values());
+                    if (game.getStatus() == GameStatus.running) {
+//                        playerViewModel.startGame();
+                        Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameFragmentToPlayerGameFragment());
+                    }
+                }
         );
 
 
         //  todo: this is temporary for debugging!
         view.findViewById(R.id.temp_move_to_game).setOnClickListener(v ->
                 Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameFragmentToPlayerGameFragment()));
-
 
         return view;
     }
