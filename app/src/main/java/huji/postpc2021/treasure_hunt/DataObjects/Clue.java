@@ -34,7 +34,15 @@ public class Clue {
         return location;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getDescription() {
-        return description;
+        return this.description;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

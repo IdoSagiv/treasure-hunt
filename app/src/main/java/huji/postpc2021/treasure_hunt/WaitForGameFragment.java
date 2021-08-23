@@ -38,8 +38,9 @@ public class WaitForGameFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
-        playerViewModel.gameLiveData.observe(requireActivity(), game ->
+        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
                 adapter.setItems(game.getPlayers().values())
+                // todo: when game status changes to "running" move to "game" fragment
         );
 
 

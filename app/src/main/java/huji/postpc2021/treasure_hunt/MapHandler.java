@@ -17,10 +17,12 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Collection;
+import java.util.List;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 
@@ -31,7 +33,6 @@ public class MapHandler {
     private final MapView mMapView;
     private GeoPoint currentLocation = null;
     private final boolean centerToLoc;
-
     private final ViewerType viewerType;
 
     private OnMapLongPressCallback longPressCallback = null;
@@ -51,6 +52,7 @@ public class MapHandler {
         this.context = TreasureHuntApp.getInstance();
         this.centerToLoc = centerToLoc;
         this.viewerType = viewerType;
+
         initMap();
     }
 
@@ -189,8 +191,9 @@ public class MapHandler {
 
         myMarker.setOnMarkerClickListener((marker, mapView) -> {
             if (marker.isInfoWindowShown()) {
-                marker.closeInfoWindow();
+                InfoWindow.closeAllInfoWindowsOn(mapView);
             } else {
+                InfoWindow.closeAllInfoWindowsOn(mapView);
                 marker.showInfoWindow();
             }
             return false;
@@ -237,6 +240,12 @@ public class MapHandler {
   * track the user (when the user moves, move its avatar on the map)
  */
 // ToDo:
+
+/*
+ * bugs:
+ * 1) when leaving open infowindow, and creating a new marker, the opened infowindow isn't closed
+ * when tapping the marker
+ * */
 
 
 
