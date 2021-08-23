@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,7 @@ public class CreatorEditGameFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_creator_edit_game, container, false);
 
         Button creatorResetButton = view.findViewById(R.id.buttonCreateNewGame);
-        Button openHintsDrawerButton = view.findViewById(R.id.buttonOpenHintsListDrawer);
+        ImageView openHintsDrawerButton = view.findViewById(R.id.buttonOpenHintsListDrawer);
         Button saveGameButton = view.findViewById(R.id.buttonSave);
 
         TextView location = view.findViewById(R.id.listOfLocationCreatorNewGameScreen);
