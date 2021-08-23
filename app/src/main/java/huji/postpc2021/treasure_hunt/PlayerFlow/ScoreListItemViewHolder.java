@@ -1,10 +1,12 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.PlayerFlow;
 
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import huji.postpc2021.treasure_hunt.R;
 
 public class ScoreListItemViewHolder extends RecyclerView.ViewHolder {
     View view;

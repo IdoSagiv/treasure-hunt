@@ -1,12 +1,10 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
+import huji.postpc2021.treasure_hunt.R;
 
 public class EnterGameFragment extends Fragment {
     public EnterGameFragment() {

@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -24,6 +24,10 @@ import com.google.android.material.navigation.NavigationView;
 import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
+import huji.postpc2021.treasure_hunt.MapHandler;
+import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
+import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
+import huji.postpc2021.treasure_hunt.R;
 
 public class PlayerGameFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout scoreListDrawerLayout;
@@ -57,24 +61,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initScoreListDrawer(view);
-
-        // on back pressed callback for this fragment
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (scoreListDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    scoreListDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    leaveGame(view);
-                }
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-    }
-
-
-    private void initScoreListDrawer(View view) {
         scoreListDrawerLayout = view.findViewById(R.id.drawerLayoutScoreList);
         scoreListDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -94,6 +80,19 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                     }
                 }
         );
+
+        // on back pressed callback for this fragment
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (scoreListDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    scoreListDrawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    leaveGame(view);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void leaveGame(View view) {

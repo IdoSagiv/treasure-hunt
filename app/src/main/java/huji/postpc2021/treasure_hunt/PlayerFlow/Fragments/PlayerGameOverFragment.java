@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
+import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
+import huji.postpc2021.treasure_hunt.R;
 
 public class PlayerGameOverFragment extends Fragment {
     private PlayerViewModel playerViewModel;
@@ -24,8 +29,7 @@ public class PlayerGameOverFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_game_over, container, false);
         playerViewModel = PlayerViewModel.getInstance();
         Button exitGameButton = view.findViewById(R.id.buttonExitGame);
-        exitGameButton.setOnClickListener(v -> Navigation.findNavController(view)
-                .navigate(PlayerGameOverFragmentDirections.actionPlayerGameOverFragmentToHomeScreenFragment()));
+        exitGameButton.setOnClickListener(v -> playerViewModel.leaveGameFromGameOverScreen(view));
         return view;
     }
 
@@ -34,12 +38,21 @@ public class PlayerGameOverFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //  RecyclerView initialization
+        ScoreListAdapter adapter = new ScoreListAdapter();
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewScoreListInGameOverScreen);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+
+        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
+                adapter.setItems(game.getPlayers().values())
+        );
+
         // on back pressed callback for this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Navigation.findNavController(view)
-                        .navigate(PlayerGameOverFragmentDirections.actionPlayerGameOverFragmentToHomeScreenFragment());
+                playerViewModel.leaveGameFromGameOverScreen(view);
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);

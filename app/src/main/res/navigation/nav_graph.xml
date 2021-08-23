@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/enterGameFragment"
-        android:name="huji.postpc2021.treasure_hunt.EnterGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.EnterGameFragment"
         android:label="fragment_enter_game"
         tools:layout="@layout/fragment_enter_game">
         <action
@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/waitForGameFragment"
-        android:name="huji.postpc2021.treasure_hunt.WaitForGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.WaitForGameFragment"
         android:label="fragment_wait_for_game"
         tools:layout="@layout/fragment_wait_for_game">
         <action
@@ -114,7 +114,7 @@
         tools:layout="@layout/fragment_creator_new_game" />
     <fragment
         android:id="@+id/playerGameFragment"
-        android:name="huji.postpc2021.treasure_hunt.PlayerGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameFragment"
         android:label="fragment_player_game"
         tools:layout="@layout/fragment_player_game">
         <action
@@ -130,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/playerGameOverFragment"
-        android:name="huji.postpc2021.treasure_hunt.PlayerGameOverFragment"
+        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameOverFragment"
         android:label="fragment_game_over"
         tools:layout="@layout/fragment_game_over">
         <action

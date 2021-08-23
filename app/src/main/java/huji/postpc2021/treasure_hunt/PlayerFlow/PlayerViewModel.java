@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.PlayerFlow;
 
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +14,10 @@ import java.util.HashMap;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Game;
 import huji.postpc2021.treasure_hunt.DataObjects.Player;
+import huji.postpc2021.treasure_hunt.HomeScreenFragmentDirections;
+import huji.postpc2021.treasure_hunt.LocalDB;
+import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class PlayerViewModel extends ViewModel {
     private final LocalDB db;
@@ -79,6 +83,12 @@ public class PlayerViewModel extends ViewModel {
         resetGameData();
         Navigation.findNavController(view).navigate(R.id.action_playerGameFragment_to_homeScreenFragment);
     }
+
+    public void leaveGameFromGameOverScreen(View view) {
+        resetGameData();
+        Navigation.findNavController(view).navigate(R.id.action_playerGameOverFragment_to_homeScreenFragment);
+    }
+
 
     private void resetGameData() {
         gameLiveData.getValue().removePlayer(currentPlayer.getId());

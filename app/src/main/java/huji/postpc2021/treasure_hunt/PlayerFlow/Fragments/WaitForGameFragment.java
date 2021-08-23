@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
+import huji.postpc2021.treasure_hunt.PlayerFlow.ParticipantsListAdapter;
+import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
+import huji.postpc2021.treasure_hunt.R;
 
 public class WaitForGameFragment extends Fragment {
     private PlayerViewModel playerViewModel;
