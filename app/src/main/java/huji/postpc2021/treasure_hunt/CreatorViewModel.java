@@ -7,12 +7,8 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
-import huji.postpc2021.treasure_hunt.DataObjects.Game;
 
 public class CreatorViewModel extends ViewModel {
     private final MutableLiveData<ArrayList<Clue>> cluesMutableLiveData = new MutableLiveData<>();
@@ -31,21 +27,21 @@ public class CreatorViewModel extends ViewModel {
         return instance;
     }
 
-    public void addClue(Clue c) {
-        allClues.put(c.getId(), c);
+    public void addClue(Clue clue) {
+        allClues.put(clue.getId(), clue);
         cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
     }
 
-    public void removeClue(String id) {
-        if (allClues.containsKey(id)) {
-            allClues.remove(id);
+    public void removeClue(String clueId) {
+        if (allClues.containsKey(clueId)) {
+            allClues.remove(clueId);
             cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
         }
     }
 
-    public void editHint(String id, String newDescription) {
-        if (allClues.containsKey(id)) {
-            allClues.get(id).setDescription(newDescription);
+    public void editClue(String clueId, String newDescription) {
+        if (allClues.containsKey(clueId)) {
+            allClues.get(clueId).setDescription(newDescription);
             cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
         }
     }

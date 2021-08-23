@@ -44,7 +44,6 @@ public class EnterGameFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 playerViewModel.nickName.setValue(nickNameEditText.getText().toString());
                 joinGameBtn.setEnabled(!nickNameEditText.getText().toString().isEmpty());
             }

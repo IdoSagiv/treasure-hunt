@@ -21,7 +21,6 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -180,7 +179,6 @@ public class MapHandler {
             case CreatorEdit: {
                 // marker window with option to edit or delete
                 // icon - default (according to the marker index?)
-                System.out.println("----" + myMarker.getId());
                 myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
                 break;
             }
@@ -192,14 +190,11 @@ public class MapHandler {
         }
 
         myMarker.setOnMarkerClickListener((marker, mapView) -> {
-
-            if (marker.isInfoWindowShown()  ) {
-                System.out.println("----close window " + marker.getId());
+            if (marker.isInfoWindowShown()) {
                 InfoWindow.closeAllInfoWindowsOn(mapView);
             } else {
                 InfoWindow.closeAllInfoWindowsOn(mapView);
                 marker.showInfoWindow();
-                System.out.println("----open window " + marker.getId());
             }
             return false;
         });
@@ -213,7 +208,6 @@ public class MapHandler {
 
     public void showHints(Collection<Clue> clues) {
         // remove the old markers
-        List<Overlay> overlays = mMapView.getOverlays();
         for (Overlay overlay : mMapView.getOverlays()) {
             if (overlay instanceof Marker) {
                 mMapView.getOverlays().remove(overlay);

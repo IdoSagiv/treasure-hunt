@@ -27,7 +27,7 @@ public class CreatorEditHintWindow extends InfoWindow {
             creatorViewModel.removeClue(relatedMarker.getId());
         } else if (saveHint) {
             relatedMarker.setTitle(hintContentEditText.getText().toString()); // todo: temp
-            creatorViewModel.editHint(relatedMarker.getId(), hintContentEditText.getText().toString());
+            creatorViewModel.editClue(relatedMarker.getId(), hintContentEditText.getText().toString());
         }
     }
 
