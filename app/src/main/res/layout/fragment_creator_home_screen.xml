@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatorNewOrEditGameFragment">
-
+    tools:context=".CreatorHomeScreenFragment">
 
 
     <ImageView
@@ -20,7 +18,7 @@
         app:srcCompat="@drawable/logo" />
 
     <Button
-        android:id="@+id/buttonLoginEditGame"
+        android:id="@+id/buttonEditGame"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -36,7 +34,7 @@
 
 
     <Button
-        android:id="@+id/buttonLoginNewGame"
+        android:id="@+id/buttonNewGame"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -48,7 +46,29 @@
         app:backgroundTint="@color/buttons_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLoginEditGame" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonEditGame" />
+
+    <ImageView
+        android:id="@+id/buttonLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@string/app_font"
+        android:text="@string/logout_button"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/buttonLogOut"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogOut"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogOut" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

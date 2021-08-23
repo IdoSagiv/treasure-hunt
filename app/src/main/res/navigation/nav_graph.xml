@@ -71,8 +71,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_creatorLoginFragment_to_creatorNewOrEditGameFragment"
-            app:destination="@id/creatorNewOrEditGameFragment"
+            android:id="@+id/action_creatorLoginFragment_to_creatorHomeScreenFragment"
+            app:destination="@id/creatorHomeScreenFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -85,26 +85,27 @@
         android:label="fragment_creator_register"
         tools:layout="@layout/fragment_creator_register">
         <action
-            android:id="@+id/action_creatorRegisterFragment_to_creatorNewGameFragment"
-            app:destination="@id/creatorNewGameFragment"
+            android:id="@+id/action_creatorRegisterFragment_to_creatorHomeScreenFragment"
+            app:destination="@id/creatorHomeScreenFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorNewOrEditGameFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorNewOrEditGameFragment"
-        android:label="fragment_creator_new_or_edit_game"
-        tools:layout="@layout/fragment_creator_new_or_edit_game">
+        android:id="@+id/creatorHomeScreenFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorHomeScreenFragment"
+        android:label="fragment_creator_home_screen"
+        tools:layout="@layout/fragment_creator_home_screen">
         <action
-            android:id="@+id/action_creatorNewOrEditGameFragment_to_creatorNewGameFragment"
+            android:id="@+id/action_creatorHomeScreenFragment_to_creatorNewGameFragment"
             app:destination="@id/creatorNewGameFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_creatorHomeScreenFragment_to_creatorLoginFragment"
+            app:destination="@id/creatorLoginFragment" />
     </fragment>
 
     <fragment
