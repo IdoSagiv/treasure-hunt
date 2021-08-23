@@ -41,4 +41,8 @@ public class Clue {
     public String getDescription() {
         return this.description;
     }
+
+    public int getIndex() {
+        return index;
+    }
 }
