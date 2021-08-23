@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:id="@+id/buttonCenterLocationCreatorNewGame"
+        android:id="@+id/buttonGoToClueLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -53,16 +53,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/buttonAddHint"
+    <ImageView
+        android:id="@+id/buttonOpenHintsListDrawer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
-        android:fontFamily="@string/app_font"
-        android:text="@string/creator_new_game_add_hint"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/buttons_background"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_my_hints"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,7 +79,7 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddHint" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonOpenHintsListDrawer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerLocationInNewGameScreen"
