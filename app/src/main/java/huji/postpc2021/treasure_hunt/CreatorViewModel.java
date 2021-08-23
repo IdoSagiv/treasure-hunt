@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.DataObjects.Creator;
+import huji.postpc2021.treasure_hunt.DataObjects.Game;
 
 public class CreatorViewModel extends ViewModel {
     private final MutableLiveData<ArrayList<Clue>> cluesMutableLiveData = new MutableLiveData<>();
@@ -27,6 +28,7 @@ public class CreatorViewModel extends ViewModel {
     private static CreatorViewModel instance = null;
 
     private LiveData<Creator> currentCreator = new MutableLiveData<>();
+    public LiveData<Game> currentGame = new MutableLiveData<>(null);
 
     public static CreatorViewModel getInstance() {
         if (instance == null) {
@@ -77,6 +79,8 @@ public class CreatorViewModel extends ViewModel {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
         currentCreator = db.getCreator(db.auth.getCurrentUser().getUid());
 
+        currentGame = db.getGameInfo(currentCreator.getValue().getGameId());
+
         Navigation.findNavController(view).navigate(R.id.action_creatorLoginFragment_to_creatorHomeScreenFragment);
     }
 
@@ -84,6 +88,7 @@ public class CreatorViewModel extends ViewModel {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
         db.auth.signOut();
         currentCreator = new MutableLiveData<>();
+        currentGame = new MutableLiveData<>(null);
 
         Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorLoginFragment);
     }

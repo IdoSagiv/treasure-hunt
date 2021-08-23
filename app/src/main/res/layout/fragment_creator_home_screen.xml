@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CreatorHomeScreenFragment">
 
-
     <ImageView
         android:id="@+id/imageViewLogoInCreatorNewEditGame"
         android:layout_width="300dp"
@@ -17,36 +16,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <Button
-        android:id="@+id/buttonEditGame"
-        android:layout_width="0dp"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="80dp"
-        android:fontFamily="@string/app_font"
-        android:text="@string/creator_edit_game"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/buttons_background"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogoInCreatorNewEditGame" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogoInCreatorNewEditGame">
+
+        <Button
+            android:id="@+id/buttonEditGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@string/app_font"
+            android:text="@string/creator_edit_game"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/buttons_background" />
 
 
-    <Button
-        android:id="@+id/buttonNewGame"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="80dp"
-        android:fontFamily="@string/app_font"
-        android:text="@string/creator_new_game"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/buttons_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditGame" />
+        <Button
+            android:id="@+id/buttonNewGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/app_font"
+            android:text="@string/creator_new_game"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/buttons_background" />
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/buttonLogOut"

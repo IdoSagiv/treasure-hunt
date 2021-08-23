@@ -29,10 +29,12 @@ public class CreatorHomeScreenFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_creator_home_screen, container, false);
         creatorViewModel = CreatorViewModel.getInstance();
 
-
         Button editGameButton = view.findViewById(R.id.buttonEditGame);
         Button newGameButton = view.findViewById(R.id.buttonNewGame);
         ImageView logoutButton = view.findViewById(R.id.buttonLogOut);
+
+        // show the button only if there is a game to edit
+        editGameButton.setVisibility(creatorViewModel.currentGame.getValue() == null ? View.GONE : View.VISIBLE);
 
         newGameButton.setOnClickListener(v ->
         {

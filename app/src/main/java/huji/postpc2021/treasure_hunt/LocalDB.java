@@ -87,7 +87,7 @@ public class LocalDB {
 
     public LiveData<Game> getGameInfo(String gameId) {
         if (!allGames.containsKey(gameId)) {
-            return null;
+            return new MutableLiveData<>(null);
         }
 
         MutableLiveData<Game> gameLD = new MutableLiveData<>(allGames.get(gameId));
@@ -112,7 +112,7 @@ public class LocalDB {
                 return getGameInfo(game.getId());
             }
         }
-        return null;
+        return new MutableLiveData<>(null);
     }
 
     /**

@@ -73,6 +73,9 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
                 {
+                    if (game == null) {
+                        return;
+                    }
                     adapter.setItems(game.getPlayers().values());
                     if (game.getStatus() == GameStatus.finished) {
 //                        playerViewModel.gameOver();

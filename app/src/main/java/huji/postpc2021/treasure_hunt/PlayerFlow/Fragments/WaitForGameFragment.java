@@ -45,6 +45,9 @@ public class WaitForGameFragment extends Fragment {
 
         playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
                 {
+                    if (game == null) {
+                        return;
+                    }
                     adapter.setItems(game.getPlayers().values());
                     if (game.getStatus() == GameStatus.running) {
 //                        playerViewModel.startGame();
