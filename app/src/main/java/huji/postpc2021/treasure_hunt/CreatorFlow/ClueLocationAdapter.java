@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Clue;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
+import huji.postpc2021.treasure_hunt.R;
 
 public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHolder> {
     private final ArrayList<Clue> clues = new ArrayList<>();

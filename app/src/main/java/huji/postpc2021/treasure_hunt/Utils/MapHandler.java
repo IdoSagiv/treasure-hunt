@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -22,9 +22,10 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Collection;
-import java.util.List;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Clue;
+import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.TreasureHuntApp;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
 public class MapHandler {
     private static final double MAP_DEFAULT_ZOOM = 18.0;

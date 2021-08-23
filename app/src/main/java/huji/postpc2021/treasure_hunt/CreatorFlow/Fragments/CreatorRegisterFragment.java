@@ -1,9 +1,6 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -16,14 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
+
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.Utils.LocalDB;
+import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class CreatorRegisterFragment extends Fragment {
     private static final Pattern PASSWORD_PATTERN =

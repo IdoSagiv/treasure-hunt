@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt.DataObjects;
+package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
 import com.google.firebase.firestore.GeoPoint;
 
@@ -9,8 +9,8 @@ import java.util.UUID;
 public class Clue {
     private final String id;
     private String description;
-    private GeoPoint location;
-    private List<Player> visitedPlayers;
+    private final GeoPoint location;
+    private final List<Player> visitedPlayers;
     private int index;
     // TODO AR
 

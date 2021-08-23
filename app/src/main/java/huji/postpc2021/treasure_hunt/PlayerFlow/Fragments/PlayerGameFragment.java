@@ -23,8 +23,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.osmdroid.views.MapView;
 
-import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
-import huji.postpc2021.treasure_hunt.MapHandler;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
+import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
 import huji.postpc2021.treasure_hunt.R;

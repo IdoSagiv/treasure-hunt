@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,16 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class CreatorDoneEditGameFragment extends Fragment {
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.R;
+
+public class CreatorInPlayFragment extends Fragment {
     private CreatorViewModel creatorViewModel;
 
-    public CreatorDoneEditGameFragment() {
+    public CreatorInPlayFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_creator_done_editing, container, false);
+        View view = inflater.inflate(R.layout.fragment_creator_in_play, container, false);
         creatorViewModel = CreatorViewModel.getInstance();
 
 

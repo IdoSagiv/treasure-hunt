@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.Utils;
 
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
+
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.R;
 
 public class CreatorEditHintWindow extends InfoWindow {
     private final Marker relatedMarker;

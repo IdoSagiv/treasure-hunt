@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,10 @@ import androidx.fragment.app.Fragment;
 
 import org.osmdroid.views.MapView;
 
-//
-
-import huji.postpc2021.treasure_hunt.DataObjects.Clue;
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
+import huji.postpc2021.treasure_hunt.Utils.MapHandler;
+import huji.postpc2021.treasure_hunt.R;
 
 public class CreatorEditGameFragment extends Fragment {
     private MapHandler mapHandler = null;

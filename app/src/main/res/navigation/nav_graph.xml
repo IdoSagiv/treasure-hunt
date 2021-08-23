@@ -60,7 +60,7 @@
 
     <fragment
         android:id="@+id/creatorLoginFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorLoginFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorLoginFragment"
         android:label="fragment_creator_login"
         tools:layout="@layout/fragment_creator_login">
         <action
@@ -86,7 +86,7 @@
 
     <fragment
         android:id="@+id/creatorRegisterFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorRegisterFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorRegisterFragment"
         android:label="fragment_creator_register"
         tools:layout="@layout/fragment_creator_register">
         <action
@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/creatorHomeScreenFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorHomeScreenFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorHomeScreenFragment"
         android:label="fragment_creator_home_screen"
         tools:layout="@layout/fragment_creator_home_screen">
         <action
@@ -132,7 +132,7 @@
 
     <fragment
         android:id="@+id/creatorNewGameFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorEditGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorEditGameFragment"
         android:label="fragment_creator_new_game"
         tools:layout="@layout/fragment_creator_edit_game">
         <action
@@ -142,7 +142,7 @@
 
     <fragment
         android:id="@+id/creatorDoneEditGameFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorDoneEditGameFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorDoneEditGameFragment"
         android:label="fragment_creator_done_editing"
         tools:layout="@layout/fragment_creator_done_editing">
         <action
@@ -154,7 +154,7 @@
 
     <fragment
         android:id="@+id/creatorInPlayFragment"
-        android:name="huji.postpc2021.treasure_hunt.CreatorInPlayFragment"
+        android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorInPlayFragment"
         android:label="fragment_creator_in_play"
         tools:layout="@layout/fragment_creator_in_play" />
 

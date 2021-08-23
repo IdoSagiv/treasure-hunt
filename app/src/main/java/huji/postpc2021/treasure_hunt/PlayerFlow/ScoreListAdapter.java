@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Player;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 import huji.postpc2021.treasure_hunt.R;
 
 public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListItemViewHolder> {

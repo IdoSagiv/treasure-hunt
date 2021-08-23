@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.R;
 
 
 public class CreatorHomeScreenFragment extends Fragment {

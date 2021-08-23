@@ -1,6 +1,5 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
-import android.Manifest;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -18,6 +17,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.Utils.LocalDB;
+import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 
 public class CreatorLoginFragment extends Fragment {

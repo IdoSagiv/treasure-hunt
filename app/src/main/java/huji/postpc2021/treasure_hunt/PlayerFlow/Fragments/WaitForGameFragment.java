@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ParticipantsListAdapter;
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
 import huji.postpc2021.treasure_hunt.R;

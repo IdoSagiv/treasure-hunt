@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Player;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 import huji.postpc2021.treasure_hunt.R;
 
 public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsListItemViewHolder> {

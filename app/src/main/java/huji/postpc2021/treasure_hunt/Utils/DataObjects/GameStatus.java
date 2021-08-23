@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt.DataObjects;
+package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
 public enum GameStatus {
     editMode,

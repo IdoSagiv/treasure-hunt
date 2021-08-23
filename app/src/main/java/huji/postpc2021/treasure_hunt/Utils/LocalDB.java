@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.Utils;
 
 import android.content.Context;
 
@@ -9,14 +9,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.FirebaseAuthCredentialsProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Creator;
-import huji.postpc2021.treasure_hunt.DataObjects.Game;
-import huji.postpc2021.treasure_hunt.DataObjects.GameStatus;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Creator;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
 
 public class LocalDB {
     private final static String GAMES_FB_COLLECTION = "Games";
@@ -28,9 +27,9 @@ public class LocalDB {
     private final MutableLiveData<ArrayList<Game>> availableGamesMutableLD = new MutableLiveData<>();
     private final LiveData<ArrayList<Game>> availableGamesLD = availableGamesMutableLD;
 
-    private HashMap<String, Game> allGames = new HashMap<>(); // todo: need?
+    private final HashMap<String, Game> allGames = new HashMap<>(); // todo: need?
 
-    private HashMap<String, Creator> allCreators = new HashMap<>(); // todo: need?
+    private final HashMap<String, Creator> allCreators = new HashMap<>(); // todo: need?
 
     public FirebaseAuth auth;
     private FirebaseUser currentFbUser;

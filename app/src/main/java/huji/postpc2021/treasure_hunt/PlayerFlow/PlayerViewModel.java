@@ -12,10 +12,10 @@ import androidx.navigation.Navigation;
 
 import java.util.HashMap;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Game;
-import huji.postpc2021.treasure_hunt.DataObjects.Player;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 import huji.postpc2021.treasure_hunt.HomeScreenFragmentDirections;
-import huji.postpc2021.treasure_hunt.LocalDB;
+import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 

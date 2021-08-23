@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt;
+package huji.postpc2021.treasure_hunt.CreatorFlow;
 
 import android.util.Log;
 import android.view.View;
@@ -14,9 +14,12 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import huji.postpc2021.treasure_hunt.DataObjects.Clue;
-import huji.postpc2021.treasure_hunt.DataObjects.Creator;
-import huji.postpc2021.treasure_hunt.DataObjects.Game;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Creator;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
+import huji.postpc2021.treasure_hunt.Utils.LocalDB;
+import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class CreatorViewModel extends ViewModel {
     private final MutableLiveData<ArrayList<Clue>> cluesMutableLiveData = new MutableLiveData<>();
