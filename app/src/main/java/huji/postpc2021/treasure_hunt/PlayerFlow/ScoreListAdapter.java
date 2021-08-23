@@ -37,6 +37,13 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListItemViewHold
     @Override
     public void onBindViewHolder(@NonNull ScoreListItemViewHolder holder, int position) {
         Player player = players.get(position);
+
+        PlayerViewModel viewModel = PlayerViewModel.getInstance();
+        holder.linearLayout.setBackgroundResource(
+                player.getId().equals(viewModel.currentPlayerId())
+                        ? R.drawable.recyclerview_my_item_background
+                        : R.drawable.recyclerview_general_item_background);
+
         holder.nicknameTextView.setText(player.getNickname());
         holder.scoreTextView.setText(Integer.toString(player.getScore()));
     }

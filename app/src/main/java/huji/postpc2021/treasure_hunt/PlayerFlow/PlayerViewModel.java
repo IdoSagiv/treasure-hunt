@@ -74,6 +74,13 @@ public class PlayerViewModel extends ViewModel {
                 .navigate(R.id.action_enterGame_to_waitForGame);
     }
 
+    public String currentPlayerId() {
+        if(currentPlayer==null){
+            return "";
+        }
+        return currentPlayer.getId();
+    }
+
     public void leaveGameFromWaitScreen(View view) {
         resetGameData();
         Navigation.findNavController(view).navigate(R.id.action_waitForGame_to_homeScreen);

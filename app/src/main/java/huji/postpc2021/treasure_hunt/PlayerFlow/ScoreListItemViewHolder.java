@@ -1,6 +1,7 @@
 package huji.postpc2021.treasure_hunt.PlayerFlow;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ public class ScoreListItemViewHolder extends RecyclerView.ViewHolder {
     View view;
     TextView nicknameTextView;
     TextView scoreTextView;
+    LinearLayout linearLayout;
 
 
     public ScoreListItemViewHolder(@NonNull View itemView) {
@@ -19,5 +21,6 @@ public class ScoreListItemViewHolder extends RecyclerView.ViewHolder {
         this.view = itemView;
         this.nicknameTextView = itemView.findViewById(R.id.textViewNicknameScoreList);
         this.scoreTextView = itemView.findViewById(R.id.textViewScoreScoreList);
+        this.linearLayout = itemView.findViewById(R.id.linearLayoutScoreListItem);
     }
 }

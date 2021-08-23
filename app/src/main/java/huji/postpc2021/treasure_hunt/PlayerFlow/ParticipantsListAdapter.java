@@ -35,6 +35,13 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     @Override
     public void onBindViewHolder(@NonNull ParticipantsListItemViewHolder holder, int position) {
         Player player = players.get(position);
+
+        PlayerViewModel viewModel = PlayerViewModel.getInstance();
+        holder.nicknameTextView.setBackgroundResource(
+                player.getId().equals(viewModel.currentPlayerId())
+                        ? R.drawable.recyclerview_my_item_background
+                        : R.drawable.recyclerview_general_item_background);
+
         holder.nicknameTextView.setText(player.getNickname());
     }
 
