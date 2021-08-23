@@ -1,11 +1,17 @@
 package huji.postpc2021.treasure_hunt.Utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapEventsReceiver;
@@ -26,6 +32,8 @@ import java.util.Collection;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class MapHandler {
     private static final double MAP_DEFAULT_ZOOM = 18.0;
@@ -81,7 +89,6 @@ public class MapHandler {
         }
     };
 
-    @SuppressLint("MissingPermission")
     public void initMap() {
         // initialize the map
         mMapView.getOverlay().clear();
@@ -97,10 +104,15 @@ public class MapHandler {
         mMapView.getController().setCenter(startPoint);
 
 
-        // enable user location todo: first request permissions
-//        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-//        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, mLocationListener);
-//        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, mLocationListener);
+        // enable user location
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, mLocationListener);
+        } else {
+            Log.e("MapHandler", "missing permissions");
+        }
 
         final MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
@@ -126,8 +138,8 @@ public class MapHandler {
         // set my location on the map
         MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
         mLocationOverlay.enableMyLocation();
-//        mLocationOverlay.enableFollowLocation();  follow the user
         mLocationOverlay.setOptionsMenuEnabled(true);
+//        mLocationOverlay.enableFollowLocation();  follow the user
 //        mLocationOverlay.setPersonIcon();  todo: choose an icon
 
         // add to map

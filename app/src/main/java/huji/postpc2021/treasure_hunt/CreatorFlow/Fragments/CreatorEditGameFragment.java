@@ -33,12 +33,22 @@ public class CreatorEditGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creator_edit_game, container, false);
 
+        // find views
+        MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
         Button creatorResetButton = view.findViewById(R.id.buttonCreateNewGame);
         ImageView openHintsDrawerButton = view.findViewById(R.id.buttonOpenHintsListDrawer);
         Button saveGameButton = view.findViewById(R.id.buttonSave);
-
+        ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationCreatorEditGame);
         TextView location = view.findViewById(R.id.listOfLocationCreatorNewGameScreen);
+
+        // initialize map
+        mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
+
+        // set buttons behavior
+
         location.setVisibility(View.INVISIBLE);
+
+        centerMapButton.setOnClickListener(c -> mapHandler.mapToCurrentLocation());
 
         creatorResetButton.setOnClickListener(v ->
         {
@@ -63,9 +73,6 @@ public class CreatorEditGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
-        mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
 
         creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
                 mapHandler.showHints(clues)

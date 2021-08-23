@@ -38,21 +38,28 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_player_game, container, false);
         playerViewModel = PlayerViewModel.getInstance();
 
+        // find views
+        MapView mMapView = view.findViewById(R.id.mapViewPlayerGame);
         ImageView openScoreListButton = view.findViewById(R.id.buttonSeeScore);
+        ImageView exitGameButton = view.findViewById(R.id.buttonExitGamePlayerGame);
+        ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationPlayerGame);
+
+        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.Player);
+
+        // set buttons behavior
+
+        centerMapButton.setOnClickListener(v -> mapHandler.mapToCurrentLocation());
+
         openScoreListButton.setOnClickListener(v ->
                 scoreListDrawerLayout.openDrawer(GravityCompat.START));
 
-        ImageView exitGameButton = view.findViewById(R.id.buttonExitGamePlayerGame);
         exitGameButton.setOnClickListener(v -> leaveGame(view));
 
-        MapView mMapView = view.findViewById(R.id.mapViewPlayerGame);
-        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.Player);
 
         return view;
     }
@@ -63,8 +70,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         scoreListDrawerLayout = view.findViewById(R.id.drawerLayoutScoreList);
         scoreListDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-        scoreListDrawerLayout.findViewById(R.id.recyclerViewScoreListInDrawer);
 
         ScoreListAdapter adapter = new ScoreListAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewScoreListInDrawer);
