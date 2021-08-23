@@ -1,7 +1,6 @@
 package huji.postpc2021.treasure_hunt.Utils;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -37,7 +36,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class MapHandler {
     private static final double MAP_DEFAULT_ZOOM = 18.0;
-    private static final double MAP_MAX_ZOOM = 20.0;
+    private static final double MAP_MAX_ZOOM = 22.0;
     private static final double MAP_MIN_ZOOM = 9.0;
     private final MapView mMapView;
     private GeoPoint currentLocation = null;
@@ -136,14 +135,16 @@ public class MapHandler {
 
     private void addMyLocationIconOnMap() {
         // set my location on the map
-        MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
-        mLocationOverlay.enableMyLocation();
-        mLocationOverlay.setOptionsMenuEnabled(true);
-//        mLocationOverlay.enableFollowLocation();  follow the user
-//        mLocationOverlay.setPersonIcon();  todo: choose an icon
+        MyLocationNewOverlay locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
+        locationOverlay.enableMyLocation();
+        locationOverlay.setOptionsMenuEnabled(true);
+        locationOverlay.setDrawAccuracyEnabled(false);
+
+//        locationOverlay.enableFollowLocation();  follow the user
+//        locationOverlay.setPersonIcon();  todo: choose an icon
 
         // add to map
-        mMapView.getOverlays().add(mLocationOverlay);
+        mMapView.getOverlays().add(locationOverlay);
     }
 
     private void addScaleBarOnMap() {
@@ -161,7 +162,7 @@ public class MapHandler {
         if (currentLocation != null) centerMap(currentLocation, true, true);
     }
 
-    void centerMap(IGeoPoint newCenter, boolean animate, boolean zoomToDefault) {
+    private void centerMap(IGeoPoint newCenter, boolean animate, boolean zoomToDefault) {
         if (animate) {
             mMapView.getController().animateTo(newCenter);
         } else {
