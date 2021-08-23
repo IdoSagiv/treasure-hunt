@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.LiveData;
@@ -92,4 +93,33 @@ public class CreatorViewModel extends ViewModel {
 
         Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorLoginFragment);
     }
+
+    public void enterExistingGame(View view) {
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorMainScreen", "null game value while trying to enter an existing game");
+            return;
+        }
+
+        switch (game.getStatus()) {
+            case editMode: {
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorNewGameFragment);
+                break;
+            }
+            case waiting: {
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorDoneEditGameFragment);
+                break;
+            }
+            case running: {
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorInPlayFragment);
+                break;
+            }
+            case finished: {
+                // todo: navigate to the finished game fragment
+                break;
+            }
+        }
+
+    }
+
 }

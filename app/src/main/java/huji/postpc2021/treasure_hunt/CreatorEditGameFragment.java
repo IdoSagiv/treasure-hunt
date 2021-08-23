@@ -17,19 +17,19 @@ import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.DataObjects.Clue;
 
-public class CreatorNewGameFragment extends Fragment {
+public class CreatorEditGameFragment extends Fragment {
     private MapHandler mapHandler = null;
     private final CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
 
 
-    public CreatorNewGameFragment() {
+    public CreatorEditGameFragment() {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_creator_new_game, container, false);
+        View view = inflater.inflate(R.layout.fragment_creator_edit_game, container, false);
 
         Button creatorResetButton = view.findViewById(R.id.buttonCreateNewGame);
         Button openHintsDrawerButton = view.findViewById(R.id.buttonOpenHintsListDrawer);

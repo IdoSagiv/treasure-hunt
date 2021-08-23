@@ -29,12 +29,14 @@ public class CreatorHomeScreenFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_creator_home_screen, container, false);
         creatorViewModel = CreatorViewModel.getInstance();
 
-        Button editGameButton = view.findViewById(R.id.buttonEditGame);
+        Button existingGameButton = view.findViewById(R.id.buttonExistingGame);
         Button newGameButton = view.findViewById(R.id.buttonNewGame);
         ImageView logoutButton = view.findViewById(R.id.buttonLogOut);
 
-        // show the button only if there is a game to edit
-        editGameButton.setVisibility(creatorViewModel.currentGame.getValue() == null ? View.GONE : View.VISIBLE);
+        // show the button only if there is an existing game
+        existingGameButton.setVisibility(creatorViewModel.currentGame.getValue() == null ? View.GONE : View.VISIBLE);
+
+        existingGameButton.setOnClickListener(v -> creatorViewModel.enterExistingGame(view));
 
         newGameButton.setOnClickListener(v ->
         {
@@ -49,7 +51,8 @@ public class CreatorHomeScreenFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                logout(view);
+                Navigation.findNavController(view)
+                        .navigate(CreatorHomeScreenFragmentDirections.actionCreatorHomeScreenFragmentToHomeScreenFragment());
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);

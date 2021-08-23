@@ -27,20 +27,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogoInCreatorNewEditGame">
 
-        <Button
-            android:id="@+id/buttonEditGame"
+         <Button
+            android:id="@+id/buttonExistingGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:fontFamily="@string/app_font"
-            android:text="@string/creator_edit_game"
+            android:text="@string/enter_existing_game_btn"
             android:textColor="@color/black"
             app:backgroundTint="@color/buttons_background" />
 
-
         <Button
             android:id="@+id/buttonNewGame"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@string/app_font"
             android:text="@string/creator_new_game"
