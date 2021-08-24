@@ -40,13 +40,15 @@ public class CreatorViewModel extends ViewModel {
         return instance;
     }
 
-    public void addClue(GeoPoint p) {
+    public String addClue(GeoPoint p) {
         int index = currentGame.getValue().getClues().size() + 1;
         Clue clue = new Clue("", index,
                 new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
         Game game = currentGame.getValue();
         game.upsertClue(clue);
         cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
+
+        return clue.getId();
     }
 
     public void removeClue(String clueId) {

@@ -113,6 +113,7 @@ public class CreatorEditGameFragment extends Fragment {
         );
 
         mapHandler.setLongPressCallback(creatorViewModel::addClue);
+        mapHandler.setLongPressCallback(p -> mapHandler.openMarker(creatorViewModel.addClue(p)));
     }
 
     private void initializeSettingsDrawer(View view) {

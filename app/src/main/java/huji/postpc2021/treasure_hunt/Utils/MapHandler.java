@@ -166,19 +166,10 @@ public class MapHandler {
 
     private void centerMap(IGeoPoint centerTo) {
         mMapView.getController().animateTo(centerTo);
-        mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+        if (mMapView.getZoomLevelDouble() < MAP_DEFAULT_ZOOM) {
+            mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+        }
     }
-
-    // todo: delete
-//    private void centerMap(IGeoPoint newCenter, boolean animate, boolean zoomToDefault) {
-//        if (animate) {
-////            mMapView.getController().animateTo(newCenter);
-//            mMapView.getController().animateTo(myLocationOverlay.getMyLocation());
-//        } else {
-//            mMapView.setExpectedCenter(newCenter);
-//        }
-//        if (zoomToDefault) mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
-//    }
 
     public void openMarker(String markerId) {
         for (Overlay overlay : mMapView.getOverlays()) {
