@@ -38,30 +38,30 @@ public class Game {
 
     public void changeStatus(GameStatus newStatus) {
         status = newStatus;
-        TreasureHuntApp.getInstance().getDb().updateGame(this);
+        TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
 
     public void addPlayer(Player newPlayer) {
         players.put(newPlayer.getId(), newPlayer);
-        TreasureHuntApp.getInstance().getDb().updateGame(this);
+        TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
 
     public void removePlayer(String playerId) {
         if (players.containsKey(playerId)) {
             players.remove(playerId);
-            TreasureHuntApp.getInstance().getDb().updateGame(this);
+            TreasureHuntApp.getInstance().getDb().upsertGame(this);
         }
     }
 
     public void addClue(Clue newClue) {
         clues.put(newClue.getId(), newClue);
-        TreasureHuntApp.getInstance().getDb().updateGame(this);
+        TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
 
     public void removeClue(String clueId) {
         if (clues.containsKey(clueId)) {
             clues.remove(clueId);
-            TreasureHuntApp.getInstance().getDb().updateGame(this);
+            TreasureHuntApp.getInstance().getDb().upsertGame(this);
         }
     }
 

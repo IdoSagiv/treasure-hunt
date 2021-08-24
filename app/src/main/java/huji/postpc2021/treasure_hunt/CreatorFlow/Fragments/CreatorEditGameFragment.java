@@ -35,7 +35,6 @@ public class CreatorEditGameFragment extends Fragment {
 
         // find views
         MapView mMapView = view.findViewById(R.id.mapViewCreatorNewGame);
-        Button creatorResetButton = view.findViewById(R.id.buttonCreateNewGame);
         ImageView openHintsDrawerButton = view.findViewById(R.id.buttonOpenHintsListDrawer);
         Button saveGameButton = view.findViewById(R.id.buttonSave);
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationCreatorEditGame);
@@ -49,12 +48,6 @@ public class CreatorEditGameFragment extends Fragment {
         location.setVisibility(View.INVISIBLE);
 
         centerMapButton.setOnClickListener(c -> mapHandler.mapToCurrentLocation());
-
-        creatorResetButton.setOnClickListener(v ->
-        {
-            creatorViewModel.deleteAllClues();
-            //TODO check
-        });
 
         openHintsDrawerButton.setOnClickListener(v ->
         {

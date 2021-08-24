@@ -132,13 +132,18 @@ public class LocalDB {
      *
      * @param game game to add/change
      */
-    public void updateGame(Game game) {
+    public void upsertGame(Game game) {
+        allGames.put(game.getId(), game);
         fireStore.collection(GAMES_FB_COLLECTION).document(game.getId()).set(game);
+    }
+
+    public void upsertCreator(Creator creator) {
+        fireStore.collection(CREATORS_FB_COLLECTION).document(creator.getId()).set(creator);
     }
 
     public void addCreator(String creatorId) {
         Creator newCreator = new Creator(creatorId);
-        fireStore.collection(CREATORS_FB_COLLECTION).document(creatorId).set(newCreator);
+        upsertCreator(newCreator);
     }
 
     public LiveData<Creator> getCreator(String creatorId) {

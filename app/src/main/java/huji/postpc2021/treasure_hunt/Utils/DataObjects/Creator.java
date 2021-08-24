@@ -1,5 +1,7 @@
 package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
+import huji.postpc2021.treasure_hunt.TreasureHuntApp;
+
 public class Creator {
     private String id;
     private String gameId;
@@ -21,7 +23,8 @@ public class Creator {
         return gameId;
     }
 
-    public void setGameId(String gameId) {
+    public void updateGameId(String gameId) {
         this.gameId = gameId;
+        TreasureHuntApp.getInstance().getDb().upsertCreator(this);
     }
 }

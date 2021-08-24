@@ -102,8 +102,8 @@
         android:label="fragment_creator_home_screen"
         tools:layout="@layout/fragment_creator_home_screen">
         <action
-            android:id="@+id/action_creatorHomeScreenFragment_to_creatorNewGameFragment"
-            app:destination="@id/creatorNewGameFragment"
+            android:id="@+id/action_creatorHomeScreenFragment_to_creatorEditGameFragment"
+            app:destination="@id/creatorEditGameFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -131,12 +131,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/creatorNewGameFragment"
+        android:id="@+id/creatorEditGameFragment"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorEditGameFragment"
-        android:label="fragment_creator_new_game"
+        android:label="fragment_creator_edit_game"
         tools:layout="@layout/fragment_creator_edit_game">
         <action
-            android:id="@+id/action_creatorNewGameFragment_to_creatorDoneEditGameFragment"
+            android:id="@+id/action_creatorEditGameFragment_to_creatorDoneEditGameFragment"
             app:destination="@id/creatorDoneEditGameFragment" />
     </fragment>
 

@@ -97,6 +97,16 @@ public class CreatorViewModel extends ViewModel {
         Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorLoginFragment);
     }
 
+    public void enterNewGame(View view, String gameName) {
+        LocalDB db = TreasureHuntApp.getInstance().getDb();
+        Game game = new Game(gameName);
+        db.upsertGame(game);
+        currentGame = db.getGameInfo(game.getId());
+        currentCreator.getValue().updateGameId(game.getId());
+
+        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorEditGameFragment);
+    }
+
     public void enterExistingGame(View view) {
         Game game = currentGame.getValue();
         if (game == null) {
@@ -106,7 +116,7 @@ public class CreatorViewModel extends ViewModel {
 
         switch (game.getStatus()) {
             case editMode: {
-                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorNewGameFragment);
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorEditGameFragment);
                 break;
             }
             case waiting: {
@@ -122,7 +132,6 @@ public class CreatorViewModel extends ViewModel {
                 break;
             }
         }
-
     }
 
 }
