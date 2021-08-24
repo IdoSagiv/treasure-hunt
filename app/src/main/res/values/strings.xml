@@ -22,7 +22,7 @@
     <string name="creator_edit_game">Edit Game</string>
     <string name="creator_new_game">New Game</string>
     <string name="creator_new_game_create">Create New Game</string>
-    <string name="creator_new_game_save">Save Game</string>
+    <string name="creator_new_game_launch">Launch Game</string>
     <string name="creator_new_game_add_hint">Add Hint</string>
     <string name="creator_new_game_location">locations</string>
 

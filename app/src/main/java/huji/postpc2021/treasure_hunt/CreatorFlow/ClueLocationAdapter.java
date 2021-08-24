@@ -9,16 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.Utils.OnClueClickCallback;
 
 public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHolder> {
     private final ArrayList<Clue> clues = new ArrayList<>();
+    public OnClueClickCallback goToMarkerBtnCallback = null;
 
     public void setItems(Collection<Clue> clues) {
         this.clues.clear();
         this.clues.addAll(clues);
+        Collections.sort(this.clues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
 
         notifyDataSetChanged();
     }
@@ -36,6 +40,11 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
         Clue clue = clues.get(position);
         holder.clueDescriptionTextView.setText(clue.getDescription());
         holder.clueIndexTextView.setText(Integer.toString(clue.getIndex()));
+        holder.goToClueButton.setOnClickListener(v -> {
+            if (goToMarkerBtnCallback != null) {
+                goToMarkerBtnCallback.onClick(clue);
+            }
+        });
         // todo: set onClickListener to the button
     }
 

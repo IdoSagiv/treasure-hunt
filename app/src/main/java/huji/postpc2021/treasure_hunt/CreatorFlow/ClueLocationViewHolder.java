@@ -19,7 +19,7 @@ public class ClueLocationViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.view = itemView;
         this.clueDescriptionTextView = itemView.findViewById(R.id.textViewClueDescription);
-        this.clueIndexTextView = itemView.findViewById(R.id.textViewClueId);
+        this.clueIndexTextView = itemView.findViewById(R.id.textViewClueIndex);
         this.goToClueButton = itemView.findViewById(R.id.buttonGoToClueLocation);
     }
 }

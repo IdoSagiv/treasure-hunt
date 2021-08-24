@@ -160,9 +160,13 @@ public class MapHandler {
 
     public void mapToCurrentLocation() {
         if (currentLocation != null) {
-            mMapView.getController().animateTo(currentLocation);
-            mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+            centerMap(currentLocation);
         }
+    }
+
+    private void centerMap(IGeoPoint centerTo) {
+        mMapView.getController().animateTo(centerTo);
+        mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
     }
 
     // todo: delete
@@ -175,6 +179,16 @@ public class MapHandler {
 //        }
 //        if (zoomToDefault) mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
 //    }
+
+    public void openMarker(String markerId) {
+        for (Overlay overlay : mMapView.getOverlays()) {
+            if (overlay instanceof Marker && ((Marker) overlay).getId().equals(markerId)) {
+                Marker marker = (Marker) overlay;
+                marker.showInfoWindow();
+                centerMap(marker.getPosition());
+            }
+        }
+    }
 
     public void showHintOnMap(Clue clue) {
         GeoPoint location = new GeoPoint(clue.getLocation().getLatitude(), clue.getLocation().getLongitude());

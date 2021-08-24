@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
@@ -137,6 +136,12 @@ public class CreatorViewModel extends ViewModel {
                 // todo: navigate to the finished game fragment
                 break;
             }
+        }
+    }
+
+    public void updateCurrentGameName(String newName) {
+        if (currentGame.getValue() != null) {
+            currentGame.getValue().updateName(newName);
         }
     }
 

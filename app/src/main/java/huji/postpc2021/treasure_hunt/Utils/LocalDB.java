@@ -32,7 +32,6 @@ public class LocalDB {
     private final HashMap<String, Creator> allCreators = new HashMap<>(); // todo: need?
 
     public FirebaseAuth auth;
-    private FirebaseUser currentFbUser;
 
     public LocalDB(Context context) {
         this.context = context;
@@ -119,6 +118,9 @@ public class LocalDB {
      * @return true in the given code is associated to a game that is waiting for players
      */
     public boolean isAvailableGame(String gameCode) {
+        if (availableGamesMutableLD.getValue() != null) {
+            return false;
+        }
         for (Game game : availableGamesMutableLD.getValue()) {
             if (game.getCode().equals(gameCode)) {
                 return true;

@@ -100,4 +100,9 @@ public class Game {
     public String getCode() {
         return code;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+        TreasureHuntApp.getInstance().getDb().upsertGame(this);
+    }
 }
