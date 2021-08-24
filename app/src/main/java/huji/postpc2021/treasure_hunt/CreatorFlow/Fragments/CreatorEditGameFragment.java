@@ -2,6 +2,7 @@ package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,15 +24,14 @@ import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.ClueLocationAdapter;
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
-import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.R;
-import huji.postpc2021.treasure_hunt.Utils.OnClueClickCallback;
 
 public class CreatorEditGameFragment extends Fragment {
     private MapHandler mapHandler = null;
     private final CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
     private DrawerLayout gameSettingsDrawerLayout;
+    private ClueLocationAdapter clueLocationAdapter;
 
 
     public CreatorEditGameFragment() {
@@ -62,7 +63,19 @@ public class CreatorEditGameFragment extends Fragment {
 
         launchGameButton.setOnClickListener(v ->
         {
-            //TODO upload all the data to firebase
+            if (!creatorViewModel.launchGame(view)) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
+                builder.setTitle("Failed to Launch");
+
+                final TextView errMsg = new TextView(requireContext());
+                errMsg.setText("Game should include at least 3 clues");
+                builder.setView(errMsg);
+
+                builder.setPositiveButton("Ok", (dialog, which) -> dialog.cancel());
+                final android.app.AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+            //TODO: change the popup
         });
 
         gameNameEditText.setText(creatorViewModel.currentGame.getValue().getName());
@@ -88,9 +101,15 @@ public class CreatorEditGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Button launchGameButton = view.findViewById(R.id.buttonLaunchGame);
 
         creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
-                mapHandler.showHints(clues.values())
+                {
+                    if (clues != null) {
+                        mapHandler.showHints(clues.values());
+                        clueLocationAdapter.setItems(clues.values());
+                    }
+                }
         );
 
         mapHandler.setLongPressCallback(creatorViewModel::addClue);
@@ -99,23 +118,13 @@ public class CreatorEditGameFragment extends Fragment {
     private void initializeSettingsDrawer(View view) {
         gameSettingsDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        ClueLocationAdapter adapter = new ClueLocationAdapter();
+        clueLocationAdapter = new ClueLocationAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHintsList);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(clueLocationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
-        adapter.goToMarkerBtnCallback = clue -> {
+        clueLocationAdapter.goToMarkerBtnCallback = clue -> {
             gameSettingsDrawerLayout.closeDrawer(GravityCompat.START);
             mapHandler.openMarker(clue.getId());
         };
-
-        creatorViewModel.currentGame.observe(getViewLifecycleOwner(), game ->
-                {
-                    if (game == null) {
-                        return;
-                    }
-                    adapter.setItems(game.getClues().values());
-
-                }
-        );
     }
 }

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Creator;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
@@ -103,6 +104,11 @@ public class CreatorViewModel extends ViewModel {
 
     public void enterNewGame(View view, String gameName) {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
+
+        if (currentGame.getValue() != null) {
+            db.deleteGame(currentGame.getValue().getId());
+        }
+
         Game game = new Game(gameName);
         db.upsertGame(game);
 
@@ -143,6 +149,15 @@ public class CreatorViewModel extends ViewModel {
         if (currentGame.getValue() != null) {
             currentGame.getValue().updateName(newName);
         }
+    }
+
+    public boolean launchGame(View view) {
+        if (currentGame.getValue() != null && currentGame.getValue().getClues().size() >= 3) {
+            currentGame.getValue().changeStatus(GameStatus.waiting);
+            Navigation.findNavController(view).navigate(R.id.action_creatorEditGameFragment_to_creatorDoneEditGameFragment);
+            return true;
+        }
+        return false;
     }
 
 }

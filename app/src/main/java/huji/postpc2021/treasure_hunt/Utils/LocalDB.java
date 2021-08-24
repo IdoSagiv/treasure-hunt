@@ -139,6 +139,10 @@ public class LocalDB {
         fireStore.collection(GAMES_FB_COLLECTION).document(game.getId()).set(game);
     }
 
+    public void deleteGame(String gameId) {
+        fireStore.collection(GAMES_FB_COLLECTION).document(gameId).delete();
+    }
+
     public void upsertCreator(Creator creator) {
         fireStore.collection(CREATORS_FB_COLLECTION).document(creator.getId()).set(creator);
     }
