@@ -49,7 +49,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         ImageView exitGameButton = view.findViewById(R.id.buttonExitGamePlayerGame);
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationPlayerGame);
 
-        MapHandler mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.Player);
+        MapHandler mapHandler = new MapHandler(mMapView, MapHandler.ViewerType.Player);
 
         // set buttons behavior
 

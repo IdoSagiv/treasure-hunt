@@ -1,6 +1,10 @@
 package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
@@ -53,7 +57,7 @@ public class Game {
         }
     }
 
-    public void addClue(Clue newClue) {
+    public void upsertClue(Clue newClue) {
         clues.put(newClue.getId(), newClue);
         TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
@@ -61,8 +65,24 @@ public class Game {
     public void removeClue(String clueId) {
         if (clues.containsKey(clueId)) {
             clues.remove(clueId);
+
+            List<Clue> sortedClues = new ArrayList<>(clues.values());
+            Collections.sort(sortedClues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+            int i = 1;
+            for (Clue clue : sortedClues) {
+                clue.changeIndex(i);
+                i++;
+            }
+
             TreasureHuntApp.getInstance().getDb().upsertGame(this);
         }
+    }
+
+    public Clue getClue(String clueId) {
+        if (clues.containsKey(clueId)) {
+            return clues.get(clueId);
+        }
+        return null;
     }
 
     public HashMap<String, Clue> getClues() {

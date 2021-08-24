@@ -40,7 +40,6 @@ public class MapHandler {
     private static final double MAP_MIN_ZOOM = 9.0;
     private final MapView mMapView;
     private GeoPoint currentLocation = null;
-    private final boolean centerToLoc;
     private final ViewerType viewerType;
 
     private OnMapLongPressCallback longPressCallback = null;
@@ -52,22 +51,10 @@ public class MapHandler {
         CreatorOnPlay
     }
 
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, boolean centerToLoc, ViewerType viewerType) {
-        this.mMapView = mapView;
-        this.context = TreasureHuntApp.getInstance();
-        this.centerToLoc = centerToLoc;
-        this.viewerType = viewerType;
-
-        initMap();
-    }
-
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            if (currentLocation == null && centerToLoc) {
+            if (currentLocation == null) {
                 // on the first update -> animate to current location
                 currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                 mapToCurrentLocation();
@@ -88,6 +75,17 @@ public class MapHandler {
         }
     };
 
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, ViewerType viewerType) {
+        this.mMapView = mapView;
+        this.context = TreasureHuntApp.getInstance();
+        this.viewerType = viewerType;
+
+        initMap();
+    }
+
     public void initMap() {
         // initialize the map
         mMapView.getOverlay().clear();
@@ -99,8 +97,9 @@ public class MapHandler {
         mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
 
         // set default center position
-        GeoPoint startPoint = new GeoPoint(32.1007, 34.8070);
-        mMapView.getController().setCenter(startPoint);
+//        GeoPoint startPoint = new GeoPoint(32.1007, 34.8070);
+//        mMapView.getController().setCenter(startPoint);
+        mapToCurrentLocation();
 
 
         // enable user location
@@ -135,16 +134,17 @@ public class MapHandler {
 
     private void addMyLocationIconOnMap() {
         // set my location on the map
-        MyLocationNewOverlay locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
-        locationOverlay.enableMyLocation();
-        locationOverlay.setOptionsMenuEnabled(true);
-        locationOverlay.setDrawAccuracyEnabled(false);
+        MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
+        myLocationOverlay.enableMyLocation();
+        myLocationOverlay.setOptionsMenuEnabled(true);
+        myLocationOverlay.setDrawAccuracyEnabled(false);
+        myLocationOverlay.getMyLocation();
 
-//        locationOverlay.enableFollowLocation();  follow the user
-//        locationOverlay.setPersonIcon();  todo: choose an icon
+//        myLocationOverlay.enableFollowLocation();  follow the user
+//        myLocationOverlay.setPersonIcon();  todo: choose an icon
 
         // add to map
-        mMapView.getOverlays().add(locationOverlay);
+        mMapView.getOverlays().add(myLocationOverlay);
     }
 
     private void addScaleBarOnMap() {
@@ -159,17 +159,22 @@ public class MapHandler {
     }
 
     public void mapToCurrentLocation() {
-        if (currentLocation != null) centerMap(currentLocation, true, true);
+        if (currentLocation != null) {
+            mMapView.getController().animateTo(currentLocation);
+            mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+        }
     }
 
-    private void centerMap(IGeoPoint newCenter, boolean animate, boolean zoomToDefault) {
-        if (animate) {
-            mMapView.getController().animateTo(newCenter);
-        } else {
-            mMapView.setExpectedCenter(newCenter);
-        }
-        if (zoomToDefault) mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
-    }
+    // todo: delete
+//    private void centerMap(IGeoPoint newCenter, boolean animate, boolean zoomToDefault) {
+//        if (animate) {
+////            mMapView.getController().animateTo(newCenter);
+//            mMapView.getController().animateTo(myLocationOverlay.getMyLocation());
+//        } else {
+//            mMapView.setExpectedCenter(newCenter);
+//        }
+//        if (zoomToDefault) mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+//    }
 
     public void showHintOnMap(Clue clue) {
         GeoPoint location = new GeoPoint(clue.getLocation().getLatitude(), clue.getLocation().getLongitude());

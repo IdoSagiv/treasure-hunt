@@ -115,7 +115,7 @@ public class CreatorHomeScreenFragment extends Fragment {
         builder.setTitle("New Game");
 
         final EditText input = new EditText(requireContext());
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setHint("choose game name");
         builder.setView(input);
 

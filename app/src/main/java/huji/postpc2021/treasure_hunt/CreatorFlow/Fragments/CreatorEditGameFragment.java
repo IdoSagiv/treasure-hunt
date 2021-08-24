@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
-import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.R;
 
@@ -41,7 +40,7 @@ public class CreatorEditGameFragment extends Fragment {
         TextView location = view.findViewById(R.id.listOfLocationCreatorNewGameScreen);
 
         // initialize map
-        mapHandler = new MapHandler(mMapView, true, MapHandler.ViewerType.CreatorEdit);
+        mapHandler = new MapHandler(mMapView, MapHandler.ViewerType.CreatorEdit);
 
         // set buttons behavior
 
@@ -68,13 +67,9 @@ public class CreatorEditGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
-                mapHandler.showHints(clues)
+                mapHandler.showHints(clues.values())
         );
 
-        mapHandler.setLongPressCallback(p -> {
-            // todo: keep track of the index
-            Clue c = new Clue("", 3, new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
-            creatorViewModel.addClue(c);
-        });
+        mapHandler.setLongPressCallback(creatorViewModel::addClue);
     }
 }

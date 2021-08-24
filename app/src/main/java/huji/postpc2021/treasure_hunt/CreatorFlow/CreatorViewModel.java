@@ -11,6 +11,8 @@ import androidx.navigation.Navigation;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,17 +24,14 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class CreatorViewModel extends ViewModel {
-    private final MutableLiveData<ArrayList<Clue>> cluesMutableLiveData = new MutableLiveData<>();
-    public LiveData<ArrayList<Clue>> cluesLiveData = cluesMutableLiveData;
+    public LiveData<Game> currentGame = new MutableLiveData<>(null);
+    private LiveData<Creator> currentCreator = new MutableLiveData<>();
+    private MutableLiveData<HashMap<String, Clue>> cluesMutableLiveData = new MutableLiveData<>();
+    public LiveData<HashMap<String, Clue>> cluesLiveData = cluesMutableLiveData;
 
 //    public MutableLiveData<Game> gameLiveData = new MutableLiveData<>();
 
-    private final HashMap<String, Clue> allClues = new HashMap<>();
-
     private static CreatorViewModel instance = null;
-
-    private LiveData<Creator> currentCreator = new MutableLiveData<>();
-    public LiveData<Game> currentGame = new MutableLiveData<>(null);
 
     public static CreatorViewModel getInstance() {
         if (instance == null) {
@@ -41,32 +40,25 @@ public class CreatorViewModel extends ViewModel {
         return instance;
     }
 
-    public void addClue(Clue clue) {
-        allClues.put(clue.getId(), clue);
-        cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
+    public void addClue(GeoPoint p) {
+        int index = currentGame.getValue().getClues().size() + 1;
+        Clue clue = new Clue("", index,
+                new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
+        Game game = currentGame.getValue();
+        game.upsertClue(clue);
+        cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
     }
 
     public void removeClue(String clueId) {
-        if (allClues.containsKey(clueId)) {
-            allClues.remove(clueId);
-            cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
-        }
+        Game game = currentGame.getValue();
+        game.removeClue(clueId);
+        cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
     }
 
-    public void editClue(String clueId, String newDescription) {
-        if (allClues.containsKey(clueId)) {
-            allClues.get(clueId).setDescription(newDescription);
-            cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
-        }
-    }
-
-    public ArrayList<Clue> getClues() {
-        return new ArrayList<>(allClues.values());
-    }
-
-    public void deleteAllClues() {
-        this.allClues.clear();
-        cluesMutableLiveData.setValue(new ArrayList<>(allClues.values()));
+    public void editClue(Clue clue) {
+        Game game = currentGame.getValue();
+        game.upsertClue(clue);
+        cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
     }
 
     public void registerNewUSer(View view) {
@@ -83,16 +75,29 @@ public class CreatorViewModel extends ViewModel {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
         currentCreator = db.getCreator(db.auth.getCurrentUser().getUid());
 
-        currentGame = db.getGameInfo(currentCreator.getValue().getGameId());
+        loadGame(currentCreator.getValue().getGameId());
 
         Navigation.findNavController(view).navigate(R.id.action_creatorLoginFragment_to_creatorHomeScreenFragment);
+    }
+
+    private void loadGame(String gameId) {
+        LocalDB db = TreasureHuntApp.getInstance().getDb();
+        currentGame = db.getGameInfo(gameId);
+        if (currentGame.getValue() != null) {
+            cluesMutableLiveData.setValue(currentGame.getValue().getClues());
+        }
+    }
+
+    private void resetAllLiveData() {
+        currentCreator = new MutableLiveData<>();
+        currentGame = new MutableLiveData<>(null);
+        cluesMutableLiveData = new MutableLiveData<>();
     }
 
     public void logoutCreator(View view) {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
         db.auth.signOut();
-        currentCreator = new MutableLiveData<>();
-        currentGame = new MutableLiveData<>(null);
+        resetAllLiveData();
 
         Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorLoginFragment);
     }
@@ -101,7 +106,8 @@ public class CreatorViewModel extends ViewModel {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
         Game game = new Game(gameName);
         db.upsertGame(game);
-        currentGame = db.getGameInfo(game.getId());
+
+        loadGame(game.getId());
         currentCreator.getValue().updateGameId(game.getId());
 
         Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorEditGameFragment);

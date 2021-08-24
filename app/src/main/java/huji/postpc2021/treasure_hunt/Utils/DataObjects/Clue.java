@@ -7,14 +7,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class Clue {
-    private final String id;
+    private String id;
     private String description;
-    private final GeoPoint location;
-    private final List<Player> visitedPlayers;
+    private GeoPoint location;
+    private List<Player> visitedPlayers;
     private int index;
     // TODO AR
 
-    public Clue(String description, int index ,GeoPoint location) {
+    public Clue() {
+        // empty constructor for fireBase
+    }
+
+    public Clue(String description, int index, GeoPoint location) {
         this.id = UUID.randomUUID().toString();
         this.description = description;
         this.location = location;
