@@ -119,11 +119,10 @@ public class LocalDB {
      */
     public boolean isAvailableGame(String gameCode) {
         if (availableGamesMutableLD.getValue() != null) {
-            return false;
-        }
-        for (Game game : availableGamesMutableLD.getValue()) {
-            if (game.getCode().equals(gameCode)) {
-                return true;
+            for (Game game : availableGamesMutableLD.getValue()) {
+                if (game.getCode().equals(gameCode)) {
+                    return true;
+                }
             }
         }
         return false;
