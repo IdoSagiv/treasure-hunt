@@ -1,8 +1,8 @@
 package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.ClueLocationAdapter;
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.CreatorFlow.SwipeToDeleteClueCallback;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.R;
 
@@ -101,7 +104,6 @@ public class CreatorEditGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button launchGameButton = view.findViewById(R.id.buttonLaunchGame);
 
         creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
                 {
@@ -119,13 +121,19 @@ public class CreatorEditGameFragment extends Fragment {
     private void initializeSettingsDrawer(View view) {
         gameSettingsDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        clueLocationAdapter = new ClueLocationAdapter();
+        clueLocationAdapter = new ClueLocationAdapter(requireContext());
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHintsList);
         recyclerView.setAdapter(clueLocationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteClueCallback(clueLocationAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         clueLocationAdapter.goToMarkerBtnCallback = clue -> {
             gameSettingsDrawerLayout.closeDrawer(GravityCompat.START);
             mapHandler.openMarker(clue.getId());
         };
+
+        clueLocationAdapter.onDeleteCallback = clue -> creatorViewModel.removeClue(clue.getId());
     }
 }

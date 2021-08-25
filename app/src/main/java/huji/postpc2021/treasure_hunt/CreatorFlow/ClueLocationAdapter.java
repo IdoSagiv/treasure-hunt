@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt.CreatorFlow;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,14 @@ import huji.postpc2021.treasure_hunt.Utils.OnClueClickCallback;
 
 public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHolder> {
     private final ArrayList<Clue> clues = new ArrayList<>();
+    private final Context context;
     public OnClueClickCallback goToMarkerBtnCallback = null;
+    public OnClueClickCallback onDeleteCallback = null;
+
+    public ClueLocationAdapter(Context context) {
+        super();
+        this.context = context;
+    }
 
     public void setItems(Collection<Clue> clues) {
         this.clues.clear();
@@ -51,5 +59,16 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
     @Override
     public int getItemCount() {
         return this.clues.size();
+    }
+
+    public void deleteItem(int position) {
+        Clue toDelete = clues.get(position);
+        if (onDeleteCallback != null) {
+            onDeleteCallback.onClick(toDelete);
+        }
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

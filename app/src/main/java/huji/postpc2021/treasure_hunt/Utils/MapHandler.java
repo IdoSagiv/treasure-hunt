@@ -28,6 +28,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Collection;
 
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorEditHintWindow;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
@@ -175,6 +176,7 @@ public class MapHandler {
         for (Overlay overlay : mMapView.getOverlays()) {
             if (overlay instanceof Marker && ((Marker) overlay).getId().equals(markerId)) {
                 Marker marker = (Marker) overlay;
+                InfoWindow.closeAllInfoWindowsOn(mMapView);
                 marker.showInfoWindow();
                 centerMap(marker.getPosition());
             }

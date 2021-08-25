@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt.Utils;
+package huji.postpc2021.treasure_hunt.CreatorFlow;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,7 +10,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
-import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
