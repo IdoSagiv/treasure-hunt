@@ -150,13 +150,24 @@
             app:destination="@id/creatorInPlayFragment"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_creatorDoneEditGameFragment_to_creatorHomeScreenFragment"
+            app:destination="@id/creatorHomeScreenFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
         android:id="@+id/creatorInPlayFragment"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorInPlayFragment"
         android:label="fragment_creator_in_play"
-        tools:layout="@layout/fragment_creator_in_play" />
+        tools:layout="@layout/fragment_creator_in_play">
+        <action
+            android:id="@+id/action_creatorInPlayFragment_to_creatorHomeScreenFragment"
+            app:destination="@id/creatorHomeScreenFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_in_left" />
+    </fragment>
 
     <fragment
         android:id="@+id/playerGameFragment"

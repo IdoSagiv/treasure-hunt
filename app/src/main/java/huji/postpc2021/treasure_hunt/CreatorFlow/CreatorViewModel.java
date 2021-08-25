@@ -162,4 +162,15 @@ public class CreatorViewModel extends ViewModel {
         return false;
     }
 
+    public void leaveHomeScreen(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_homeScreenFragment);
+    }
+
+    public void leaveDoneEditScreen(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorHomeScreenFragment);
+    }
+
+    public void leaveInPlayScreen(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_creatorInPlayFragment_to_creatorHomeScreenFragment);
+    }
 }

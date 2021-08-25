@@ -74,8 +74,7 @@ public class CreatorHomeScreenFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Navigation.findNavController(view)
-                        .navigate(CreatorHomeScreenFragmentDirections.actionCreatorHomeScreenFragmentToHomeScreenFragment());
+                creatorViewModel.leaveHomeScreen(view);
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
