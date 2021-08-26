@@ -105,14 +105,12 @@ public class CreatorEditGameFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
-                {
-                    if (clues != null) {
-                        mapHandler.showHints(clues.values());
-                        clueLocationAdapter.setItems(clues.values());
-                    }
-                }
-        );
+        creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues -> {
+            if (clues != null) {
+                mapHandler.showHints(clues.values());
+                clueLocationAdapter.setItems(clues.values());
+            }
+        });
 
         mapHandler.setLongPressCallback(creatorViewModel::addClue);
         mapHandler.setLongPressCallback(p -> mapHandler.openMarker(creatorViewModel.addClue(p)));

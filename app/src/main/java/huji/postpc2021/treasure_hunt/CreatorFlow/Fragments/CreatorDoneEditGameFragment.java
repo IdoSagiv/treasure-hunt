@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,19 +51,40 @@ public class CreatorDoneEditGameFragment extends Fragment {
                 RecyclerView.VERTICAL, false));
 
         creatorViewModel.currentGame.observe(getViewLifecycleOwner(), game -> {
-            if (game == null) return;
-
-            gameCodeTextView.setText(game.getCode());
-            gameNameTextView.setText(game.getName());
-            participantsListAdapter.setItems(game.getPlayers().values());
+            if (game != null) {
+                gameCodeTextView.setText(game.getCode());
+                gameNameTextView.setText(game.getName());
+                participantsListAdapter.setItems(game.getPlayers().values());
+            }
         });
 
-        creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
-                mapHandler.showHints(clues.values()));
+        creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues -> {
+            if (clues != null) {
+                mapHandler.showHints(clues.values());
+            }
+        });
+
 
         // buttons listeners
-        deleteGameButton.setOnClickListener(v ->
-                creatorViewModel.deleteGameFromDoneEditScreen(view));
+        deleteGameButton.setOnClickListener(v -> {
+            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE: {
+                        creatorViewModel.deleteGameFromDoneEditScreen(view);
+                        break;
+                    }
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Are you sure you want to delete the game?")
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener)
+                    .show();
+        });
+
         startGameButton.setOnClickListener(v -> creatorViewModel.startGame(view));
 
 
