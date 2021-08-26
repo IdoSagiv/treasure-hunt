@@ -138,6 +138,11 @@
         <action
             android:id="@+id/action_creatorEditGameFragment_to_creatorDoneEditGameFragment"
             app:destination="@id/creatorDoneEditGameFragment" />
+        <action
+            android:id="@+id/action_creatorEditGameFragment_to_creatorHomeScreenFragment"
+            app:destination="@id/creatorHomeScreenFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment

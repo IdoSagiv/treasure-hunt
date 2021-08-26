@@ -26,7 +26,7 @@ import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 public class CreatorViewModel extends ViewModel {
     public LiveData<Game> currentGame = new MutableLiveData<>(null);
     private LiveData<Creator> currentCreator = new MutableLiveData<>();
-    private MutableLiveData<HashMap<String, Clue>> cluesMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<HashMap<String, Clue>> cluesMutableLiveData = new MutableLiveData<>();
     public LiveData<HashMap<String, Clue>> cluesLiveData = cluesMutableLiveData;
 
 //    public MutableLiveData<Game> gameLiveData = new MutableLiveData<>();
@@ -93,7 +93,7 @@ public class CreatorViewModel extends ViewModel {
     private void resetAllLiveData() {
         currentCreator = new MutableLiveData<>();
         currentGame = new MutableLiveData<>(null);
-        cluesMutableLiveData = new MutableLiveData<>();
+        cluesMutableLiveData.setValue(null);
     }
 
     public void logoutCreator(View view) {
@@ -108,14 +108,14 @@ public class CreatorViewModel extends ViewModel {
         LocalDB db = TreasureHuntApp.getInstance().getDb();
 
         if (currentGame.getValue() != null) {
-            db.deleteGame(currentGame.getValue().getId());
+            deleteCurrentGame();
         }
 
         Game game = new Game(gameName);
         db.upsertGame(game);
+        currentCreator.getValue().updateGameId(game.getId());
 
         loadGame(game.getId());
-        currentCreator.getValue().updateGameId(game.getId());
 
         Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorEditGameFragment);
     }
@@ -172,5 +172,17 @@ public class CreatorViewModel extends ViewModel {
 
     public void leaveInPlayScreen(View view) {
         Navigation.findNavController(view).navigate(R.id.action_creatorInPlayFragment_to_creatorHomeScreenFragment);
+    }
+
+    public void deleteGameFromEditScreen(View view) {
+        deleteCurrentGame();
+        Navigation.findNavController(view).navigate(R.id.action_creatorEditGameFragment_to_creatorHomeScreenFragment);
+    }
+
+    private void deleteCurrentGame() {
+        LocalDB db = TreasureHuntApp.getInstance().getDb();
+        db.deleteGame(currentGame.getValue().getId());
+        currentGame = new MutableLiveData<>(null);
+        cluesMutableLiveData.setValue(null);
     }
 }

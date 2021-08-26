@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -135,5 +136,25 @@ public class CreatorEditGameFragment extends Fragment {
         };
 
         clueLocationAdapter.onDeleteCallback = clue -> creatorViewModel.removeClue(clue.getId());
+
+        Button deleteGameButton = view.findViewById(R.id.buttonDeleteGameEditGameScreen);
+        deleteGameButton.setOnClickListener(v -> {
+            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE: {
+                        creatorViewModel.deleteGameFromEditScreen(view);
+                        break;
+                    }
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Are you sure you want to delete the game?")
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener)
+                    .show();
+        });
     }
 }
