@@ -225,4 +225,8 @@ public class CreatorViewModel extends ViewModel {
         currentGame = new MutableLiveData<>(null);
         cluesMutableLiveData.setValue(null);
     }
+
+    public void endGame(View view) {
+        // todo
+    }
 }
