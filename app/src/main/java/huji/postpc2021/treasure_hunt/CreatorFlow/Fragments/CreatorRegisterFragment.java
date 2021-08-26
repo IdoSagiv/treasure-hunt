@@ -95,7 +95,12 @@ public class CreatorRegisterFragment extends Fragment {
             passEditText.setError("Field can't be empty");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            passEditText.setError("Password should contain at least one:\n digit\nlower case letter\nupper case letter\nspecial character");
+            passEditText.setError("Password should contain at least:\n" +
+                    "6 characters\n" +
+                    "1 digit\n" +
+                    "1 one lower case letter\n" +
+                    "1 upper case letter\n" +
+                    "1 special character");
             return false;
         } else {
             passEditText.setError(null);
@@ -125,5 +130,4 @@ public class CreatorRegisterFragment extends Fragment {
             return true;
         }
     }
-
 }
