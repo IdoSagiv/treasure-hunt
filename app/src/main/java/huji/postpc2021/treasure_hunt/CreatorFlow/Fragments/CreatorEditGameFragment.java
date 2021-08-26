@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -56,7 +55,7 @@ public class CreatorEditGameFragment extends Fragment {
         EditText gameNameEditText = view.findViewById(R.id.editTextGameNameInSettings);
 
         // initialize map and drawer
-        mapHandler = new MapHandler(mMapView, MapHandler.ViewerType.CreatorEdit);
+        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.EditHint);
         initializeSettingsDrawer(view);
 
         // set views behavior

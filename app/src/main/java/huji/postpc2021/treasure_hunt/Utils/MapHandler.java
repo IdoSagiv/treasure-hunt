@@ -28,7 +28,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Collection;
 
-import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorEditHintWindow;
+import huji.postpc2021.treasure_hunt.CreatorFlow.EditHintMarkerWindow;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
@@ -36,20 +36,23 @@ import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class MapHandler {
+    private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
     private static final double MAP_DEFAULT_ZOOM = 18.0;
     private static final double MAP_MAX_ZOOM = 22.0;
     private static final double MAP_MIN_ZOOM = 9.0;
     private final MapView mMapView;
+    private final GeoPoint startPoint;
     private GeoPoint currentLocation = null;
-    private final ViewerType viewerType;
+    private final MarkersType markersType;
 
     private OnMapLongPressCallback longPressCallback = null;
     private final Context context;
 
-    public enum ViewerType {
-        Player,
-        CreatorEdit,
-        CreatorOnPlay
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType) {
+        this(mapView, markersType, DEFAULT_START_POINT);
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -79,10 +82,11 @@ public class MapHandler {
     /**
      * @param mapView the founded mapView
      */
-    public MapHandler(MapView mapView, ViewerType viewerType) {
+    public MapHandler(MapView mapView, MarkersType markersType, GeoPoint startPoint) {
+        this.startPoint = startPoint;
         this.mMapView = mapView;
         this.context = TreasureHuntApp.getInstance();
-        this.viewerType = viewerType;
+        this.markersType = markersType;
 
         initMap();
     }
@@ -91,17 +95,13 @@ public class MapHandler {
         // initialize the map
         mMapView.getOverlay().clear();
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
-        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
+        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         mMapView.setMultiTouchControls(true);
         mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
         mMapView.setMaxZoomLevel(MAP_MAX_ZOOM);
         mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
 
-        // set default center position
-//        GeoPoint startPoint = new GeoPoint(32.1007, 34.8070);
-//        mMapView.getController().setCenter(startPoint);
-        mapToCurrentLocation();
-
+        mMapView.getController().setCenter(startPoint);
 
         // enable user location
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
@@ -130,7 +130,51 @@ public class MapHandler {
         mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
 
         addMyLocationIconOnMap();
-        addScaleBarOnMap();
+//        addScaleBarOnMap();
+    }
+
+    private void showHintOnMap(Clue clue) {
+        GeoPoint location = new GeoPoint(clue.getLocation().getLatitude(), clue.getLocation().getLongitude());
+
+        Marker myMarker = new Marker(mMapView);
+        myMarker.setId(clue.getId());
+        myMarker.setPosition(location);
+        myMarker.setTitle(clue.getDescription());
+        myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+
+        // default icon
+//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_general_marker, context.getTheme()));
+
+//        todo: implement
+        switch (markersType) {
+            case HintOnly: {
+                // icon - default (according to the marker index?)
+                myMarker.setInfoWindow(new SeeHintMarkerWindow(R.layout.see_hint_marker_window, mMapView, myMarker));
+                break;
+            }
+            case EditHint: {
+                // icon - default (according to the marker index?)
+                myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
+                break;
+            }
+            case HintAndPlayers: {
+                // marker window with the list of players who saw the hint
+                // marker icon according to the players who saw it (??)
+                break;
+            }
+        }
+
+        myMarker.setOnMarkerClickListener((marker, mapView) -> {
+            if (marker.isInfoWindowShown()) {
+                InfoWindow.closeAllInfoWindowsOn(mapView);
+            } else {
+                InfoWindow.closeAllInfoWindowsOn(mapView);
+                marker.showInfoWindow();
+            }
+            return false;
+        });
+
+        mMapView.getOverlays().add(myMarker);
     }
 
     private void addMyLocationIconOnMap() {
@@ -183,49 +227,10 @@ public class MapHandler {
         }
     }
 
-    public void showHintOnMap(Clue clue) {
-        GeoPoint location = new GeoPoint(clue.getLocation().getLatitude(), clue.getLocation().getLongitude());
-
-        Marker myMarker = new Marker(mMapView);
-        myMarker.setId(clue.getId());
-        myMarker.setPosition(location);
-        myMarker.setTitle(clue.getDescription());
-        myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-
-        // default icon
-//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_general_marker, context.getTheme()));
-
-//        todo: implement
-        switch (viewerType) {
-            case Player: {
-                // marker window only with the hint
-                // icon - default (according to the marker index?)
-                break;
-            }
-            case CreatorEdit: {
-                // marker window with option to edit or delete
-                // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new CreatorEditHintWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
-                break;
-            }
-            case CreatorOnPlay: {
-                // marker window with the list of players who saw the hint
-                // marker icon according to the players who saw it (??)
-                break;
-            }
-        }
-
-        myMarker.setOnMarkerClickListener((marker, mapView) -> {
-            if (marker.isInfoWindowShown()) {
-                InfoWindow.closeAllInfoWindowsOn(mapView);
-            } else {
-                InfoWindow.closeAllInfoWindowsOn(mapView);
-                marker.showInfoWindow();
-            }
-            return false;
-        });
-
-        mMapView.getOverlays().add(myMarker);
+    public enum MarkersType {
+        HintOnly,
+        EditHint,
+        HintAndPlayers
     }
 
     public void setLongPressCallback(OnMapLongPressCallback longPressCallback) {
@@ -265,13 +270,3 @@ public class MapHandler {
   * show the users current location with an avatar
   * track the user (when the user moves, move its avatar on the map)
  */
-// ToDo:
-
-/*
- * bugs:
- * 1) when leaving open infowindow, and creating a new marker, the opened infowindow isn't closed
- * when tapping the marker
- * */
-
-
-

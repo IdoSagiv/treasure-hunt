@@ -12,92 +12,114 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/GameCodeDoneEditingScreen"
-        android:layout_width="0dp"
+        android:id="@+id/textViewGameNameDoneEditing"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="240dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@string/app_font"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textIsSelectable="true"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="The Game Name" />
+
+    <TextView
+        android:id="@+id/TextViewGameCodeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@string/app_font"
         android:gravity="center"
         android:text="@string/creator_game_code"
         android:textColor="@color/black"
         android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textViewGameNameDoneEditing" />
+
 
     <TextView
-        android:id="@+id/textViewGameCode"
-        android:layout_width="0dp"
+        android:id="@+id/textViewGameCodeDoneEditingScreen"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="240dp"
-        android:background="@color/white"
         android:fontFamily="@string/app_font"
         android:textAlignment="center"
+        android:textIsSelectable="true"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/GameCodeDoneEditingScreen"
+        app:layout_constraintEnd_toEndOf="@id/TextViewGameCodeTitle"
+        app:layout_constraintStart_toStartOf="@id/TextViewGameCodeTitle"
+        app:layout_constraintTop_toBottomOf="@id/TextViewGameCodeTitle"
         tools:text="game_code 12" />
 
-    <TextView
-        android:id="@+id/ParticipantsDoneEditing"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:fontFamily="@string/app_font"
-        android:gravity="center"
-        android:text="@string/participants"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerParticipants"
-        android:layout_width="164dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="204dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20sp"
-        android:foregroundGravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ParticipantsDoneEditing" />
+        app:layout_constraintTop_toBottomOf="@id/textViewGameNameDoneEditing">
+        <TextView
+            android:id="@+id/TextViewParticipantsListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:fontFamily="@string/app_font"
+            android:gravity="center"
+            android:text="@string/participants"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewParticipantsCreatorWait"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            tools:listitem="@layout/participant_list_item" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonStartGameDoneEditingScreen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="240dp"
-        android:fontFamily="@string/app_font"
-        android:text="@string/creator_start_game"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/buttons_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/buttonDeleteGameDoneEditingScreen"
-        android:layout_width="0dp"
+
+    <!--  buttons layout  -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="236dp"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@string/app_font"
-        android:text="@string/creator_delete_game"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/buttons_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/buttonDeleteGameDoneEditingScreen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@string/app_font"
+            android:text="@string/creator_delete_game"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/buttons_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!--   separator     -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/buttonStartGameDoneEditingScreen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@string/app_font"
+            android:text="@string/creator_start_game"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/buttons_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
