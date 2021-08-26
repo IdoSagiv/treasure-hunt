@@ -26,14 +26,16 @@ import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 public class CreatorViewModel extends ViewModel {
     private static final int MIN_NUM_OF_CLUES = 3;
 
+    private static CreatorViewModel instance = null;
+    private final LocalDB db;
     public LiveData<Game> currentGame = new MutableLiveData<>(null);
     private LiveData<Creator> currentCreator = new MutableLiveData<>();
     private final MutableLiveData<HashMap<String, Clue>> cluesMutableLiveData = new MutableLiveData<>();
     public LiveData<HashMap<String, Clue>> cluesLiveData = cluesMutableLiveData;
 
-//    public MutableLiveData<Game> gameLiveData = new MutableLiveData<>();
-
-    private static CreatorViewModel instance = null;
+    private CreatorViewModel() {
+        this.db = TreasureHuntApp.getInstance().getDb();
+    }
 
     public static CreatorViewModel getInstance() {
         if (instance == null) {
@@ -66,7 +68,6 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public void registerNewUSer(View view) {
-        LocalDB db = TreasureHuntApp.getInstance().getDb();
         // add user
         FirebaseUser user = db.auth.getCurrentUser();
         db.addCreator(user.getUid());
@@ -76,7 +77,6 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public void loginCreator(View view) {
-        LocalDB db = TreasureHuntApp.getInstance().getDb();
         currentCreator = db.getCreator(db.auth.getCurrentUser().getUid());
 
         loadGame(currentCreator.getValue().getGameId());
@@ -85,7 +85,6 @@ public class CreatorViewModel extends ViewModel {
     }
 
     private void loadGame(String gameId) {
-        LocalDB db = TreasureHuntApp.getInstance().getDb();
         currentGame = db.getGameInfo(gameId);
         if (currentGame.getValue() != null) {
             cluesMutableLiveData.setValue(currentGame.getValue().getClues());
@@ -99,7 +98,6 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public void logoutCreator(View view) {
-        LocalDB db = TreasureHuntApp.getInstance().getDb();
         db.auth.signOut();
         resetAllLiveData();
 
@@ -107,8 +105,6 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public void enterNewGame(View view, String gameName) {
-        LocalDB db = TreasureHuntApp.getInstance().getDb();
-
         if (currentGame.getValue() != null) {
             deleteCurrentGame();
         }
@@ -196,7 +192,6 @@ public class CreatorViewModel extends ViewModel {
     }
 
     private void deleteCurrentGame() {
-        LocalDB db = TreasureHuntApp.getInstance().getDb();
         db.deleteGame(currentGame.getValue().getId());
         currentGame = new MutableLiveData<>(null);
         cluesMutableLiveData.setValue(null);

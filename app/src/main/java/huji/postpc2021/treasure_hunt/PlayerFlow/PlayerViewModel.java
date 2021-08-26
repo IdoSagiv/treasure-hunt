@@ -20,15 +20,13 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class PlayerViewModel extends ViewModel {
+    private static PlayerViewModel instance = null;
     private final LocalDB db;
     public LiveData<Game> gameLiveData = new MutableLiveData<>();
     private Player currentPlayer;
 
-
-    public MutableLiveData<String> gameCode = new MutableLiveData<>("");
-    public MutableLiveData<String> nickName = new MutableLiveData<>("");
-
-    private static PlayerViewModel instance = null;
+    public final MutableLiveData<String> gameCode = new MutableLiveData<>("");
+    public final MutableLiveData<String> nickName = new MutableLiveData<>("");
 
     public static PlayerViewModel getInstance() {
         if (instance == null) {
@@ -53,7 +51,6 @@ public class PlayerViewModel extends ViewModel {
         }
     }
 
-
     public void clickChooseNickName(View view) {
         Game game = gameLiveData.getValue();
         HashMap<String, Player> players = game.getPlayers();
@@ -75,7 +72,7 @@ public class PlayerViewModel extends ViewModel {
     }
 
     public String currentPlayerId() {
-        if(currentPlayer==null){
+        if (currentPlayer == null) {
             return "";
         }
         return currentPlayer.getId();
@@ -95,7 +92,6 @@ public class PlayerViewModel extends ViewModel {
         resetGameData();
         Navigation.findNavController(view).navigate(R.id.action_playerGameOverFragment_to_homeScreenFragment);
     }
-
 
     private void resetGameData() {
         gameLiveData.getValue().removePlayer(currentPlayer.getId());
