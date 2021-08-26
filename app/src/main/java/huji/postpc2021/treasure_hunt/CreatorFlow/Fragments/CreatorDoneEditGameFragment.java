@@ -1,11 +1,13 @@
 package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -43,6 +45,8 @@ public class CreatorDoneEditGameFragment extends Fragment {
         RecyclerView participantsListRecyclerView = view.findViewById(R.id.recyclerViewParticipantsCreatorWait);
         Button deleteGameButton = view.findViewById(R.id.buttonDeleteGameDoneEditingScreen);
         Button startGameButton = view.findViewById(R.id.buttonStartGameDoneEditingScreen);
+        ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationCreatorDoneEditGame);
+        ImageView shareGameCodeButton = view.findViewById(R.id.buttonShareGameCode);
 
         // participants recyclerView
         ParticipantsListAdapter participantsListAdapter = new ParticipantsListAdapter();
@@ -80,6 +84,18 @@ public class CreatorDoneEditGameFragment extends Fragment {
         });
 
         startGameButton.setOnClickListener(v -> creatorViewModel.startGame(view));
+
+        centerMapButton.setOnClickListener(v -> mapHandler.mapToCurrentLocation());
+
+        shareGameCodeButton.setOnClickListener(v -> {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Hey!\n" +
+                    "Please join my Treasure Hunt game - '" + creatorViewModel.currentGame.getValue().getName() + "'!\n" +
+                    "The code is " + creatorViewModel.currentGame.getValue().getCode());
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
+        });
 
 
         return view;
