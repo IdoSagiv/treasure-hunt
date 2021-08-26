@@ -1,50 +1,47 @@
 <resources>
     <string name="app_name">treasure hunt</string>
-    <string name="join_game_btn">Join Game</string>
-    <string name="enter_nickname_hint">Enter Nickname</string>
-    <string name="enter_code_btn">Enter</string>
+
     <string name="login_as_creator_btn">Login As Creator</string>
     <string name="enter_code_hint">Enter Game Code</string>
+    <string name="enter_code_btn">Enter</string>
+
+    <string name="join_game_btn">Join Game</string>
+    <string name="enter_nickname_hint">Enter Nickname</string>
+
     <string name="wait_for_game">Waiting for manager to start the game</string>
     <string name="leave_game_btn">Leave Game</string>
     <string name="participants">Participants</string>
+
     <string name="exit_game">Exit</string>
+
     <string name="score_list">Score list</string>
+
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+
     <string name="Register_User_Name">User Name</string>
     <string name="Register_Email">Email</string>
     <string name="Register_password">Password</string>
     <string name="Register_re_password">Re-Password</string>
     <string name="Register_sign_in">Sign-in</string>
-    <string name="creator_edit_game">Edit Game</string>
+
+    <string name="enter_existing_game_btn">Existing game</string>
     <string name="creator_new_game">New Game</string>
-    <string name="creator_new_game_create">Create New Game</string>
-    <string name="creator_new_game_launch">Launch Game</string>
-    <string name="creator_new_game_add_hint">Add Hint</string>
-    <string name="creator_new_game_location">locations</string>
+    <string name="logout_button">Logout</string>
 
-    <string name="creator_finish_edit_game">Finish Editing</string>
-    <string name="creator_add_hint">Enter Riddle</string>
-    <string name="creator_save_hint">Save</string>
-    <string name="creator_delete_hint">delete</string>
-    <string name="creator_game_code">Game Code:</string>
+    <string name="creator_edit_game_launch">Launch Game</string>
 
+    <string name="creator_game_code">Game Code</string>
     <string name="creator_start_game">Start Game</string>
     <string name="creator_delete_game">delete game</string>
+
     <string name="creator_end_game">End game</string>
 
-    <string name="player_see_hint">See Hint</string>
-    <string name="player_teams_score">Teams score</string>
-    <string name="player_back_to_map">back to map</string>
-    <string name="player_last_hint">last hint</string>
     <string name="clue_desc_edit_text_hint">enter hint..</string>
+
     <string name="request_permissions_msg">In order to run the app properly we need you to give us permissions to your location</string>
     <string name="request_permissions_btn">give permissions</string>
-    <string name="logout_button">Logout</string>
-    <string name="enter_existing_game_btn">existing game</string>
-
 
 </resources>
