@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt.PlayerFlow;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -50,6 +51,10 @@ public class PlayerViewModel extends ViewModel {
 
     public void clickChooseNickName(View view) {
         Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("EnterGame", "null game value while trying to choose nickname");
+            return;
+        }
         HashMap<String, Player> players = game.getPlayers();
         if (players != null) {
             for (Player player : players.values()) {
@@ -90,7 +95,10 @@ public class PlayerViewModel extends ViewModel {
     }
 
     private void resetGameData() {
-        gameLiveData.getValue().removePlayer(currentPlayer.getId());
+        Game game = gameLiveData.getValue();
+        if (game != null) {
+            game.removePlayer(currentPlayer.getId());
+        }
         currentPlayer = null;
         gameLiveData = new MediatorLiveData<>();
         gameCode.setValue("");
