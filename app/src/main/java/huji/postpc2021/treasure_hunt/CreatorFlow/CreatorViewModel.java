@@ -45,10 +45,15 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public String addClue(GeoPoint p) {
-        int index = currentGame.getValue().getClues().size() + 1;
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorEditGame", "null game value while trying to add new clue");
+            return "";
+        }
+
+        int index = game.getClues().size() + 1;
         Clue clue = new Clue("", index,
                 new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
-        Game game = currentGame.getValue();
         game.upsertClue(clue);
         cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
 
@@ -57,38 +62,52 @@ public class CreatorViewModel extends ViewModel {
 
     public void removeClue(String clueId) {
         Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorEditGame", "null game value while trying to remove clue");
+            return;
+        }
         game.removeClue(clueId);
         cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
     }
 
     public void editClue(Clue clue) {
         Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorEditGame", "null game value while trying to edit clue");
+            return;
+        }
         game.upsertClue(clue);
         cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
     }
 
     public void registerNewUSer(View view) {
-        // add user
         FirebaseUser user = db.auth.getCurrentUser();
+        if (user == null) {
+            Log.e("CreatorRegister", "null user value while trying to register");
+            return;
+        }
         db.addCreator(user.getUid());
-
-        // update UI
         Navigation.findNavController(view).navigate(R.id.action_creatorRegisterFragment_to_creatorHomeScreenFragment);
     }
 
     public void loginCreator(View view) {
-        currentCreator = db.getCreator(db.auth.getCurrentUser().getUid());
-
+        FirebaseUser user = db.auth.getCurrentUser();
+        if (user == null) {
+            Log.e("CreatorLogin", "null user value while trying to login");
+            return;
+        }
+        currentCreator = db.getCreator(user.getUid());
         loadGame(currentCreator.getValue().getGameId());
-
         Navigation.findNavController(view).navigate(R.id.action_creatorLoginFragment_to_creatorHomeScreenFragment);
     }
 
     private void loadGame(String gameId) {
         currentGame = db.getGameInfo(gameId);
-        if (currentGame.getValue() != null) {
-            cluesMutableLiveData.setValue(currentGame.getValue().getClues());
+        if (currentGame.getValue() == null) {
+            Log.e("CreatorMAinScreen", "null game value while trying to load game");
+            return;
         }
+        cluesMutableLiveData.setValue(currentGame.getValue().getClues());
     }
 
     private void resetAllLiveData() {
@@ -146,9 +165,11 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public void updateCurrentGameName(String newName) {
-        if (currentGame.getValue() != null) {
-            currentGame.getValue().updateName(newName);
+        if (currentGame.getValue() == null) {
+            Log.e("CreatorEditGame", "null game value while trying to edit game name");
+            return;
         }
+        currentGame.getValue().updateName(newName);
     }
 
     public boolean launchGame(View view) {
@@ -163,10 +184,12 @@ public class CreatorViewModel extends ViewModel {
 
     public void startGame(View view) {
         Game game = currentGame.getValue();
-        if (game != null) {
-            game.changeStatus(GameStatus.running);
-            Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorInPlayFragment);
+        if (game == null) {
+            Log.e("CreatorDoneEditing", "null game value while trying to start the game");
+            return;
         }
+        game.changeStatus(GameStatus.running);
+        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorInPlayFragment);
     }
 
     public void leaveHomeScreen(View view) {
@@ -192,6 +215,11 @@ public class CreatorViewModel extends ViewModel {
     }
 
     private void deleteCurrentGame() {
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorEdit/DoneEditing", "null game value while trying to delete game");
+            return;
+        }
         db.deleteGame(currentGame.getValue().getId());
         currentGame = new MutableLiveData<>(null);
         cluesMutableLiveData.setValue(null);
