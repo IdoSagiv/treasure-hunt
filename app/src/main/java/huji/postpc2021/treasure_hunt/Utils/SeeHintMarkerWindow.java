@@ -13,7 +13,6 @@ import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
 public class SeeHintMarkerWindow extends InfoWindow {
     private final Marker relatedMarker;
-    private Clue relatedClue = null;
 
 
     public SeeHintMarkerWindow(int layoutResId, MapView mapView, Marker marker) {
@@ -27,12 +26,12 @@ public class SeeHintMarkerWindow extends InfoWindow {
 
     @Override
     public void onOpen(Object arg0) {
-        this.relatedClue = CreatorViewModel.getInstance().cluesLiveData.getValue().get(relatedMarker.getId());
+        Clue relatedClue = CreatorViewModel.getInstance().cluesLiveData.getValue().get(relatedMarker.getId());
 
         TextView hintContentEditText = mView.findViewById(R.id.textViewHintContent);
         TextView clueIndexTextView = mView.findViewById(R.id.textViewHintIndexSeeMarkerWindow);
 
-        hintContentEditText.setText(this.relatedClue.getDescription());
+        hintContentEditText.setText(relatedClue.getDescription());
         clueIndexTextView.setText("#" + relatedClue.getIndex());
 
         hintContentEditText.setMovementMethod(new ScrollingMovementMethod());

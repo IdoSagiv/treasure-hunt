@@ -13,17 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
-import huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameFragmentDirections;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
 import huji.postpc2021.treasure_hunt.R;
-import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 
 public class CreatorInPlayFragment extends Fragment {
