@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -58,16 +57,12 @@ public class MapHandler {
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            if (currentLocation == null) {
+            if (currentLocation == null && startPoint != DEFAULT_START_POINT) {
                 // on the first update -> animate to current location
                 currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                 mapToCurrentLocation();
             }
             currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
         }
 
         @Override
