@@ -56,7 +56,7 @@ public class CreatorRegisterFragment extends Fragment {
 
         creatorSignInButton.setOnClickListener(v ->
                 Navigation.findNavController(view)
-                        .navigate(CreatorRegisterFragmentDirections.actionCreatorRegisterFragmentToCreatorHomeScreenFragment()));
+                        .navigate(CreatorRegisterFragmentDirections.actionCreatorRegisterToCreatorHomeScreen()));
         return view;
     }
 

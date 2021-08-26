@@ -45,7 +45,7 @@ public class CreatorLoginFragment extends Fragment {
 
         creatorRegisterButton.setOnClickListener(v ->
                 Navigation.findNavController(view)
-                        .navigate(CreatorLoginFragmentDirections.actionCreatorLoginFragmentToCreatorRegisterFragment()));
+                        .navigate(CreatorLoginFragmentDirections.actionCreatorLoginToCreatorRegister()));
 
         creatorLoginButton.setOnClickListener(v ->
                 db.auth.signInWithEmailAndPassword(emailEditText.getText().toString(),
@@ -66,7 +66,7 @@ public class CreatorLoginFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 Navigation.findNavController(view)
-                        .navigate(CreatorLoginFragmentDirections.actionCreatorLoginFragmentToHomeScreenFragment());
+                        .navigate(CreatorLoginFragmentDirections.actionCreatorLoginToCreatorHomeScreen());
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);

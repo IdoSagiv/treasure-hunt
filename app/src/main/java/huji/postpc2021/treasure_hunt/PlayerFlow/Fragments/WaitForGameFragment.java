@@ -50,8 +50,8 @@ public class WaitForGameFragment extends Fragment {
                     }
                     adapter.setItems(game.getPlayers().values());
                     if (game.getStatus() == GameStatus.running) {
-//                        playerViewModel.startGame();
-                        Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameFragmentToPlayerGameFragment());
+//                        playerViewModel.startGame(); todo
+                        Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameToPlayerGame());
                     }
                 }
         );
@@ -59,7 +59,7 @@ public class WaitForGameFragment extends Fragment {
 
         //  todo: this is temporary for debugging!
         view.findViewById(R.id.temp_move_to_game).setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameFragmentToPlayerGameFragment()));
+                Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameToPlayerGame()));
 
         return view;
     }

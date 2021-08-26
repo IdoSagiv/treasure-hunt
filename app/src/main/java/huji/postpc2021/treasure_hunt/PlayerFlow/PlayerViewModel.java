@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
-import huji.postpc2021.treasure_hunt.HomeScreenFragmentDirections;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
@@ -40,12 +39,10 @@ public class PlayerViewModel extends ViewModel {
     }
 
     public void clickEnterGame(View view) {
-        if (db.isAvailableGame(gameCode.getValue())) {
-            gameLiveData = db.getGameFromCode(gameCode.getValue());
-
-            Navigation.findNavController(view)
-                    .navigate(HomeScreenFragmentDirections
-                            .actionHomeScreenToEnterGame(gameCode.getValue()));
+        String code = gameCode.getValue().toUpperCase();
+        if (db.isAvailableGame(code)) {
+            gameLiveData = db.getGameFromCode(code);
+            Navigation.findNavController(view).navigate(R.id.action_homeScreen_to_enterGame);
         } else {
             ((EditText) view.findViewById(R.id.editTextEnterCodeGame)).setError("invalid code");
         }
@@ -67,8 +64,7 @@ public class PlayerViewModel extends ViewModel {
 
         game.addPlayer(currentPlayer);
 
-        Navigation.findNavController(view)
-                .navigate(R.id.action_enterGame_to_waitForGame);
+        Navigation.findNavController(view).navigate(R.id.action_enterGame_to_waitForGame);
     }
 
     public String currentPlayerId() {
@@ -85,12 +81,12 @@ public class PlayerViewModel extends ViewModel {
 
     public void leaveGameFromGameScreen(View view) {
         resetGameData();
-        Navigation.findNavController(view).navigate(R.id.action_playerGameFragment_to_homeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_playerGame_to_homeScreen);
     }
 
     public void leaveGameFromGameOverScreen(View view) {
         resetGameData();
-        Navigation.findNavController(view).navigate(R.id.action_playerGameOverFragment_to_homeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_playerGameOver_to_homeScreen);
     }
 
     private void resetGameData() {

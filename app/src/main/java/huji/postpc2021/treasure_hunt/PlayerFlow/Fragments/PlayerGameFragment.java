@@ -76,18 +76,15 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
-        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
-                {
-                    if (game == null) {
-                        return;
-                    }
-                    adapter.setItems(game.getPlayers().values());
-                    if (game.getStatus() == GameStatus.finished) {
-//                        playerViewModel.gameOver();
-                        Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameFragmentToPlayerGameOverFragment());
-                    }
+        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game -> {
+            if (game != null) {
+                adapter.setItems(game.getPlayers().values());
+                if (game.getStatus() == GameStatus.finished) {
+//                        playerViewModel.gameOver();  todo
+                    Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToPlayerGameOver());
                 }
-        );
+            }
+        });
 
         // on back pressed callback for this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

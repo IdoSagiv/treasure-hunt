@@ -63,7 +63,7 @@ public class HomeScreenFragment extends Fragment {
         enterGameAsCreator.setOnClickListener(v ->
         {
 //            Navigation.findNavController(view).navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreatorLoginFragment());
-            Navigation.findNavController(view).navigate(R.id.action_homeScreenFragment_to_creatorLoginFragment);
+            Navigation.findNavController(view).navigate(R.id.action_homeScreen_to_creatorLogin);
         });
 
 

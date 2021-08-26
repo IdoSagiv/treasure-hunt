@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeScreenFragment">
+    app:startDestination="@id/homeScreen">
 
     <fragment
-        android:id="@+id/homeScreenFragment"
+        android:id="@+id/homeScreen"
         android:name="huji.postpc2021.treasure_hunt.HomeScreenFragment"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen">
         <action
-            android:id="@+id/action_homeScreen_to_enterGame"
-            app:destination="@id/enterGameFragment"
+            android:id="@+id/action_homeScreen_to_creatorLogin"
+            app:destination="@id/creatorLogin"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_homeScreenFragment_to_creatorLoginFragment"
-            app:destination="@id/creatorLoginFragment"
+            android:id="@+id/action_homeScreen_to_enterGame"
+            app:destination="@id/enterGame"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -27,178 +27,183 @@
     </fragment>
 
     <fragment
-        android:id="@+id/enterGameFragment"
+        android:id="@+id/enterGame"
         android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.EnterGameFragment"
         android:label="fragment_enter_game"
         tools:layout="@layout/fragment_enter_game">
         <action
             android:id="@+id/action_enterGame_to_waitForGame"
-            app:destination="@id/waitForGameFragment"
+            app:destination="@id/waitForGame"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
-        <argument
-            android:name="gameCode"
-            app:argType="string" />
     </fragment>
 
     <fragment
-        android:id="@+id/waitForGameFragment"
+        android:id="@+id/waitForGame"
         android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.WaitForGameFragment"
         android:label="fragment_wait_for_game"
         tools:layout="@layout/fragment_wait_for_game">
         <action
             android:id="@+id/action_waitForGame_to_homeScreen"
-            app:destination="@id/homeScreenFragment"
+            app:destination="@id/homeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
         <action
-            android:id="@+id/action_waitForGameFragment_to_playerGameFragment"
-            app:destination="@id/playerGameFragment"
+            android:id="@+id/action_waitForGame_to_playerGame"
+            app:destination="@id/playerGame"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorLoginFragment"
+        android:id="@+id/creatorLogin"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorLoginFragment"
         android:label="fragment_creator_login"
         tools:layout="@layout/fragment_creator_login">
         <action
-            android:id="@+id/action_creatorLoginFragment_to_creatorRegisterFragment"
-            app:destination="@id/creatorRegisterFragment"
+            android:id="@+id/action_creatorLogin_to_creatorRegister"
+            app:destination="@id/creatorRegister"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_creatorLoginFragment_to_creatorHomeScreenFragment"
-            app:destination="@id/creatorHomeScreenFragment"
+            android:id="@+id/action_creatorLogin_to_creatorHomeScreen"
+            app:destination="@id/creatorHomeScreen"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_creatorLoginFragment_to_homeScreenFragment"
-            app:destination="@id/homeScreenFragment"
+            android:id="@+id/action_creatorLogin_to_homeScreen"
+            app:destination="@id/homeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorRegisterFragment"
+        android:id="@+id/creatorRegister"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorRegisterFragment"
         android:label="fragment_creator_register"
         tools:layout="@layout/fragment_creator_register">
         <action
-            android:id="@+id/action_creatorRegisterFragment_to_creatorHomeScreenFragment"
-            app:destination="@id/creatorHomeScreenFragment"
+            android:id="@+id/action_creatorRegister_to_creatorHomeScreen"
+            app:destination="@id/creatorHomeScreen"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorHomeScreenFragment"
+        android:id="@+id/creatorHomeScreen"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorHomeScreenFragment"
         android:label="fragment_creator_home_screen"
         tools:layout="@layout/fragment_creator_home_screen">
         <action
-            android:id="@+id/action_creatorHomeScreenFragment_to_creatorEditGameFragment"
-            app:destination="@id/creatorEditGameFragment"
+            android:id="@+id/action_creatorHomeScreen_to_creatorEditGame"
+            app:destination="@id/creatorEditGame"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_creatorHomeScreenFragment_to_creatorLoginFragment"
-            app:destination="@id/creatorLoginFragment"
+            android:id="@+id/action_creatorHomeScreen_to_creatorLogin"
+            app:destination="@id/creatorLogin"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
         <action
             android:id="@+id/action_creatorHomeScreenFragment_to_creatorDoneEditGameFragment"
-            app:destination="@id/creatorDoneEditGameFragment" />
-        <action
-            android:id="@+id/action_creatorHomeScreenFragment_to_creatorInPlayFragment"
-            app:destination="@id/creatorInPlayFragment"
+            app:destination="@id/creatorDoneEditGame"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_creatorHomeScreenFragment_to_homeScreenFragment"
-            app:destination="@id/homeScreenFragment"
+            android:id="@+id/action_creatorHomeScreen_to_creatorInPlay"
+            app:destination="@id/creatorInPlay"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_creatorHomeScreen_to_homeScreen"
+            app:destination="@id/homeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorEditGameFragment"
+        android:id="@+id/creatorEditGame"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorEditGameFragment"
         android:label="fragment_creator_edit_game"
         tools:layout="@layout/fragment_creator_edit_game">
         <action
-            android:id="@+id/action_creatorEditGameFragment_to_creatorDoneEditGameFragment"
-            app:destination="@id/creatorDoneEditGameFragment" />
+            android:id="@+id/action_creatorEditGame_to_creatorDoneEditGame"
+            app:destination="@id/creatorDoneEditGame"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_creatorEditGameFragment_to_creatorHomeScreenFragment"
-            app:destination="@id/creatorHomeScreenFragment"
+            android:id="@+id/action_creatorEditGame_to_creatorHomeScreen"
+            app:destination="@id/creatorHomeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorDoneEditGameFragment"
+        android:id="@+id/creatorDoneEditGame"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorDoneEditGameFragment"
         android:label="fragment_creator_done_editing"
         tools:layout="@layout/fragment_creator_done_editing">
         <action
-            android:id="@+id/action_creatorDoneEditGameFragment_to_creatorInPlayFragment"
-            app:destination="@id/creatorInPlayFragment"
+            android:id="@+id/action_creatorDoneEditGame_to_creatorInPlay"
+            app:destination="@id/creatorInPlay"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
         <action
-            android:id="@+id/action_creatorDoneEditGameFragment_to_creatorHomeScreenFragment"
-            app:destination="@id/creatorHomeScreenFragment"
+            android:id="@+id/action_creatorDoneEditGame_to_creatorHomeScreen"
+            app:destination="@id/creatorHomeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/creatorInPlayFragment"
+        android:id="@+id/creatorInPlay"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorInPlayFragment"
         android:label="fragment_creator_in_play"
         tools:layout="@layout/fragment_creator_in_play">
         <action
-            android:id="@+id/action_creatorInPlayFragment_to_creatorHomeScreenFragment"
-            app:destination="@id/creatorHomeScreenFragment"
+            android:id="@+id/action_creatorInPlay_to_creatorHomeScreen"
+            app:destination="@id/creatorHomeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/playerGameFragment"
+        android:id="@+id/playerGame"
         android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameFragment"
         android:label="fragment_player_game"
         tools:layout="@layout/fragment_player_game">
         <action
-            android:id="@+id/action_playerGameFragment_to_homeScreenFragment"
-            app:destination="@id/homeScreenFragment"
+            android:id="@+id/action_playerGame_to_homeScreen"
+            app:destination="@id/homeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
         <action
-            android:id="@+id/action_playerGameFragment_to_playerGameOverFragment"
-            app:destination="@id/playerGameOverFragment"
+            android:id="@+id/action_playerGame_to_playerGameOver"
+            app:destination="@id/playerGameOver"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
-        android:id="@+id/playerGameOverFragment"
+        android:id="@+id/playerGameOver"
         android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameOverFragment"
         android:label="fragment_game_over"
         tools:layout="@layout/fragment_game_over">
         <action
-            android:id="@+id/action_playerGameOverFragment_to_homeScreenFragment"
-            app:destination="@id/homeScreenFragment"
+            android:id="@+id/action_playerGameOver_to_homeScreen"
+            app:destination="@id/homeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>

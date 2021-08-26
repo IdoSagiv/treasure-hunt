@@ -87,7 +87,7 @@ public class CreatorViewModel extends ViewModel {
             return;
         }
         db.addCreator(user.getUid());
-        Navigation.findNavController(view).navigate(R.id.action_creatorRegisterFragment_to_creatorHomeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorRegister_to_creatorHomeScreen);
     }
 
     public void loginCreator(View view) {
@@ -98,7 +98,7 @@ public class CreatorViewModel extends ViewModel {
         }
         currentCreator = db.getCreator(user.getUid());
         loadGame(currentCreator.getValue().getGameId());
-        Navigation.findNavController(view).navigate(R.id.action_creatorLoginFragment_to_creatorHomeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorLogin_to_creatorHomeScreen);
     }
 
     private void loadGame(String gameId) {
@@ -120,7 +120,7 @@ public class CreatorViewModel extends ViewModel {
         db.auth.signOut();
         resetAllLiveData();
 
-        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorLoginFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreen_to_creatorLogin);
     }
 
     public void enterNewGame(View view, String gameName) {
@@ -134,7 +134,7 @@ public class CreatorViewModel extends ViewModel {
 
         loadGame(game.getId());
 
-        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorEditGameFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreen_to_creatorEditGame);
     }
 
     public void enterExistingGame(View view) {
@@ -146,7 +146,7 @@ public class CreatorViewModel extends ViewModel {
 
         switch (game.getStatus()) {
             case editMode: {
-                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorEditGameFragment);
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreen_to_creatorEditGame);
                 break;
             }
             case waiting: {
@@ -154,7 +154,7 @@ public class CreatorViewModel extends ViewModel {
                 break;
             }
             case running: {
-                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_creatorInPlayFragment);
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreen_to_creatorInPlay);
                 break;
             }
             case finished: {
@@ -176,7 +176,7 @@ public class CreatorViewModel extends ViewModel {
         if (currentGame.getValue() != null &&
                 currentGame.getValue().getClues().size() >= MIN_NUM_OF_CLUES) {
             currentGame.getValue().changeStatus(GameStatus.waiting);
-            Navigation.findNavController(view).navigate(R.id.action_creatorEditGameFragment_to_creatorDoneEditGameFragment);
+            Navigation.findNavController(view).navigate(R.id.action_creatorEditGame_to_creatorDoneEditGame);
             return true;
         }
         return false;
@@ -189,29 +189,29 @@ public class CreatorViewModel extends ViewModel {
             return;
         }
         game.changeStatus(GameStatus.running);
-        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorInPlayFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGame_to_creatorInPlay);
     }
 
     public void leaveHomeScreen(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreenFragment_to_homeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreen_to_homeScreen);
     }
 
     public void leaveDoneEditScreen(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorHomeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGame_to_creatorHomeScreen);
     }
 
     public void leaveInPlayScreen(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_creatorInPlayFragment_to_creatorHomeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorInPlay_to_creatorHomeScreen);
     }
 
     public void deleteGameFromEditScreen(View view) {
         deleteCurrentGame();
-        Navigation.findNavController(view).navigate(R.id.action_creatorEditGameFragment_to_creatorHomeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorEditGame_to_creatorHomeScreen);
     }
 
     public void deleteGameFromDoneEditScreen(View view) {
         deleteCurrentGame();
-        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorHomeScreenFragment);
+        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGame_to_creatorHomeScreen);
     }
 
     private void deleteCurrentGame() {
