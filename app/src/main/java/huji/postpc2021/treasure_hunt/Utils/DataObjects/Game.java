@@ -1,7 +1,6 @@
 package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +18,15 @@ public class Game {
 
     public Game(String name) {
         this.id = UUID.randomUUID().toString();
-        this.code = UUID.randomUUID().toString();
+        this.code = generateGameCode();
         this.name = name;
         this.players = new HashMap<>();
         this.clues = new HashMap<>();
         this.status = GameStatus.editMode;
+    }
+
+    private String generateGameCode() {
+        return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 5);
     }
 
     /**

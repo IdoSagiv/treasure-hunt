@@ -55,15 +55,9 @@ public class CreatorDoneEditGameFragment extends Fragment {
                 gameCodeTextView.setText(game.getCode());
                 gameNameTextView.setText(game.getName());
                 participantsListAdapter.setItems(game.getPlayers().values());
+                mapHandler.showHints(game.getClues().values());
             }
         });
-
-        creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues -> {
-            if (clues != null) {
-                mapHandler.showHints(clues.values());
-            }
-        });
-
 
         // buttons listeners
         deleteGameButton.setOnClickListener(v -> {

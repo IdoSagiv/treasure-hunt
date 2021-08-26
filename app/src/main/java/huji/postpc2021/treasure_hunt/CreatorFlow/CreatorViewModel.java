@@ -221,6 +221,7 @@ public class CreatorViewModel extends ViewModel {
             return;
         }
         db.deleteGame(currentGame.getValue().getId());
+        currentCreator.getValue().updateGameId(null);
         currentGame = new MutableLiveData<>(null);
         cluesMutableLiveData.setValue(null);
     }
