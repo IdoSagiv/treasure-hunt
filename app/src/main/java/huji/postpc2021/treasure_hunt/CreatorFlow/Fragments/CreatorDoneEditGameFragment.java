@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -34,12 +35,18 @@ public class CreatorDoneEditGameFragment extends Fragment {
         MapView mapView = view.findViewById(R.id.mapViewCreatorDoneEditing);
         MapHandler mapHandler = new MapHandler(mapView, MapHandler.MarkersType.HintOnly);
 
+        // find views
         TextView gameCodeTextView = view.findViewById(R.id.textViewGameCodeDoneEditingScreen);
         TextView gameNameTextView = view.findViewById(R.id.textViewGameNameDoneEditing);
         RecyclerView participantsListRecyclerView = view.findViewById(R.id.recyclerViewParticipantsCreatorWait);
+        Button deleteGameButton = view.findViewById(R.id.buttonDeleteGameDoneEditingScreen);
+        Button startGameButton = view.findViewById(R.id.buttonStartGameDoneEditingScreen);
+
+        // participants recyclerView
         ParticipantsListAdapter participantsListAdapter = new ParticipantsListAdapter();
         participantsListRecyclerView.setAdapter(participantsListAdapter);
-        participantsListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+        participantsListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(),
+                RecyclerView.VERTICAL, false));
 
         creatorViewModel.currentGame.observe(getViewLifecycleOwner(), game -> {
             if (game == null) return;
@@ -51,6 +58,11 @@ public class CreatorDoneEditGameFragment extends Fragment {
 
         creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues ->
                 mapHandler.showHints(clues.values()));
+
+        // buttons listeners
+        deleteGameButton.setOnClickListener(v ->
+                creatorViewModel.deleteGameFromDoneEditScreen(view));
+        startGameButton.setOnClickListener(v -> creatorViewModel.startGame(view));
 
 
         return view;

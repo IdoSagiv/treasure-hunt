@@ -24,6 +24,8 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class CreatorViewModel extends ViewModel {
+    private static final int MIN_NUM_OF_CLUES = 3;
+
     public LiveData<Game> currentGame = new MutableLiveData<>(null);
     private LiveData<Creator> currentCreator = new MutableLiveData<>();
     private final MutableLiveData<HashMap<String, Clue>> cluesMutableLiveData = new MutableLiveData<>();
@@ -154,12 +156,21 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public boolean launchGame(View view) {
-        if (currentGame.getValue() != null && currentGame.getValue().getClues().size() >= 3) {
+        if (currentGame.getValue() != null &&
+                currentGame.getValue().getClues().size() >= MIN_NUM_OF_CLUES) {
             currentGame.getValue().changeStatus(GameStatus.waiting);
             Navigation.findNavController(view).navigate(R.id.action_creatorEditGameFragment_to_creatorDoneEditGameFragment);
             return true;
         }
         return false;
+    }
+
+    public void startGame(View view) {
+        Game game = currentGame.getValue();
+        if (game != null) {
+            game.changeStatus(GameStatus.running);
+            Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorInPlayFragment);
+        }
     }
 
     public void leaveHomeScreen(View view) {
@@ -177,6 +188,11 @@ public class CreatorViewModel extends ViewModel {
     public void deleteGameFromEditScreen(View view) {
         deleteCurrentGame();
         Navigation.findNavController(view).navigate(R.id.action_creatorEditGameFragment_to_creatorHomeScreenFragment);
+    }
+
+    public void deleteGameFromDoneEditScreen(View view) {
+        deleteCurrentGame();
+        Navigation.findNavController(view).navigate(R.id.action_creatorDoneEditGameFragment_to_creatorHomeScreenFragment);
     }
 
     private void deleteCurrentGame() {
