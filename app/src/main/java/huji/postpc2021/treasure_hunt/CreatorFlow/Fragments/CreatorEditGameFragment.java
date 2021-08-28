@@ -67,16 +67,12 @@ public class CreatorEditGameFragment extends Fragment {
         launchGameButton.setOnClickListener(v ->
         {
             if (!creatorViewModel.launchGame(view)) {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
-                builder.setTitle("Failed to Launch");
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setMessage("Game should include at least 3 clues")
+                        .setPositiveButton("ok", (dialog, which) -> {
+                        })
+                        .show();
 
-                final TextView errMsg = new TextView(requireContext());
-                errMsg.setText("Game should include at least 3 clues");
-                builder.setView(errMsg);
-
-                builder.setPositiveButton("Ok", (dialog, which) -> dialog.cancel());
-                final android.app.AlertDialog dialog = builder.create();
-                dialog.show();
             }
             //TODO: change the popup
         });
