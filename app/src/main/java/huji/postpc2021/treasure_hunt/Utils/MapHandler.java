@@ -144,7 +144,7 @@ public class MapHandler {
         switch (markersType) {
             case HintOnly: {
                 // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new SeeHintMarkerWindow(R.layout.see_hint_marker_window, mMapView, myMarker));
+                myMarker.setInfoWindow(new SeeHintMarkerWindow(R.layout.player_see_hint_marker_window, mMapView, myMarker));
                 break;
             }
             case EditHint: {

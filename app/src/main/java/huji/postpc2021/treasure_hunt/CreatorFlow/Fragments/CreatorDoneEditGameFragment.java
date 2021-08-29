@@ -18,12 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.osmdroid.views.MapView;
-
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ParticipantsListAdapter;
 import huji.postpc2021.treasure_hunt.R;
-import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 
 public class CreatorDoneEditGameFragment extends Fragment {
     private CreatorViewModel creatorViewModel;
@@ -36,8 +33,6 @@ public class CreatorDoneEditGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creator_done_editing, container, false);
         creatorViewModel = CreatorViewModel.getInstance();
-        MapView mapView = view.findViewById(R.id.mapViewCreatorDoneEditing);
-        MapHandler mapHandler = new MapHandler(mapView, MapHandler.MarkersType.HintOnly);
 
         // find views
         TextView gameCodeTextView = view.findViewById(R.id.textViewGameCodeDoneEditingScreen);
@@ -45,7 +40,6 @@ public class CreatorDoneEditGameFragment extends Fragment {
         RecyclerView participantsListRecyclerView = view.findViewById(R.id.recyclerViewParticipantsCreatorWait);
         Button deleteGameButton = view.findViewById(R.id.buttonDeleteGameDoneEditingScreen);
         Button startGameButton = view.findViewById(R.id.buttonStartGameDoneEditingScreen);
-        ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationCreatorDoneEditGame);
         ImageView shareGameCodeButton = view.findViewById(R.id.buttonShareGameCode);
 
         // participants recyclerView
@@ -59,7 +53,6 @@ public class CreatorDoneEditGameFragment extends Fragment {
                 gameCodeTextView.setText(game.getCode());
                 gameNameTextView.setText(game.getName());
                 participantsListAdapter.setItems(game.getPlayers().values());
-                mapHandler.showHints(game.getClues().values());
             }
         });
 
@@ -85,18 +78,13 @@ public class CreatorDoneEditGameFragment extends Fragment {
 
         startGameButton.setOnClickListener(v -> creatorViewModel.startGame(view));
 
-        centerMapButton.setOnClickListener(v -> mapHandler.mapToCurrentLocation());
-
         shareGameCodeButton.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Hey!\n" +
-                    "Please join my Treasure Hunt game - '" + creatorViewModel.currentGame.getValue().getName() + "'!\n" +
-                    "The code is " + creatorViewModel.currentGame.getValue().getCode());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, creatorViewModel.getShareMsg());
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         });
-
 
         return view;
     }

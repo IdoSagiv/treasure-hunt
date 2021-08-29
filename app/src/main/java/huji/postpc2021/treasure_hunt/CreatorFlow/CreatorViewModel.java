@@ -229,4 +229,15 @@ public class CreatorViewModel extends ViewModel {
     public void endGame(View view) {
         // todo
     }
+
+    public String getShareMsg() {
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorDoneEditing", "null game value while trying to share game code");
+            return "";
+        }
+        return "Hey!\n" +
+                "Please join my Treasure Hunt game - '" + game.getName() + "'!\n" +
+                "The code is " + game.getCode();
+    }
 }
