@@ -1,7 +1,6 @@
 package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -134,11 +133,20 @@ public class Game {
         TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
 
-    public void foundClue(String playerId) {
+    public void foundClueUpdates(String playerId) {
         Player player = players.get(playerId);
-        if (player != null) {
-            player.incClueIndex();
+        if (player == null) {
+            return;
         }
+        Clue clue = getClue(player.getClueIndex());
+        player.increaseScore(calcScoreAddition(clue));
+        clue.addVisitedPlayer(playerId);
+        player.incClueIndex();
         TreasureHuntApp.getInstance().getDb().upsertGame(this);
+    }
+
+    private int calcScoreAddition(Clue clue) {
+        return clue.getDifficulty() * (players.size() - clue.getVisitedPlayersId().size());
+
     }
 }

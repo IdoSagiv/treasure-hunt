@@ -54,7 +54,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationPlayerGame);
         Button seeHintButton = view.findViewById(R.id.buttonSeeHint);
 
-        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.HintOnly);
+        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.HintOnly, getContext());
 
         // set buttons behavior
 
@@ -96,7 +96,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                 adapter.setItems(game.getPlayers().values());
                 if (game.getStatus() == GameStatus.finished) {
                     playerViewModel.gameOver(view);
-
+                    mapHandler.locationChangedCallback = null;
                     return;
                 }
 
@@ -120,6 +120,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                             })
                             .show();
                     playerViewModel.gameOver(view);
+                    mapHandler.locationChangedCallback = null;
                 } else {
                     MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
                     dialog.setTitle("Congrats!")

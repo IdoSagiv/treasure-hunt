@@ -44,4 +44,8 @@ public class Player {
     public void incClueIndex() {
         this.clueIndex++;
     }
+
+    public void increaseScore(int scoreAddition) {
+        this.score += scoreAddition;
+    }
 }

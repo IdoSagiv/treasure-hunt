@@ -149,7 +149,7 @@ public class PlayerViewModel extends ViewModel {
             Log.e("PlayerGame", "null game value");
             return;
         }
-        game.foundClue(currentPlayerId);
+        game.foundClueUpdates(currentPlayerId);
     }
 
     public void gameOver(View view) {

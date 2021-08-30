@@ -3,7 +3,6 @@ package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Clue {
@@ -13,7 +12,7 @@ public class Clue {
     private double longitude;
     private int difficulty;
 
-    private List<Player> visitedPlayers;
+    private ArrayList<String> visitedPlayersId;
     private int index;
     // TODO AR
 
@@ -26,7 +25,7 @@ public class Clue {
         this.description = description;
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
-        this.visitedPlayers = new ArrayList<>();
+        this.visitedPlayersId = new ArrayList<>();
         this.index = index;
         this.difficulty = 1;
     }
@@ -47,8 +46,8 @@ public class Clue {
         return latitude;
     }
 
-    public List<Player> getVisitedPlayers() {
-        return visitedPlayers;
+    public ArrayList<String> getVisitedPlayersId() {
+        return visitedPlayersId;
     }
 
     public void changeIndex(int newIndex) {
@@ -69,6 +68,14 @@ public class Clue {
 
     public String getDescription() {
         return this.description;
+    }
+
+    private void setVisitedPlayersId(ArrayList<String> visitedPlayersId) {
+        this.visitedPlayersId = visitedPlayersId;
+    }
+
+    public void addVisitedPlayer(String playerId) {
+        visitedPlayersId.add(playerId);
     }
 
     public int getIndex() {

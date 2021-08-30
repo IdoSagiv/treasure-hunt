@@ -30,11 +30,9 @@ public class SeeHintMarkerWindow extends InfoWindow {
 
         TextView hintContentEditText = mView.findViewById(R.id.textViewHintContent);
         TextView clueIndexTextView = mView.findViewById(R.id.textViewHintIndexSeeMarkerWindow);
-        RatingBar ratingBar = mView.findViewById(R.id.ratingBar);
 
         hintContentEditText.setText(relatedClue.getDescription());
         clueIndexTextView.setText("#" + relatedClue.getIndex());
-        ratingBar.setRating(relatedClue.getDifficulty());
 
         hintContentEditText.setMovementMethod(new ScrollingMovementMethod());
     }

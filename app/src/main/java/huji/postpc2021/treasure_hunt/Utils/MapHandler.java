@@ -49,13 +49,6 @@ public class MapHandler {
     public OnLocationChangedCallback locationChangedCallback = null;
     private final Context context;
 
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, MarkersType markersType) {
-        this(mapView, markersType, DEFAULT_START_POINT);
-    }
-
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
@@ -83,10 +76,17 @@ public class MapHandler {
     /**
      * @param mapView the founded mapView
      */
-    public MapHandler(MapView mapView, MarkersType markersType, GeoPoint startPoint) {
+    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
+        this(mapView, markersType, context, DEFAULT_START_POINT);
+    }
+
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType, Context context, GeoPoint startPoint) {
         this.startPoint = startPoint;
         this.mMapView = mapView;
-        this.context = TreasureHuntApp.getInstance();
+        this.context = context;
         this.markersType = markersType;
 
         initMap();

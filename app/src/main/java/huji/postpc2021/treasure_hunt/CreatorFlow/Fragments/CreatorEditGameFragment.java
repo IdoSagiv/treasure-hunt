@@ -55,7 +55,7 @@ public class CreatorEditGameFragment extends Fragment {
         EditText gameNameEditText = view.findViewById(R.id.editTextGameNameInSettings);
 
         // initialize map and drawer
-        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.EditHint);
+        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.EditHint, getContext());
         initializeSettingsDrawer(view);
 
         // set views behavior
