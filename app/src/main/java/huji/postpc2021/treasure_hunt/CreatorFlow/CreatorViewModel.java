@@ -157,7 +157,7 @@ public class CreatorViewModel extends ViewModel {
                 break;
             }
             case finished: {
-                // todo: navigate to the finished game fragment
+                Navigation.findNavController(view).navigate(R.id.action_creatorHomeScreen_to_creatorGameOver);
                 break;
             }
         }
@@ -226,7 +226,13 @@ public class CreatorViewModel extends ViewModel {
     }
 
     public void endGame(View view) {
-        // todo
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorInPlay", "null game value");
+            return;
+        }
+        game.changeStatus(GameStatus.finished);
+        Navigation.findNavController(view).navigate(R.id.action_creatorInPlay_to_creatorGameOver);
     }
 
     public String getShareMsg() {
@@ -238,5 +244,10 @@ public class CreatorViewModel extends ViewModel {
         return "Hey!\n" +
                 "Please join my Treasure Hunt game - '" + game.getName() + "'!\n" +
                 "The code is " + game.getCode();
+    }
+
+    public void leaveGameFromGameOverScreen(View view) {
+        deleteCurrentGame();
+        Navigation.findNavController(view).navigate(R.id.action_creatorGameOver_to_creatorHomeScreen);
     }
 }
