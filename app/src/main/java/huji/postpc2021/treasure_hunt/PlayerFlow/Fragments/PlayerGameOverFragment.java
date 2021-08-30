@@ -18,6 +18,7 @@ import java.util.HashMap;
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
 import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 
 public class PlayerGameOverFragment extends Fragment {
@@ -50,7 +51,7 @@ public class PlayerGameOverFragment extends Fragment {
 
         playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game -> {
             for (Player player : game.getPlayers().values()) {
-                if (playerViewModel.isFinishedGame(player.getId())) {
+                if (playerViewModel.isFinishedGame(player.getId()) || game.getStatus() == GameStatus.finished) {
                     finishedPlayers.put(player.getId(), player);
                 }
             }
