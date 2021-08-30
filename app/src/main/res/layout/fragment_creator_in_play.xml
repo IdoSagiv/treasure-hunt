@@ -43,6 +43,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <Button
+            android:id="@+id/buttonEndGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@string/app_font"
+            android:text="@string/creator_end_game"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/buttons_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--  hints list drawer  -->
@@ -65,6 +78,15 @@
             android:paddingEnd="4dp"
             android:paddingBottom="24dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:fontFamily="@string/app_font"
+                android:text="@string/score_list"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewParticipantsCreatorPlay"
                 android:layout_width="match_parent"
@@ -77,17 +99,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <Button
-                    android:id="@+id/buttonEndGame"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@string/app_font"
-                    android:text="@string/creator_end_game"
-                    android:textColor="@color/black"
-                    app:backgroundTint="@color/buttons_background" />
-            </LinearLayout>
+                android:layout_weight="1"></LinearLayout>
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>

@@ -42,7 +42,7 @@ public class CreatorInPlayFragment extends Fragment {
         ImageView openPlayersStatusButton = view.findViewById(R.id.buttonPlayersStatus);
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationCreatorInPlay);
 
-        MapHandler mapHandler = new MapHandler(mapView, MapHandler.MarkersType.HintAndPlayers, getContext());
+        MapHandler mapHandler = new MapHandler(mapView, MapHandler.MarkersType.CreatorInPlay, getContext());
 
         playersStatusDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         ScoreListAdapter adapter = new ScoreListAdapter();

@@ -9,7 +9,7 @@
     android:minHeight="120dp">
 
     <TextView
-        android:id="@+id/textViewHintIndexSeeMarkerWindow"
+        android:id="@+id/textViewHintIndexCreatorSeeMarkerWindow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/clue_desc_edit_text_hint"
@@ -34,7 +34,7 @@
         android:stepSize="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHintIndexSeeMarkerWindow"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHintIndexCreatorSeeMarkerWindow"
         tools:rating="1" />
 
     <TextView
@@ -50,11 +50,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHintContent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHintContentCreatorSeeHint"
         tools:text="visited: 7/10" />
 
     <TextView
-        android:id="@+id/textViewHintContent"
+        android:id="@+id/textViewHintContentCreatorSeeHint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -62,11 +62,11 @@
         android:layout_marginBottom="8dp"
         android:lines="2"
         android:scrollbars="vertical"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/textViewVisited"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarSeeHint"
         tools:text="the hint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

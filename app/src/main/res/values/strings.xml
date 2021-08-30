@@ -43,5 +43,6 @@
 
     <string name="request_permissions_msg">In order to run the app properly we need you to give us permissions to your location</string>
     <string name="request_permissions_btn">give permissions</string>
+    <string name="score_list_title">Score List</string>
 
 </resources>

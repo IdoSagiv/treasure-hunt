@@ -1,7 +1,6 @@
 package huji.postpc2021.treasure_hunt.PlayerFlow;
 
 import android.text.method.ScrollingMovementMethod;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.osmdroid.views.MapView;
@@ -11,11 +10,11 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
-public class SeeHintMarkerWindow extends InfoWindow {
+public class PlayerSeeHintMarkerWindow extends InfoWindow {
     private final Marker relatedMarker;
 
 
-    public SeeHintMarkerWindow(int layoutResId, MapView mapView, Marker marker) {
+    public PlayerSeeHintMarkerWindow(int layoutResId, MapView mapView, Marker marker) {
         super(layoutResId, mapView);
         this.relatedMarker = marker;
     }
@@ -28,8 +27,8 @@ public class SeeHintMarkerWindow extends InfoWindow {
     public void onOpen(Object arg0) {
         Clue relatedClue = PlayerViewModel.getInstance().gameLiveData.getValue().getClues().get(relatedMarker.getId());
 
-        TextView hintContentEditText = mView.findViewById(R.id.textViewHintContent);
-        TextView clueIndexTextView = mView.findViewById(R.id.textViewHintIndexSeeMarkerWindow);
+        TextView hintContentEditText = mView.findViewById(R.id.textViewHintContentPlayerSeeHint);
+        TextView clueIndexTextView = mView.findViewById(R.id.textViewHintIndexPlayerSeeMarkerWindow);
 
         hintContentEditText.setText(relatedClue.getDescription());
         clueIndexTextView.setText("#" + relatedClue.getIndex());

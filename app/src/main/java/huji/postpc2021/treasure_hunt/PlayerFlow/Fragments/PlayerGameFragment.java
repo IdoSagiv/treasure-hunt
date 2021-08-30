@@ -16,7 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +53,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationPlayerGame);
         Button seeHintButton = view.findViewById(R.id.buttonSeeHint);
 
-        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.HintOnly, getContext());
+        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.Player, getContext());
 
         // set buttons behavior
 

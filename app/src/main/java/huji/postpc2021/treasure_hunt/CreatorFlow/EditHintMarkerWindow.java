@@ -49,7 +49,7 @@ public class EditHintMarkerWindow extends InfoWindow {
         this.relatedClue = CreatorViewModel.getInstance().cluesLiveData.getValue().get(relatedMarker.getId());
 
         hintContentEditText = mView.findViewById(R.id.editTextHintContent);
-        ratingBar = mView.findViewById(R.id.ratingBar);
+        ratingBar = mView.findViewById(R.id.ratingBarEditHint);
         TextView clueIndexTextView = mView.findViewById(R.id.textViewHintIndexEditMarkerWindow);
         ImageView saveButton = mView.findViewById(R.id.buttonSaveHint);
         ImageView deleteButton = mView.findViewById(R.id.buttonDeleteHint);

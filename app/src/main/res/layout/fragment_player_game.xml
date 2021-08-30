@@ -80,8 +80,7 @@
         android:layout_gravity="start"
         android:background="@drawable/drawer_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,8 +92,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="64dp"
-                android:text="Players Score List"
-                android:textSize="24sp" />
+                android:fontFamily="@string/app_font"
+                android:text="@string/score_list"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewScoreListInDrawer"

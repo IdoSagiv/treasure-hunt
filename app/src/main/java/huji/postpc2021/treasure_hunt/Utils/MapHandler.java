@@ -27,10 +27,10 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Collection;
 
+import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorSeeHintMarkerWindow;
 import huji.postpc2021.treasure_hunt.CreatorFlow.EditHintMarkerWindow;
-import huji.postpc2021.treasure_hunt.PlayerFlow.SeeHintMarkerWindow;
+import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerSeeHintMarkerWindow;
 import huji.postpc2021.treasure_hunt.R;
-import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -48,6 +48,69 @@ public class MapHandler {
     private OnMapLongPressCallback longPressCallback = null;
     public OnLocationChangedCallback locationChangedCallback = null;
     private final Context context;
+
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
+        this(mapView, markersType, context, DEFAULT_START_POINT);
+    }
+
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType, Context context, GeoPoint startPoint) {
+        this.startPoint = startPoint;
+        this.mMapView = mapView;
+        this.context = context;
+        this.markersType = markersType;
+
+        initMap();
+    }
+
+    private void showHintOnMap(Clue clue) {
+        GeoPoint location = clue.location();
+
+        Marker myMarker = new Marker(mMapView);
+        myMarker.setId(clue.getId());
+        myMarker.setPosition(location);
+        myMarker.setTitle(clue.getDescription());
+        myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+
+        // default icon
+//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_general_marker, context.getTheme()));
+
+//        todo: implement
+        switch (markersType) {
+            case Player: {
+                // icon - default (according to the marker index?)
+                myMarker.setInfoWindow(new PlayerSeeHintMarkerWindow(R.layout.player_see_hint_marker_window, mMapView, myMarker));
+                break;
+            }
+            case CreatorEdit: {
+                // icon - default (according to the marker index?)
+                myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
+                break;
+            }
+            case CreatorInPlay: {
+                // marker icon according to the players who saw it (??)
+                myMarker.setInfoWindow(new CreatorSeeHintMarkerWindow(R.layout.creator_see_hint_marker_window, mMapView, myMarker));
+                break;
+            }
+        }
+
+        myMarker.setOnMarkerClickListener((marker, mapView) -> {
+            if (marker.isInfoWindowShown()) {
+                InfoWindow.closeAllInfoWindowsOn(mapView);
+            } else {
+                InfoWindow.closeAllInfoWindowsOn(mapView);
+                marker.showInfoWindow();
+            }
+            return false;
+        });
+
+        mMapView.getOverlays().add(myMarker);
+    }
 
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
@@ -72,25 +135,6 @@ public class MapHandler {
         public void onProviderDisabled(String s) {
         }
     };
-
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
-        this(mapView, markersType, context, DEFAULT_START_POINT);
-    }
-
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, MarkersType markersType, Context context, GeoPoint startPoint) {
-        this.startPoint = startPoint;
-        this.mMapView = mapView;
-        this.context = context;
-        this.markersType = markersType;
-
-        initMap();
-    }
 
     public void initMap() {
         // initialize the map
@@ -134,48 +178,10 @@ public class MapHandler {
 //        addScaleBarOnMap();
     }
 
-    private void showHintOnMap(Clue clue) {
-        GeoPoint location = clue.location();
-
-        Marker myMarker = new Marker(mMapView);
-        myMarker.setId(clue.getId());
-        myMarker.setPosition(location);
-        myMarker.setTitle(clue.getDescription());
-        myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-
-        // default icon
-//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_general_marker, context.getTheme()));
-
-//        todo: implement
-        switch (markersType) {
-            case HintOnly: {
-                // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new SeeHintMarkerWindow(R.layout.player_see_hint_marker_window, mMapView, myMarker));
-                break;
-            }
-            case EditHint: {
-                // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
-                break;
-            }
-            case HintAndPlayers: {
-                // marker window with the list of players who saw the hint
-                // marker icon according to the players who saw it (??)
-                break;
-            }
-        }
-
-        myMarker.setOnMarkerClickListener((marker, mapView) -> {
-            if (marker.isInfoWindowShown()) {
-                InfoWindow.closeAllInfoWindowsOn(mapView);
-            } else {
-                InfoWindow.closeAllInfoWindowsOn(mapView);
-                marker.showInfoWindow();
-            }
-            return false;
-        });
-
-        mMapView.getOverlays().add(myMarker);
+    public enum MarkersType {
+        Player,
+        CreatorEdit,
+        CreatorInPlay
     }
 
     private void addMyLocationIconOnMap() {
@@ -226,12 +232,6 @@ public class MapHandler {
                 centerMap(marker.getPosition());
             }
         }
-    }
-
-    public enum MarkersType {
-        HintOnly,
-        EditHint,
-        HintAndPlayers
     }
 
     public void setLongPressCallback(OnMapLongPressCallback longPressCallback) {
