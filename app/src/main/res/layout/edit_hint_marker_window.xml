@@ -40,6 +40,17 @@
                 app:layout_constraintVertical_weight="1"
                 tools:text="#1" />
 
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/CustomRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:stepSize="1"
+                tools:rating="1" />
+
             <EditText
                 android:id="@+id/editTextHintContent"
                 android:layout_width="match_parent"
@@ -47,6 +58,7 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="2dp"
                 android:hint="@string/clue_desc_edit_text_hint"
+                android:scrollbars="vertical"
                 android:textAlignment="textStart"
                 app:layout_constraintVertical_weight="2" />
         </LinearLayout>

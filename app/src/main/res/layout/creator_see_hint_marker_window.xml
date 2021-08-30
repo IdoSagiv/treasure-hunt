@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/hint_bubble"
     android:minWidth="200dp"
-    android:minHeight="100dp">
+    android:minHeight="120dp">
 
     <TextView
         android:id="@+id/textViewHintIndexSeeMarkerWindow"
@@ -22,33 +22,51 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="#1" />
 
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/CustomRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:stepSize="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHintIndexSeeMarkerWindow"
+        tools:rating="1" />
+
     <TextView
         android:id="@+id/textViewVisited"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/clue_desc_edit_text_hint"
         android:maxLines="1"
         android:textAlignment="center"
         android:textSize="12sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHintIndexSeeMarkerWindow"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHintContent"
         tools:text="visited: 7/10" />
 
     <TextView
         android:id="@+id/textViewHintContent"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
+        android:lines="2"
         android:scrollbars="vertical"
         android:textAlignment="textStart"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textViewVisited"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewVisited"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
         tools:text="the hint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
