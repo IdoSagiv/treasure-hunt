@@ -52,8 +52,7 @@ public class CreatorViewModel extends ViewModel {
         }
 
         int index = game.getClues().size() + 1;
-        Clue clue = new Clue("", index,
-                new com.google.firebase.firestore.GeoPoint(p.getLatitude(), p.getLongitude()));
+        Clue clue = new Clue("", index, p);
         game.upsertClue(clue);
         cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
 

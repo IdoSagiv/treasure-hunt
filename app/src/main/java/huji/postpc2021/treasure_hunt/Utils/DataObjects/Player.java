@@ -7,15 +7,14 @@ public class Player {
     private String nickname;
     private int score;
     private String gameId;
-    private String currentClueId;
+    private int clueIndex;
 
     public Player(String nickname, String gameId) {
         this.id = UUID.randomUUID().toString();
         this.nickname = nickname;
         this.gameId = gameId;
         this.score = 0;
-//        todo: initialize the currentClueId (using the game?)
-        this.currentClueId = "0";
+        this.clueIndex = 0;
     }
 
     // empty constructor for firebase
@@ -38,7 +37,11 @@ public class Player {
         return gameId;
     }
 
-    public String getCurrentClueId() {
-        return currentClueId;
+    public int getClueIndex() {
+        return clueIndex;
+    }
+
+    public void incClueIndex() {
+        this.clueIndex++;
     }
 }

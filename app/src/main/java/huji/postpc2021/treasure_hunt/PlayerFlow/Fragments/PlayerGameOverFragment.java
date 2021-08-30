@@ -13,12 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
+
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
 import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 
 public class PlayerGameOverFragment extends Fragment {
     private PlayerViewModel playerViewModel;
+    private final HashMap<String, Player> finishedPlayers = new HashMap<>();
 
     public PlayerGameOverFragment() {
         // Required empty public constructor
@@ -44,9 +48,14 @@ public class PlayerGameOverFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
-        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game ->
-                adapter.setItems(game.getPlayers().values())
-        );
+        playerViewModel.gameLiveData.observe(getViewLifecycleOwner(), game -> {
+            for (Player player : game.getPlayers().values()) {
+                if (playerViewModel.isFinishedGame(player.getId())) {
+                    finishedPlayers.put(player.getId(), player);
+                }
+            }
+            adapter.setItems(finishedPlayers.values());
+        });
 
         // on back pressed callback for this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

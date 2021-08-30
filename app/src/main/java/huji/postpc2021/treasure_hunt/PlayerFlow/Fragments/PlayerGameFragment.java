@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -21,8 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
+import huji.postpc2021.treasure_hunt.Utils.MessageBoxDialog;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
@@ -32,6 +35,7 @@ import huji.postpc2021.treasure_hunt.R;
 public class PlayerGameFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout scoreListDrawerLayout;
     private PlayerViewModel playerViewModel;
+    private MapHandler mapHandler;
 
     public PlayerGameFragment() {
         // Required empty public constructor
@@ -48,8 +52,9 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         ImageView openScoreListButton = view.findViewById(R.id.buttonSeeScore);
         ImageView exitGameButton = view.findViewById(R.id.buttonExitGamePlayerGame);
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationPlayerGame);
+        Button seeHintButton = view.findViewById(R.id.buttonSeeHint);
 
-        MapHandler mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.HintOnly);
+        mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.HintOnly);
 
         // set buttons behavior
 
@@ -60,8 +65,18 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         exitGameButton.setOnClickListener(v -> leaveGame(view));
 
+        seeHintButton.setOnClickListener(v -> showNextClueHint("Next hint"));
 
         return view;
+    }
+
+    private void showNextClueHint(String title) {
+        MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+        dialog.setTitle(title)
+                .setMessage(playerViewModel.getCurrentClueHint())
+                .setOkButton("Ok", v -> {
+                })
+                .show();
     }
 
     @Override
@@ -80,11 +95,41 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
             if (game != null) {
                 adapter.setItems(game.getPlayers().values());
                 if (game.getStatus() == GameStatus.finished) {
-//                        playerViewModel.gameOver();  todo
-                    Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToPlayerGameOver());
+                    playerViewModel.gameOver(view);
+
+                    return;
                 }
+
+                // show the found hints
+                mapHandler.showHints(playerViewModel.getHintsUntil(game.getPlayer(playerViewModel.currentPlayerId()).getClueIndex()));
             }
         });
+
+        mapHandler.locationChangedCallback = location -> {
+            GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+            if (playerViewModel.isCloseEnoughToClue(userLocation)) {
+                // todo: open AR
+                playerViewModel.clueFound();
+
+                if (playerViewModel.isFinishedGame(playerViewModel.currentPlayerId())) {
+                    // found the last hint
+                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+                    dialog.setTitle("Congrats!")
+                            .setMessage("You found all hints!")
+                            .setOkButton("Ok", v -> {
+                            })
+                            .show();
+                    playerViewModel.gameOver(view);
+                } else {
+                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+                    dialog.setTitle("Congrats!")
+                            .setMessage("You found a hint!\nGo search for the next one")
+                            .setOkButton("Ok", v -> {
+                            })
+                            .show();
+                }
+            }
+        };
 
         // on back pressed callback for this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -98,6 +143,10 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
+
+        // show the first hint at the beginning
+        showNextClueHint("Get your first hint");
     }
 
     private void leaveGame(View view) {

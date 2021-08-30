@@ -1,6 +1,7 @@
 package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -82,10 +83,30 @@ public class Game {
     }
 
     public Clue getClue(String clueId) {
-        if (clues.containsKey(clueId)) {
-            return clues.get(clueId);
+        return clues.get(clueId);
+    }
+
+    public List<Clue> getCluesUntil(int index) {
+        if (index < 0) {
+            return null;
         }
-        return null;
+        ArrayList<Clue> sortedClues = new ArrayList<>(clues.values());
+        Collections.sort(sortedClues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+
+        if (index >= clues.size()) {
+            return sortedClues;
+        }
+
+        return sortedClues.subList(0, index);
+    }
+
+    public Clue getClue(int index) {
+        if (index < 0 || index >= clues.size()) {
+            return null;
+        }
+        ArrayList<Clue> sortedClues = new ArrayList<>(clues.values());
+        Collections.sort(sortedClues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+        return sortedClues.get(index);
     }
 
     public HashMap<String, Clue> getClues() {
@@ -94,6 +115,10 @@ public class Game {
 
     public HashMap<String, Player> getPlayers() {
         return new HashMap<>(players);
+    }
+
+    public Player getPlayer(String playerId) {
+        return players.get(playerId);
     }
 
     public String getName() {
@@ -106,6 +131,14 @@ public class Game {
 
     public void updateName(String name) {
         this.name = name;
+        TreasureHuntApp.getInstance().getDb().upsertGame(this);
+    }
+
+    public void foundClue(String playerId) {
+        Player player = players.get(playerId);
+        if (player != null) {
+            player.incClueIndex();
+        }
         TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
 }

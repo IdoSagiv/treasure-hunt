@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +26,7 @@ import org.osmdroid.views.MapView;
 import huji.postpc2021.treasure_hunt.CreatorFlow.ClueLocationAdapter;
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
 import huji.postpc2021.treasure_hunt.CreatorFlow.SwipeToDeleteClueCallback;
+import huji.postpc2021.treasure_hunt.Utils.MessageBoxDialog;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.R;
 
@@ -67,14 +67,13 @@ public class CreatorEditGameFragment extends Fragment {
         launchGameButton.setOnClickListener(v ->
         {
             if (!creatorViewModel.launchGame(view)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setMessage("Game should include at least 3 clues")
-                        .setPositiveButton("ok", (dialog, which) -> {
+                MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+                dialog.setTitle("Notice")
+                        .setMessage("Game should include at least 3 clues")
+                        .setOkButton("Ok", v1 -> {
                         })
                         .show();
-
             }
-            //TODO: change the popup
         });
 
         gameNameEditText.setText(creatorViewModel.currentGame.getValue().getName());

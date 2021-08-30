@@ -11,8 +11,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.Navigation;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
+import huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameFragmentDirections;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
@@ -20,10 +26,11 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class PlayerViewModel extends ViewModel {
+    private static final double THRESHOLD_DISTANCE = 10d;
     private static PlayerViewModel instance = null;
     private final LocalDB db;
     public LiveData<Game> gameLiveData = new MutableLiveData<>();
-    private Player currentPlayer;
+    private String currentPlayerId;
 
     public final MutableLiveData<String> gameCode = new MutableLiveData<>("");
     public final MutableLiveData<String> nickName = new MutableLiveData<>("");
@@ -65,18 +72,16 @@ public class PlayerViewModel extends ViewModel {
             }
         }
 
-        currentPlayer = new Player(nickName.getValue(), gameLiveData.getValue().getId());
+        Player player = new Player(nickName.getValue(), gameLiveData.getValue().getId());
 
-        game.addPlayer(currentPlayer);
+        game.addPlayer(player);
+        currentPlayerId = player.getId();
 
         Navigation.findNavController(view).navigate(R.id.action_enterGame_to_waitForGame);
     }
 
     public String currentPlayerId() {
-        if (currentPlayer == null) {
-            return "";
-        }
-        return currentPlayer.getId();
+        return currentPlayerId;
     }
 
     public void leaveGameFromWaitScreen(View view) {
@@ -97,11 +102,64 @@ public class PlayerViewModel extends ViewModel {
     private void resetGameData() {
         Game game = gameLiveData.getValue();
         if (game != null) {
-            game.removePlayer(currentPlayer.getId());
+            game.removePlayer(currentPlayerId);
         }
-        currentPlayer = null;
+        currentPlayerId = null;
         gameLiveData = new MediatorLiveData<>();
         gameCode.setValue("");
         nickName.setValue("");
+    }
+
+    public String getCurrentClueHint() {
+        Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("PlayerGame", "null game value while trying to get clue");
+            return "";
+        }
+
+        Clue clue = game.getClue(game.getPlayer(currentPlayerId).getClueIndex());
+        return clue != null ? clue.getDescription() : "";
+    }
+
+    public Collection<Clue> getHintsUntil(Integer clueIndex) {
+        Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("PlayerGame", "null game value while trying to get clues");
+            return new ArrayList<>();
+        }
+
+        return game.getCluesUntil(clueIndex);
+    }
+
+
+    public boolean isCloseEnoughToClue(GeoPoint userLocation) {
+        Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("PlayerGame", "null game value while trying to get clues");
+            return false;
+        }
+
+        Clue clue = game.getClue(game.getPlayer(currentPlayerId).getClueIndex());
+        return clue.location().distanceToAsDouble(userLocation) < THRESHOLD_DISTANCE;
+    }
+
+    public void clueFound() {
+        Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("PlayerGame", "null game value");
+            return;
+        }
+        game.foundClue(currentPlayerId);
+    }
+
+    public void gameOver(View view) {
+        Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToPlayerGameOver());
+    }
+
+    public boolean isFinishedGame(String playerId) {
+        Game game = gameLiveData.getValue();
+        Player player = game.getPlayer(playerId);
+        // todo: ==size? or ==size-1?
+        return player.getClueIndex() >= game.getClues().size();
     }
 }

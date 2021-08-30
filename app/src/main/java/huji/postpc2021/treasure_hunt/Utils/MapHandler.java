@@ -28,6 +28,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.Collection;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.EditHintMarkerWindow;
+import huji.postpc2021.treasure_hunt.PlayerFlow.SeeHintMarkerWindow;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
@@ -45,6 +46,7 @@ public class MapHandler {
     private final MarkersType markersType;
 
     private OnMapLongPressCallback longPressCallback = null;
+    public OnLocationChangedCallback locationChangedCallback = null;
     private final Context context;
 
     /**
@@ -63,6 +65,10 @@ public class MapHandler {
                 mapToCurrentLocation();
             }
             currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+            if (locationChangedCallback != null) {
+                locationChangedCallback.onLocationChanged(location);
+            }
         }
 
         @Override
@@ -129,7 +135,7 @@ public class MapHandler {
     }
 
     private void showHintOnMap(Clue clue) {
-        GeoPoint location = new GeoPoint(clue.getLocation().getLatitude(), clue.getLocation().getLongitude());
+        GeoPoint location = clue.location();
 
         Marker myMarker = new Marker(mMapView);
         myMarker.setId(clue.getId());
