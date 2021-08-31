@@ -112,8 +112,8 @@ public class Game {
         }
     }
 
-    public void upsertClue(Clue newClue) {
-        clues.put(newClue.getId(), newClue);
+    public void upsertClue(Clue clue) {
+        clues.put(clue.getId(), clue);
         TreasureHuntApp.getInstance().getDb().upsertGame(this);
     }
 

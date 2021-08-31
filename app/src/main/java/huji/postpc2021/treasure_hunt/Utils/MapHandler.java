@@ -45,9 +45,52 @@ public class MapHandler {
     private GeoPoint currentLocation = null;
     private final MarkersType markersType;
 
-    private OnMapLongPressCallback longPressCallback = null;
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            if (currentLocation == null && startPoint != DEFAULT_START_POINT) {
+                // on the first update -> animate to current location
+                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+                mapToCurrentLocation();
+            }
+            currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+            if (locationChangedCallback != null) {
+                locationChangedCallback.onLocationChanged(location);
+            }
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+        }
+    };
     public OnLocationChangedCallback locationChangedCallback = null;
+    public OnMapLongPressCallback longPressCallback = null;
     private final Context context;
+    public Marker.OnMarkerDragListener markerDragListener = null;
+
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
+        this(mapView, markersType, context, DEFAULT_START_POINT);
+    }
+
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType, Context context, GeoPoint startPoint) {
+        this.startPoint = startPoint;
+        this.mMapView = mapView;
+        this.context = context;
+        this.markersType = markersType;
+
+        initMap();
+    }
 
     public void initMap() {
         // initialize the map
@@ -84,25 +127,6 @@ public class MapHandler {
 //        addScaleBarOnMap();
     }
 
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
-        this(mapView, markersType, context, DEFAULT_START_POINT);
-    }
-
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, MarkersType markersType, Context context, GeoPoint startPoint) {
-        this.startPoint = startPoint;
-        this.mMapView = mapView;
-        this.context = context;
-        this.markersType = markersType;
-
-        initMap();
-    }
-
     private void showHintOnMap(Clue clue) {
         GeoPoint location = clue.location();
 
@@ -120,16 +144,22 @@ public class MapHandler {
             case Player: {
                 // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new PlayerSeeHintMarkerWindow(R.layout.marker_window_player_see_hint, mMapView, myMarker));
+                myMarker.setDraggable(false);
                 break;
             }
             case CreatorEdit: {
                 // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.marker_window_edit_hint, mMapView, myMarker));
+                myMarker.setDraggable(true);
+                if (markerDragListener != null) {
+                    myMarker.setOnMarkerDragListener(markerDragListener);
+                }
                 break;
             }
             case CreatorInPlay: {
                 // marker icon according to the players who saw it (??)
                 myMarker.setInfoWindow(new CreatorSeeHintMarkerWindow(R.layout.marker_window_creator_see_hint, mMapView, myMarker));
+                myMarker.setDraggable(false);
                 break;
             }
         }
@@ -147,29 +177,9 @@ public class MapHandler {
         mMapView.getOverlays().add(myMarker);
     }
 
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            if (currentLocation == null && startPoint != DEFAULT_START_POINT) {
-                // on the first update -> animate to current location
-                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-                mapToCurrentLocation();
-            }
-            currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-
-            if (locationChangedCallback != null) {
-                locationChangedCallback.onLocationChanged(location);
-            }
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-        }
-    };
+    public void closeAllMarkers() {
+        InfoWindow.closeAllInfoWindowsOn(mMapView);
+    }
 
     public void stopLocationUpdates() {
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
@@ -187,12 +197,6 @@ public class MapHandler {
         } else {
             Log.e("MapHandler", "missing permissions for location updates");
         }
-    }
-
-    public enum MarkersType {
-        Player,
-        CreatorEdit,
-        CreatorInPlay
     }
 
     private void addMyLocationIconOnMap() {
@@ -245,12 +249,10 @@ public class MapHandler {
         }
     }
 
-    public void closeAllMarkers(){
-        InfoWindow.closeAllInfoWindowsOn(mMapView);
-    }
-
-    public void setLongPressCallback(OnMapLongPressCallback longPressCallback) {
-        this.longPressCallback = longPressCallback;
+    public enum MarkersType {
+        Player,
+        CreatorEdit,
+        CreatorInPlay
     }
 
     public void showHints(Collection<Clue> clues) {

@@ -81,4 +81,9 @@ public class Clue {
     public int getIndex() {
         return index;
     }
+
+    public void setLocation(GeoPoint location) {
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
+    }
 }

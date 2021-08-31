@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.ClueLocationAdapter;
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
@@ -123,8 +124,23 @@ public class CreatorEditGameFragment extends Fragment {
             }
         });
 
-        mapHandler.setLongPressCallback(creatorViewModel::addClue);
-        mapHandler.setLongPressCallback(p -> mapHandler.openMarker(creatorViewModel.addClue(p)));
+        mapHandler.longPressCallback = p -> mapHandler.openMarker(creatorViewModel.addClue(p));
+        mapHandler.markerDragListener = new Marker.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDrag(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                creatorViewModel.changeClueLocation(marker.getId(), marker.getPosition());
+            }
+
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                mapHandler.closeAllMarkers();
+            }
+        };
+
     }
 
     private void initializeSettingsDrawer(View view) {

@@ -264,4 +264,16 @@ public class CreatorViewModel extends ViewModel {
         game.changeClueIndex(clueId, newPosition + 1);
         cluesMutableLiveData.setValue(game.getClues());
     }
+
+    public void changeClueLocation(String cluId, GeoPoint newLocation) {
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorDoneEditing", "null game value");
+            return;
+        }
+        Clue clue = game.getClue(cluId);
+        clue.setLocation(newLocation);
+        game.upsertClue(clue);
+        cluesMutableLiveData.setValue(game.getClues());
+    }
 }
