@@ -26,6 +26,7 @@ import huji.postpc2021.treasure_hunt.Utils.InputBoxDialog;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
+import huji.postpc2021.treasure_hunt.Utils.UtilsFunctions;
 
 
 public class CreatorLoginFragment extends Fragment {
@@ -52,7 +53,8 @@ public class CreatorLoginFragment extends Fragment {
                 Navigation.findNavController(view)
                         .navigate(CreatorLoginFragmentDirections.actionCreatorLoginToCreatorRegister()));
 
-        creatorLoginButton.setOnClickListener(v ->
+        creatorLoginButton.setOnClickListener(v -> {
+            if (UtilsFunctions.validateEmail(emailEditText) & validatePassword(passwordEditText)) {
                 db.auth.signInWithEmailAndPassword(emailEditText.getText().toString(),
                         passwordEditText.getText().toString()).addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
@@ -64,7 +66,9 @@ public class CreatorLoginFragment extends Fragment {
                         Log.w("CreatorLoginFragment", "signInWithEmail:failure", task.getException());
                         Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
                     }
-                }));
+                });
+            }
+        });
 
         forgotPassButton.setOnClickListener(v -> {
             InputBoxDialog dialog = new InputBoxDialog(requireActivity());
@@ -72,19 +76,7 @@ public class CreatorLoginFragment extends Fragment {
                     .setNegativeButton("cancel", null)
                     .setPositiveButton("send", v1 -> db.auth.sendPasswordResetEmail(dialog.getInput()))
                     .setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                    .setInputValidation(editText -> {
-                        String emailInput = editText.getText().toString().trim();
-                        if (emailInput.isEmpty()) {
-                            editText.setError("Field can't be empty");
-                            return false;
-                        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-                            editText.setError("Please enter a valid email address");
-                            return false;
-                        } else {
-                            editText.setError(null);
-                            return true;
-                        }
-                    })
+                    .setInputValidation(UtilsFunctions::validateEmail)
                     .show();
         });
 
@@ -109,5 +101,17 @@ public class CreatorLoginFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+    }
+
+    private boolean validatePassword(EditText passEditText) {
+        String passwordInput = passEditText.getText().toString().trim();
+
+        if (passwordInput.isEmpty()) {
+            passEditText.setError("Field can't be empty");
+            return false;
+        } else {
+            passEditText.setError(null);
+            return true;
+        }
     }
 }

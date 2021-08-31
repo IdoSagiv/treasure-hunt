@@ -22,14 +22,15 @@ public class InputBoxDialog {
     public InputBoxDialog(Activity activity) {
         dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_input_box_layout);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
     }
 
     public InputBoxDialog setInputValidation(InputValidationFunction inputValidation) {
         EditText inputEditText = dialog.findViewById(R.id.editTextDialogInput);
         FloatingActionButton fabPos = dialog.findViewById(R.id.fabPositiveButton);
+        fabPos.setEnabled(false);
         inputEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,7 +48,7 @@ public class InputBoxDialog {
         return this;
     }
 
-    public InputBoxDialog setInputType(int type){
+    public InputBoxDialog setInputType(int type) {
         EditText inputEditText = dialog.findViewById(R.id.editTextDialogInput);
         inputEditText.setInputType(type);
         return this;

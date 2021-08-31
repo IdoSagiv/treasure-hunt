@@ -21,6 +21,7 @@ import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
+import huji.postpc2021.treasure_hunt.Utils.UtilsFunctions;
 
 public class CreatorRegisterFragment extends Fragment {
     private static final Pattern PASSWORD_PATTERN =
@@ -60,14 +61,13 @@ public class CreatorRegisterFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button sighInBtn = view.findViewById(R.id.buttonSignIn);
 
         sighInBtn.setOnClickListener(v -> {
-            if (!validateEmail() | !validatePassword() | !validateRePassword()) {
+            if (!UtilsFunctions.validateEmail(emailEditText) | !validatePassword() | !validateRePassword()) {
                 return;
             }
 
@@ -86,7 +86,6 @@ public class CreatorRegisterFragment extends Fragment {
             });
         });
     }
-
 
     private boolean validatePassword() {
         String passwordInput = passEditText.getText().toString().trim();
@@ -114,20 +113,5 @@ public class CreatorRegisterFragment extends Fragment {
             return false;
         }
         return true;
-    }
-
-    private boolean validateEmail() {
-        String emailInput = emailEditText.getText().toString().trim();
-
-        if (emailInput.isEmpty()) {
-            emailEditText.setError("Field can't be empty");
-            return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            emailEditText.setError("Please enter a valid email address");
-            return false;
-        } else {
-            emailEditText.setError(null);
-            return true;
-        }
     }
 }
