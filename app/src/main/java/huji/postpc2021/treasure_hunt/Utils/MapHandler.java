@@ -84,17 +84,17 @@ public class MapHandler {
         switch (markersType) {
             case Player: {
                 // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new PlayerSeeHintMarkerWindow(R.layout.player_see_hint_marker_window, mMapView, myMarker));
+                myMarker.setInfoWindow(new PlayerSeeHintMarkerWindow(R.layout.marker_window_player_see_hint, mMapView, myMarker));
                 break;
             }
             case CreatorEdit: {
                 // icon - default (according to the marker index?)
-                myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.edit_hint_marker_window, mMapView, myMarker));
+                myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.marker_window_edit_hint, mMapView, myMarker));
                 break;
             }
             case CreatorInPlay: {
                 // marker icon according to the players who saw it (??)
-                myMarker.setInfoWindow(new CreatorSeeHintMarkerWindow(R.layout.creator_see_hint_marker_window, mMapView, myMarker));
+                myMarker.setInfoWindow(new CreatorSeeHintMarkerWindow(R.layout.marker_window_creator_see_hint, mMapView, myMarker));
                 break;
             }
         }
