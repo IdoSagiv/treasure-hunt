@@ -15,19 +15,25 @@ import huji.postpc2021.treasure_hunt.R;
 
 public class SwipeToDeleteClueCallback extends ItemTouchHelper.SimpleCallback {
     private final ClueLocationAdapter mAdapter;
-    private final Drawable icon;
+    private final Drawable deleteIcon;
     private final ColorDrawable background;
 
     public SwipeToDeleteClueCallback(ClueLocationAdapter adapter) {
-        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+//        super(0, ItemTouchHelper.START | ItemTouchHelper.END);
+        super(0, ItemTouchHelper.END);
         mAdapter = adapter;
-        icon = ContextCompat.getDrawable(mAdapter.getContext(), R.drawable.ic_delete);
+        deleteIcon = ContextCompat.getDrawable(mAdapter.getContext(), R.drawable.ic_delete);
         background = new ColorDrawable(Color.RED);
     }
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         return false;
+    }
+    @Override
+    public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
+        viewHolder.itemView.setAlpha(1f);
     }
 
     @Override
@@ -43,21 +49,21 @@ public class SwipeToDeleteClueCallback extends ItemTouchHelper.SimpleCallback {
         View itemView = viewHolder.itemView;
         int backgroundCornerOffset = 20; //so background is behind the rounded corners of itemView
 
-        int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-        int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-        int iconBottom = iconTop + icon.getIntrinsicHeight();
+        int iconMargin = (itemView.getHeight() - deleteIcon.getIntrinsicHeight()) / 2;
+        int iconTop = itemView.getTop() + (itemView.getHeight() - deleteIcon.getIntrinsicHeight()) / 2;
+        int iconBottom = iconTop + deleteIcon.getIntrinsicHeight();
 
         if (dX > 0) { // Swiping to the right
             int iconLeft = itemView.getLeft() + iconMargin;
-            int iconRight = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
-            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            int iconRight = itemView.getLeft() + iconMargin + deleteIcon.getIntrinsicWidth();
+            deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
             background.setBounds(itemView.getLeft(), itemView.getTop(),
                     itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
         } else if (dX < 0) { // Swiping to the left
-            int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+            int iconLeft = itemView.getRight() - iconMargin - deleteIcon.getIntrinsicWidth();
             int iconRight = itemView.getRight() - iconMargin;
-            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
             background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
@@ -66,6 +72,6 @@ public class SwipeToDeleteClueCallback extends ItemTouchHelper.SimpleCallback {
         }
 
         background.draw(c);
-        if (Math.abs(dX) > icon.getIntrinsicWidth()) icon.draw(c);
+        if (Math.abs(dX) > deleteIcon.getIntrinsicWidth()) deleteIcon.draw(c);
     }
 }

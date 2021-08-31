@@ -254,4 +254,14 @@ public class CreatorViewModel extends ViewModel {
     public void leaveLoginScreen(View view) {
         Navigation.findNavController(view).navigate(R.id.action_creatorLogin_to_homeScreen);
     }
+
+    public void changeClueIndex(String clueId, int newPosition) {
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorDoneEditing", "null game value");
+            return;
+        }
+        game.changeClueIndex(clueId, newPosition + 1);
+        cluesMutableLiveData.setValue(game.getClues());
+    }
 }

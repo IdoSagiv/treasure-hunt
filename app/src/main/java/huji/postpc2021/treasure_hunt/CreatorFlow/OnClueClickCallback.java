@@ -1,4 +1,4 @@
-package huji.postpc2021.treasure_hunt.Utils;
+package huji.postpc2021.treasure_hunt.CreatorFlow;
 
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 

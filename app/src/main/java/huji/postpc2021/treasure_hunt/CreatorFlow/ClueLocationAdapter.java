@@ -2,6 +2,7 @@ package huji.postpc2021.treasure_hunt.CreatorFlow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,15 +13,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import huji.postpc2021.treasure_hunt.ReorderCluesCallback;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.R;
-import huji.postpc2021.treasure_hunt.Utils.OnClueClickCallback;
+import huji.postpc2021.treasure_hunt.Utils.OnViewHolderClickCallback;
 
 public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHolder> {
     private final ArrayList<Clue> clues = new ArrayList<>();
     private final Context context;
     public OnClueClickCallback goToMarkerBtnCallback = null;
     public OnClueClickCallback onDeleteCallback = null;
+    public OnViewHolderClickCallback startDragCallback = null;
+    public ReorderCluesCallback reorderClue = null;
 
     public ClueLocationAdapter(Context context) {
         super();
@@ -40,7 +44,15 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
     public ClueLocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.clue_location_item, parent, false);
-        return new ClueLocationViewHolder(view);
+        ClueLocationViewHolder viewHolder = new ClueLocationViewHolder(view);
+        viewHolder.dragHandleButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN && startDragCallback != null) {
+                startDragCallback.onClick(viewHolder);
+            }
+            return true;
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -53,7 +65,6 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
                 goToMarkerBtnCallback.onClick(clue);
             }
         });
-        // todo: set onClickListener to the button
     }
 
     @Override
@@ -70,5 +81,13 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
 
     public Context getContext() {
         return context;
+    }
+
+    public void moveItem(int from, int to) {
+        if (reorderClue != null) {
+            Clue movedClue = clues.get(from);
+            reorderClue.moveClue(movedClue.getId(), to);
+        }
+//        notifyDataSetChanged();
     }
 }

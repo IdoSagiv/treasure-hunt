@@ -25,6 +25,7 @@ import org.osmdroid.views.MapView;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.ClueLocationAdapter;
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.CreatorFlow.DragToRearrangeCluesCallback;
 import huji.postpc2021.treasure_hunt.CreatorFlow.SwipeToDeleteClueCallback;
 import huji.postpc2021.treasure_hunt.Utils.MessageBoxDialog;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
@@ -62,7 +63,10 @@ public class CreatorEditGameFragment extends Fragment {
 
         centerMapButton.setOnClickListener(c -> mapHandler.mapToCurrentLocation());
 
-        openHintsDrawerButton.setOnClickListener(v -> gameSettingsDrawerLayout.openDrawer(GravityCompat.START));
+        openHintsDrawerButton.setOnClickListener(v -> {
+            mapHandler.closeAllMarkers();
+            gameSettingsDrawerLayout.openDrawer(GravityCompat.START);
+        });
 
         launchGameButton.setOnClickListener(v ->
         {
@@ -131,8 +135,10 @@ public class CreatorEditGameFragment extends Fragment {
         recyclerView.setAdapter(clueLocationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteClueCallback(clueLocationAdapter));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper swipeTouchHelper = new ItemTouchHelper(new SwipeToDeleteClueCallback(clueLocationAdapter));
+        swipeTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper dragTouchHelper = new ItemTouchHelper(new DragToRearrangeCluesCallback(clueLocationAdapter));
+        dragTouchHelper.attachToRecyclerView(recyclerView);
 
         clueLocationAdapter.goToMarkerBtnCallback = clue -> {
             gameSettingsDrawerLayout.closeDrawer(GravityCompat.START);
@@ -140,6 +146,8 @@ public class CreatorEditGameFragment extends Fragment {
         };
 
         clueLocationAdapter.onDeleteCallback = clue -> creatorViewModel.removeClue(clue.getId());
+        clueLocationAdapter.startDragCallback = dragTouchHelper::startDrag;
+        clueLocationAdapter.reorderClue = creatorViewModel::changeClueIndex;
 
         Button deleteGameButton = view.findViewById(R.id.buttonDeleteGameEditGameScreen);
         deleteGameButton.setOnClickListener(v -> {

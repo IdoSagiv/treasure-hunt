@@ -14,6 +14,7 @@ public class ClueLocationViewHolder extends RecyclerView.ViewHolder {
     TextView clueDescriptionTextView;
     TextView clueIndexTextView;
     ImageView goToClueButton;
+    ImageView dragHandleButton;
 
     public ClueLocationViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -21,5 +22,6 @@ public class ClueLocationViewHolder extends RecyclerView.ViewHolder {
         this.clueDescriptionTextView = itemView.findViewById(R.id.textViewClueDescription);
         this.clueIndexTextView = itemView.findViewById(R.id.textViewClueIndex);
         this.goToClueButton = itemView.findViewById(R.id.buttonGoToClueLocation);
+        this.dragHandleButton = itemView.findViewById(R.id.buttonDragHandle);
     }
 }

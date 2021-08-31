@@ -117,7 +117,7 @@ public class PlayerViewModel extends ViewModel {
             return "";
         }
 
-        Clue clue = game.getClue(game.getPlayer(currentPlayerId).getClueIndex());
+        Clue clue = game.getClueAt(game.getPlayer(currentPlayerId).getClueIndex());
         return clue != null ? clue.getDescription() : "";
     }
 
@@ -139,7 +139,7 @@ public class PlayerViewModel extends ViewModel {
             return false;
         }
 
-        Clue clue = game.getClue(game.getPlayer(currentPlayerId).getClueIndex());
+        Clue clue = game.getClueAt(game.getPlayer(currentPlayerId).getClueIndex());
         return clue.location().distanceToAsDouble(userLocation) < THRESHOLD_DISTANCE;
     }
 

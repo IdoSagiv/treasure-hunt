@@ -245,6 +245,10 @@ public class MapHandler {
         }
     }
 
+    public void closeAllMarkers(){
+        InfoWindow.closeAllInfoWindowsOn(mMapView);
+    }
+
     public void setLongPressCallback(OnMapLongPressCallback longPressCallback) {
         this.longPressCallback = longPressCallback;
     }
