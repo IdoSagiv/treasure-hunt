@@ -49,6 +49,41 @@ public class MapHandler {
     public OnLocationChangedCallback locationChangedCallback = null;
     private final Context context;
 
+    public void initMap() {
+        // initialize the map
+        mMapView.getOverlay().clear();
+        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+        mMapView.setMultiTouchControls(true);
+        mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+        mMapView.setMaxZoomLevel(MAP_MAX_ZOOM);
+        mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
+
+        mMapView.getController().setCenter(startPoint);
+
+        // enable user location
+        startLocationUpdates();
+
+        final MapEventsReceiver mReceive = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                if (longPressCallback != null) {
+                    longPressCallback.OnLongPressCallback(p);
+                }
+                return false;
+            }
+        };
+        mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
+
+        addMyLocationIconOnMap();
+//        addScaleBarOnMap();
+    }
+
     /**
      * @param mapView the founded mapView
      */
@@ -136,46 +171,22 @@ public class MapHandler {
         }
     };
 
-    public void initMap() {
-        // initialize the map
-        mMapView.getOverlay().clear();
-        mMapView.setTileSource(TileSourceFactory.MAPNIK);
-        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
-        mMapView.setMultiTouchControls(true);
-        mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
-        mMapView.setMaxZoomLevel(MAP_MAX_ZOOM);
-        mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
+    public void stopLocationUpdates() {
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        mLocationManager.removeUpdates(mLocationListener);
+        Log.i("LocationServices", "Stop location updates");
+    }
 
-        mMapView.getController().setCenter(startPoint);
-
-        // enable user location
+    private void startLocationUpdates() {
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, mLocationListener);
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, mLocationListener);
+            Log.i("LocationServices", "Start location updates");
         } else {
-            Log.e("MapHandler", "missing permissions");
+            Log.e("MapHandler", "missing permissions for location updates");
         }
-
-        final MapEventsReceiver mReceive = new MapEventsReceiver() {
-            @Override
-            public boolean singleTapConfirmedHelper(GeoPoint p) {
-                return false;
-            }
-
-            @Override
-            public boolean longPressHelper(GeoPoint p) {
-                if (longPressCallback != null) {
-                    longPressCallback.OnLongPressCallback(p);
-                }
-                return false;
-            }
-        };
-        mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
-
-        addMyLocationIconOnMap();
-//        addScaleBarOnMap();
     }
 
     public enum MarkersType {

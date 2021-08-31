@@ -1,7 +1,9 @@
 package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
 import android.content.DialogInterface;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +32,8 @@ import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ScoreListAdapter;
 import huji.postpc2021.treasure_hunt.R;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class PlayerGameFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout scoreListDrawerLayout;
@@ -79,6 +83,19 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapHandler.stopLocationUpdates();
+    }
+
+    @Nullable
+    @Override
+    public Object getExitTransition() {
+        mapHandler.stopLocationUpdates();
+        return super.getExitTransition();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -95,7 +112,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                 adapter.setItems(game.getPlayers().values());
                 if (game.getStatus() == GameStatus.finished) {
                     playerViewModel.gameOver(view);
-                    mapHandler.locationChangedCallback = null;
                     return;
                 }
 
