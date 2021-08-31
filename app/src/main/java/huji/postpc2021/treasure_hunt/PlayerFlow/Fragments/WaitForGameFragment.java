@@ -56,11 +56,6 @@ public class WaitForGameFragment extends Fragment {
                 }
         );
 
-
-        //  todo: this is temporary for debugging!
-        view.findViewById(R.id.temp_move_to_game).setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameToPlayerGame()));
-
         return view;
     }
 
