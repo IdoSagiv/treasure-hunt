@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -20,7 +19,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -124,7 +122,6 @@ public class MapHandler {
         mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
 
         addMyLocationIconOnMap();
-//        addScaleBarOnMap();
     }
 
     private void showHintOnMap(Clue clue) {
@@ -136,19 +133,16 @@ public class MapHandler {
         myMarker.setTitle(clue.getDescription());
         myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
 
-        // default icon
-//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_general_marker, context.getTheme()));
+        // todo: change icon
+//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_marker_yellow, context.getTheme()));
 
-//        todo: implement
         switch (markersType) {
             case Player: {
-                // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new PlayerSeeHintMarkerWindow(R.layout.marker_window_player_see_hint, mMapView, myMarker));
                 myMarker.setDraggable(false);
                 break;
             }
             case CreatorEdit: {
-                // icon - default (according to the marker index?)
                 myMarker.setInfoWindow(new EditHintMarkerWindow(R.layout.marker_window_edit_hint, mMapView, myMarker));
                 myMarker.setDraggable(true);
                 if (markerDragListener != null) {
@@ -157,7 +151,6 @@ public class MapHandler {
                 break;
             }
             case CreatorInPlay: {
-                // marker icon according to the players who saw it (??)
                 myMarker.setInfoWindow(new CreatorSeeHintMarkerWindow(R.layout.marker_window_creator_see_hint, mMapView, myMarker));
                 myMarker.setDraggable(false);
                 break;
@@ -207,22 +200,10 @@ public class MapHandler {
         myLocationOverlay.setDrawAccuracyEnabled(false);
         myLocationOverlay.getMyLocation();
 
-//        myLocationOverlay.enableFollowLocation();  follow the user
 //        myLocationOverlay.setPersonIcon();  todo: choose an icon
 
         // add to map
         mMapView.getOverlays().add(myLocationOverlay);
-    }
-
-    private void addScaleBarOnMap() {
-        final DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        // set scale bar
-        ScaleBarOverlay mScaleBarOverlay = new ScaleBarOverlay(mMapView);
-        mScaleBarOverlay.setCentred(true);
-        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
-
-        // add to map
-        mMapView.getOverlays().add(mScaleBarOverlay);
     }
 
     public void mapToCurrentLocation() {
@@ -269,22 +250,3 @@ public class MapHandler {
         }
     }
 }
-
-/*
-  todo:
-  1. usage:
-  * load map
-  * center to my location - done
-  * show scale bar - done
-  <p>
-  2. Creator special usage:
-  * on long press - add new hint where the press was
-  * show all hintPoints
-  * when click on hintPoint - allow edit or delete
-  <p>
-  3. Player special usage:
-  * show hintPoints that where found
-  * when click on hintPoint - show the actual hint (default behaviour)
-  * show the users current location with an avatar
-  * track the user (when the user moves, move its avatar on the map)
- */
