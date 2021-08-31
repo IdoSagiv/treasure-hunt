@@ -250,4 +250,8 @@ public class CreatorViewModel extends ViewModel {
         deleteCurrentGame();
         Navigation.findNavController(view).navigate(R.id.action_creatorGameOver_to_creatorHomeScreen);
     }
+
+    public void leaveLoginScreen(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_creatorLogin_to_homeScreen);
+    }
 }

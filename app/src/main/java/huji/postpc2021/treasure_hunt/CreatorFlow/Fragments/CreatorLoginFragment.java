@@ -8,17 +8,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.InputType;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
+import huji.postpc2021.treasure_hunt.Utils.InputBoxDialog;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
@@ -42,6 +46,7 @@ public class CreatorLoginFragment extends Fragment {
         Button creatorLoginButton = view.findViewById(R.id.buttonLogin);
         EditText emailEditText = view.findViewById(R.id.editTextEmailLogin);
         EditText passwordEditText = view.findViewById(R.id.editTextPasswordLogin);
+        TextView forgotPassButton = view.findViewById(R.id.textViewForgotPassword);
 
         creatorRegisterButton.setOnClickListener(v ->
                 Navigation.findNavController(view)
@@ -61,15 +66,27 @@ public class CreatorLoginFragment extends Fragment {
                     }
                 }));
 
-        // on back pressed callback for this fragment
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Navigation.findNavController(view)
-                        .navigate(CreatorLoginFragmentDirections.actionCreatorLoginToCreatorHomeScreen());
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+        forgotPassButton.setOnClickListener(v -> {
+            InputBoxDialog dialog = new InputBoxDialog(requireActivity());
+            dialog.setTitle("Enter your email")
+                    .setNegativeButton("cancel", null)
+                    .setPositiveButton("send", v1 -> db.auth.sendPasswordResetEmail(dialog.getInput()))
+                    .setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
+                    .setInputValidation(editText -> {
+                        String emailInput = editText.getText().toString().trim();
+                        if (emailInput.isEmpty()) {
+                            editText.setError("Field can't be empty");
+                            return false;
+                        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+                            editText.setError("Please enter a valid email address");
+                            return false;
+                        } else {
+                            editText.setError(null);
+                            return true;
+                        }
+                    })
+                    .show();
+        });
 
         return view;
     }
@@ -83,5 +100,14 @@ public class CreatorLoginFragment extends Fragment {
         if (currentUser != null && !currentUser.isAnonymous()) {
             creatorViewModel.loginCreator(view);
         }
+
+        // on back pressed callback for this fragment
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                creatorViewModel.leaveLoginScreen(view);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 }
