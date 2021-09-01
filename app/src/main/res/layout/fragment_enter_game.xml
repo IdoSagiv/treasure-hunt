@@ -9,10 +9,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/layout_images"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="64dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -33,7 +33,6 @@
                 android:id="@+id/editTextEnterNickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
                 android:fontFamily="@string/app_font"
                 android:gravity="center"
                 android:hint="@string/enter_nickname_hint"
@@ -42,18 +41,12 @@
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
-            <View
-                android:layout_width="250dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray" />
-
             <Button
                 android:id="@+id/buttonJoinGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@string/app_font"
                 android:text="@string/join_game_btn"
@@ -61,7 +54,24 @@
                 app:backgroundTint="@color/buttons_background" />
 
         </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.9"
+            android:src="@drawable/path_to_island" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,7 +27,7 @@
     <string name="Register_re_password">Re-Password</string>
     <string name="Register_sign_in">Sign-in</string>
 
-    <string name="enter_existing_game_btn">Existing game</string>
+    <string name="enter_existing_game_btn">Existing Game</string>
     <string name="creator_new_game">New Game</string>
     <string name="logout_button">Logout</string>
 

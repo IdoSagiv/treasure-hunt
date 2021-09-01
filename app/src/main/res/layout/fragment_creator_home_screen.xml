@@ -8,69 +8,97 @@
     android:windowSoftInputMode="stateHidden"
     tools:context=".CreatorFlow.Fragments.CreatorHomeScreenFragment">
 
-    <ImageView
-        android:id="@+id/imageViewLogoInCreatorNewEditGame"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-
+    <!-- main layout  -->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogoInCreatorNewEditGame">
+        app:layout_constraintBottom_toTopOf="@+id/layout_images"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/buttonExistingGame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:fontFamily="@string/app_font"
-            android:text="@string/enter_existing_game_btn"
-            android:textColor="@color/black"
-            app:backgroundTint="@color/buttons_background" />
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            app:srcCompat="@drawable/logo" />
 
-        <Button
-            android:id="@+id/buttonNewGame"
+        <!--  buttons layout   -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@string/app_font"
-            android:text="@string/creator_new_game"
-            android:textColor="@color/black"
-            app:backgroundTint="@color/buttons_background" />
+            android:layout_marginStart="84dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="84dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonExistingGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@string/app_font"
+                android:text="@string/enter_existing_game_btn"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/buttons_background" />
+
+            <Button
+                android:id="@+id/buttonNewGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/app_font"
+                android:text="@string/creator_new_game"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/buttons_background" />
+        </LinearLayout>
     </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/buttonLogOut"
+    <!--  logout layout  -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_logout"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/buttonLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/app_font"
+            android:text="@string/logout_button"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!--  bottom image layout -->
+    <LinearLayout
+        android:id="@+id/layout_images"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@string/app_font"
-        android:text="@string/logout_button"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/buttonLogOut"
-        app:layout_constraintStart_toStartOf="@+id/buttonLogOut"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogOut" />
+        android:layout_marginBottom="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.9"
+            android:src="@drawable/path_to_island" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

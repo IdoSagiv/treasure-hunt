@@ -7,106 +7,118 @@
     android:background="@drawable/app_background"
     tools:context=".CreatorFlow.Fragments.CreatorLoginFragment">
 
-    <ImageView
-        android:id="@+id/imageViewLogoInCreatorEnterGame"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <EditText
-        android:id="@+id/editTextEmailLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
-        android:drawableEnd="@drawable/ic_person"
-        android:fontFamily="@string/app_font"
-        android:hint="@string/login_email"
-        android:inputType="textEmailAddress"
-        android:textAlignment="textStart"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogoInCreatorEnterGame" />
-
-    <EditText
-        android:id="@+id/editTextPasswordLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="64dp"
-        android:drawableEnd="@drawable/ic_lock"
-        android:fontFamily="@string/app_font"
-        android:hint="@string/login_password"
-        android:inputType="textPassword"
-        android:textAlignment="textStart"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailLogin" />
-
-
+    <!--  main layout  -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
+        android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordLogin">
+        app:layout_constraintBottom_toTopOf="@+id/layout_images"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            app:srcCompat="@drawable/logo" />
+
+        <!--   login views layout     -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/buttonLogin"
-                android:layout_width="0dp"
+            <EditText
+                android:id="@+id/editTextEmailLogin"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_marginBottom="8dp"
+                android:drawableEnd="@drawable/ic_person"
                 android:fontFamily="@string/app_font"
-                android:text="@string/login"
+                android:hint="@string/login_email"
+                android:inputType="textEmailAddress"
+                android:textAlignment="textStart"
                 android:textColor="@color/black"
-                app:backgroundTint="@color/buttons_background" />
+                android:textSize="20sp" />
 
-            <!-- separator -->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/buttonRegister"
-                android:layout_width="0dp"
+            <EditText
+                android:id="@+id/editTextPasswordLogin"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:drawableEnd="@drawable/ic_lock"
                 android:fontFamily="@string/app_font"
-                android:text="@string/register"
+                android:hint="@string/login_password"
+                android:inputType="textPassword"
+                android:textAlignment="textStart"
                 android:textColor="@color/black"
-                app:backgroundTint="@color/buttons_background" />
+                android:textSize="20sp" />
 
+            <!--   buttons layout   -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonLogin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:fontFamily="@string/app_font"
+                    android:text="@string/login"
+                    android:textColor="@color/black"
+                    app:backgroundTint="@color/buttons_background" />
+
+                <!-- separator -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/buttonRegister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:fontFamily="@string/app_font"
+                    android:text="@string/register"
+                    android:textColor="@color/black"
+                    app:backgroundTint="@color/buttons_background" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/forgot_password"
+                android:textIsSelectable="false" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewForgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@string/forgot_password"
-            android:textIsSelectable="false" />
-
     </LinearLayout>
 
+    <!--  bottom image layout -->
+    <LinearLayout
+        android:id="@+id/layout_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.9"
+            android:src="@drawable/path_to_island" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

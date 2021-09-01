@@ -10,9 +10,29 @@
     android:layout_marginBottom="2dp"
     android:minHeight="40dp">
 
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textViewClueIndex"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@string/app_font"-->
+    <!--        android:maxLines="1"-->
+    <!--        android:paddingStart="8dp"-->
+    <!--        android:paddingTop="4dp"-->
+    <!--        android:paddingEnd="8dp"-->
+    <!--        android:paddingBottom="4dp"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        tools:text="#1" />-->
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/recyclerview_general_item_background"
         android:gravity="center"
         android:orientation="horizontal"
@@ -21,20 +41,16 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonDragHandle"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/textViewClueIndex"
-            android:layout_width="wrap_content"
+
+        <ImageView
+            android:id="@+id/buttonGoToClueLocation"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@string/app_font"
-            android:maxLines="1"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            tools:text="#1" />
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_my_location" />
 
         <TextView
             android:id="@+id/textViewClueDescription"
@@ -51,16 +67,6 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="the description of the clue" />
-
-        <ImageView
-            android:id="@+id/buttonGoToClueLocation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_my_location" />
     </LinearLayout>
 
     <ImageView

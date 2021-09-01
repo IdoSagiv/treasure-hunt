@@ -165,8 +165,10 @@
         <action
             android:id="@+id/action_creatorDoneEditGame_to_creatorInPlay"
             app:destination="@id/creatorInPlay"
-            app:enterAnim="@anim/slide_in_left"
-            app:popEnterAnim="@anim/slide_in_left" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_creatorDoneEditGame_to_creatorHomeScreen"
             app:destination="@id/creatorHomeScreen"
@@ -187,8 +189,10 @@
         <action
             android:id="@+id/action_creatorInPlay_to_creatorGameOver"
             app:destination="@id/creatorGameOver"
-            app:enterAnim="@anim/slide_in_left"
-            app:popEnterAnim="@anim/slide_in_left" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment

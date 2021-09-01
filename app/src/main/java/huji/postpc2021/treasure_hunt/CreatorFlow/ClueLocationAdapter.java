@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt.CreatorFlow;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -39,6 +40,7 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
         notifyDataSetChanged();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @NonNull
     @Override
     public ClueLocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,7 +61,6 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
     public void onBindViewHolder(@NonNull ClueLocationViewHolder holder, int position) {
         Clue clue = clues.get(position);
         holder.clueDescriptionTextView.setText(clue.getDescription());
-        holder.clueIndexTextView.setText(Integer.toString(clue.getIndex()));
         holder.goToClueButton.setOnClickListener(v -> {
             if (goToMarkerBtnCallback != null) {
                 goToMarkerBtnCallback.onClick(clue);
