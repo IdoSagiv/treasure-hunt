@@ -32,40 +32,19 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
 import static android.content.Context.LOCATION_SERVICE;
+import static android.content.Context.NETWORK_STATS_SERVICE;
 
 public class MapHandler {
-    private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
+    //    private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
     private static final double MAP_DEFAULT_ZOOM = 18.0;
     private static final double MAP_MAX_ZOOM = 22.0;
     private static final double MAP_MIN_ZOOM = 9.0;
     private final MapView mMapView;
-    private final GeoPoint startPoint;
+    private GeoPoint startPoint;
     private GeoPoint currentLocation = null;
     private final MarkersType markersType;
-
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            if (currentLocation == null && startPoint != DEFAULT_START_POINT) {
-                // on the first update -> animate to current location
-                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-                mapToCurrentLocation();
-            }
-            currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-
-            if (locationChangedCallback != null) {
-                locationChangedCallback.onLocationChanged(location);
-            }
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-        }
-    };
+    private LocationManager mLocationManager;
+    private LocationListener mLocationListener;
     public OnLocationChangedCallback locationChangedCallback = null;
     public OnMapLongPressCallback longPressCallback = null;
     private final Context context;
@@ -75,7 +54,7 @@ public class MapHandler {
      * @param mapView the founded mapView
      */
     public MapHandler(MapView mapView, MarkersType markersType, Context context) {
-        this(mapView, markersType, context, DEFAULT_START_POINT);
+        this(mapView, markersType, context, null);
     }
 
     /**
@@ -87,6 +66,7 @@ public class MapHandler {
         this.context = context;
         this.markersType = markersType;
 
+        startLocationUpdates();
         initMap();
     }
 
@@ -101,9 +81,6 @@ public class MapHandler {
         mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
 
         mMapView.getController().setCenter(startPoint);
-
-        // enable user location
-        startLocationUpdates();
 
         final MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
@@ -181,11 +158,37 @@ public class MapHandler {
     }
 
     private void startLocationUpdates() {
-        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(final Location location) {
+                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+                if (locationChangedCallback != null) {
+                    locationChangedCallback.onLocationChanged(location);
+                }
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+            }
+        };
+
+        mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, mLocationListener);
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, mLocationListener);
+
+            // if start point was not specified, start in the last known location of the user
+            if (startPoint == null) {
+                Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                startPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
+            }
+
             Log.i("LocationServices", "Start location updates");
         } else {
             Log.e("MapHandler", "missing permissions for location updates");
