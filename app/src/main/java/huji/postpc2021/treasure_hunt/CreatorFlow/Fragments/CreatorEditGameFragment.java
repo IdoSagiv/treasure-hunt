@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +55,7 @@ public class CreatorEditGameFragment extends Fragment {
         ImageView openHintsDrawerButton = view.findViewById(R.id.buttonOpenHintsListDrawer);
         Button launchGameButton = view.findViewById(R.id.buttonLaunchGame);
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationCreatorEditGame);
+        ImageView helpButton = view.findViewById(R.id.buttonHelpCreatorEditGame);
         EditText gameNameEditText = view.findViewById(R.id.editTextGameNameInSettings);
 
         // initialize map and drawer
@@ -71,15 +73,23 @@ public class CreatorEditGameFragment extends Fragment {
 
         launchGameButton.setOnClickListener(v ->
         {
-            if (!creatorViewModel.launchGame(view)) {
-                MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
-                dialog.setTitle("Notice")
-                        .setMessage("Game should include at least 3 clues")
-                        .setOkButton("Ok", v1 -> {
-                        })
-                        .show();
-            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Notice")
+                    .setMessage("Once you launch the game you wont be able to edit it anymore")
+                    .setPositiveButton("Continue", (dialog1, which) -> {
+                        if (!creatorViewModel.launchGame(view)) {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                            dialog.setTitle("Notice")
+                                    .setMessage("Game should include at least 3 clues")
+                                    .setPositiveButton("Ok", null)
+                                    .show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
+
+        helpButton.setOnClickListener(v -> showInstructionsPopup());
 
         gameNameEditText.setText(creatorViewModel.currentGame.getValue().getName());
         gameNameEditText.addTextChangedListener(new TextWatcher() {
@@ -116,11 +126,24 @@ public class CreatorEditGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHintsList);
+        TextView emptyRecyclerViewTextView = view.findViewById(R.id.textViewEmptyRecycler);
+
+        recyclerView.setVisibility(View.GONE);
+        emptyRecyclerViewTextView.setVisibility(View.VISIBLE);
+
 
         creatorViewModel.cluesLiveData.observe(getViewLifecycleOwner(), clues -> {
             if (clues != null) {
                 mapHandler.showHints(clues.values());
                 clueLocationAdapter.setItems(clues.values());
+                if (clues.size() > 0) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyRecyclerViewTextView.setVisibility(View.GONE);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyRecyclerViewTextView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -141,6 +164,18 @@ public class CreatorEditGameFragment extends Fragment {
             }
         };
 
+        showInstructionsPopup();
+    }
+
+    private void showInstructionsPopup() {
+        MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+        dialog.setTitle("Instructions")
+                .setMessage("1. Add clues using long press\n" +
+                        "2. For each clue write a hint to its location\n" +
+                        "3. Choose the difficulty of the clue with the stars rating\n" +
+                        "4. Locate at least 3 clues and launch the game")
+                .setOkButton("OK", null)
+                .show();
     }
 
     private void initializeSettingsDrawer(View view) {

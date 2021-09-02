@@ -18,9 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collection;
+
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
 import huji.postpc2021.treasure_hunt.PlayerFlow.ParticipantsListAdapter;
 import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 
 public class CreatorDoneEditGameFragment extends Fragment {
     private CreatorViewModel creatorViewModel;
@@ -41,6 +44,12 @@ public class CreatorDoneEditGameFragment extends Fragment {
         Button deleteGameButton = view.findViewById(R.id.buttonDeleteGameDoneEditingScreen);
         Button startGameButton = view.findViewById(R.id.buttonStartGameDoneEditingScreen);
         ImageView shareGameCodeButton = view.findViewById(R.id.buttonShareGameCode);
+        TextView emptyRecyclerTextView = view.findViewById(R.id.textViewEmptyRecycler);
+
+        // init views
+        startGameButton.setEnabled(false);
+        participantsListRecyclerView.setVisibility(View.GONE);
+        emptyRecyclerTextView.setVisibility(View.VISIBLE);
 
         // participants recyclerView
         ParticipantsListAdapter participantsListAdapter = new ParticipantsListAdapter();
@@ -48,11 +57,22 @@ public class CreatorDoneEditGameFragment extends Fragment {
         participantsListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(),
                 RecyclerView.VERTICAL, false));
 
+        // observe the game
         creatorViewModel.currentGame.observe(getViewLifecycleOwner(), game -> {
             if (game != null) {
                 gameCodeTextView.setText(game.getCode());
                 gameNameTextView.setText(game.getName());
-                participantsListAdapter.setItems(game.getPlayers().values());
+                Collection<Player> players = game.getPlayers().values();
+                participantsListAdapter.setItems(players);
+                if (players.size() > 0) {
+                    participantsListRecyclerView.setVisibility(View.VISIBLE);
+                    emptyRecyclerTextView.setVisibility(View.GONE);
+                    startGameButton.setEnabled(true);
+                } else {
+                    participantsListRecyclerView.setVisibility(View.GONE);
+                    emptyRecyclerTextView.setVisibility(View.VISIBLE);
+                    startGameButton.setEnabled(false);
+                }
             }
         });
 

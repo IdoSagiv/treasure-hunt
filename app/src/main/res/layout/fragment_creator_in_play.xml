@@ -79,10 +79,10 @@
             android:paddingBottom="24dp">
 
             <TextView
+                style="@style/AppTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:fontFamily="@string/app_font"
                 android:text="@string/score_list"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -99,7 +99,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>

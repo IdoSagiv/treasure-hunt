@@ -57,7 +57,7 @@ public class CreatorHomeScreenFragment extends Fragment {
                     }
                 };
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setMessage("There is an active existing game that will be deleted, do you want to continue?")
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener)

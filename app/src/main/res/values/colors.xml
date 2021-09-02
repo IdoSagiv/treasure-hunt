@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="buttons_background">#A3EEEEEE</color>
+    <color name="dialog_background">#CCFFF9F9</color>
     <color name="hints_background">#CDC9C9</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="dialog_ok_btn">#409E43</color>

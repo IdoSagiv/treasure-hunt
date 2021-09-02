@@ -3,6 +3,7 @@ package huji.postpc2021.treasure_hunt.Utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,7 +33,6 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static android.content.Context.NETWORK_STATS_SERVICE;
 
 public class MapHandler {
     //    private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
@@ -43,7 +43,6 @@ public class MapHandler {
     private GeoPoint startPoint;
     private GeoPoint currentLocation = null;
     private final MarkersType markersType;
-    private LocationManager mLocationManager;
     private LocationListener mLocationListener;
     public OnLocationChangedCallback locationChangedCallback = null;
     public OnMapLongPressCallback longPressCallback = null;
@@ -111,7 +110,7 @@ public class MapHandler {
         myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
 
         // todo: change icon
-//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_marker_yellow, context.getTheme()));
+//        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.pirate_flag, context.getTheme()));
 
         switch (markersType) {
             case Player: {
@@ -177,7 +176,7 @@ public class MapHandler {
             }
         };
 
-        mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, mLocationListener);
@@ -203,7 +202,7 @@ public class MapHandler {
         myLocationOverlay.setDrawAccuracyEnabled(false);
         myLocationOverlay.getMyLocation();
 
-//        myLocationOverlay.setPersonIcon();  todo: choose an icon
+        myLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.pirate_icon));  // todo: choose an icon
 
         // add to map
         mMapView.getOverlays().add(myLocationOverlay);
@@ -211,11 +210,11 @@ public class MapHandler {
 
     public void mapToCurrentLocation() {
         if (currentLocation != null) {
-            centerMap(currentLocation);
+            centerMapTo(currentLocation);
         }
     }
 
-    private void centerMap(IGeoPoint centerTo) {
+    public void centerMapTo(IGeoPoint centerTo) {
         mMapView.getController().animateTo(centerTo);
         if (mMapView.getZoomLevelDouble() < MAP_DEFAULT_ZOOM) {
             mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
@@ -228,7 +227,7 @@ public class MapHandler {
                 Marker marker = (Marker) overlay;
                 InfoWindow.closeAllInfoWindowsOn(mMapView);
                 marker.showInfoWindow();
-                centerMap(marker.getPosition());
+                centerMapTo(marker.getPosition());
             }
         }
     }

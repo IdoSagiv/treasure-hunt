@@ -26,6 +26,7 @@ import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 public class CreatorInPlayFragment extends Fragment {
     private CreatorViewModel creatorViewModel;
     private MapHandler mapHandler;
+    private boolean firstMapCenter = false;
 
     public CreatorInPlayFragment() {
         // Required empty public constructor
@@ -53,6 +54,10 @@ public class CreatorInPlayFragment extends Fragment {
         creatorViewModel.currentGame.observe(getViewLifecycleOwner(), game -> {
             if (game == null) {
                 return;
+            }
+            if (!firstMapCenter) {
+                firstMapCenter = true;
+                mapHandler.centerMapTo(game.getClueAt(0).location());
             }
             adapter.setItems(game.getPlayers().values());
             mapHandler.showHints(game.getClues().values());

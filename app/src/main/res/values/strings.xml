@@ -45,5 +45,8 @@
     <string name="request_permissions_btn">give permissions</string>
     <string name="score_list_title">Score List</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="game_code_title">Game Code</string>
+    <string name="no_players_yet">No players yet</string>
+    <string name="no_clues_yet">No clues yet</string>
 
 </resources>
