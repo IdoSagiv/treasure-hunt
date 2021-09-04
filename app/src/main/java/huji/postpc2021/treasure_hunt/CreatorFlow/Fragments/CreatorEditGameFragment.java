@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,6 +33,7 @@ import huji.postpc2021.treasure_hunt.CreatorFlow.SwipeToDeleteClueCallback;
 import huji.postpc2021.treasure_hunt.Utils.MessageBoxDialog;
 import huji.postpc2021.treasure_hunt.Utils.MapHandler;
 import huji.postpc2021.treasure_hunt.R;
+import huji.postpc2021.treasure_hunt.Utils.UtilsFunctions;
 
 public class CreatorEditGameFragment extends Fragment {
     private MapHandler mapHandler = null;
@@ -45,6 +47,7 @@ public class CreatorEditGameFragment extends Fragment {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creator_edit_game, container, false);
@@ -58,6 +61,11 @@ public class CreatorEditGameFragment extends Fragment {
         ImageView helpButton = view.findViewById(R.id.buttonHelpCreatorEditGame);
         EditText gameNameEditText = view.findViewById(R.id.editTextGameNameInSettings);
 
+        mMapView.setOnTouchListener((v, event) -> {
+            UtilsFunctions.hideKeyboard(requireActivity());
+            return false;
+        });
+
         // initialize map and drawer
         mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.CreatorEdit, getContext());
         initializeSettingsDrawer(view);
@@ -68,6 +76,7 @@ public class CreatorEditGameFragment extends Fragment {
 
         openHintsDrawerButton.setOnClickListener(v -> {
             mapHandler.closeAllMarkers();
+            UtilsFunctions.hideKeyboard(requireActivity());
             gameSettingsDrawerLayout.openDrawer(GravityCompat.START);
         });
 
@@ -170,10 +179,11 @@ public class CreatorEditGameFragment extends Fragment {
     private void showInstructionsPopup() {
         MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
         dialog.setTitle("Instructions")
-                .setMessage("1. Add clues using long press\n" +
-                        "2. For each clue write a hint to its location\n" +
-                        "3. Choose the difficulty of the clue with the stars rating\n" +
-                        "4. Locate at least 3 clues and launch the game")
+                .setMessage("1. Add clues on long press\n" +
+                        "2. For each clue choose difficulty and write a hint to it's location\n" +
+                        "3. Change clue location by dragging it\n" +
+                        "4. Click on the edit clues icon in order to view all clues and reorder them\n" +
+                        "5. Locate at least 3 clues and launch the game")
                 .setOkButton("OK", null)
                 .show();
     }

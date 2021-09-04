@@ -64,8 +64,8 @@
             android:id="@+id/buttonOpenHintsListDrawer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -107,6 +107,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Game Name"
+                    android:inputType="textShortMessage"
+                    android:lines="1"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -116,6 +118,7 @@
                 android:layout_height="0dp"
                 android:layout_marginBottom="24dp"
                 android:layout_weight="10"
+                android:focusable="false"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:scrollbars="vertical"
@@ -127,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_weight="10"
+                android:focusable="false"
                 android:fontFamily="@string/app_font"
                 android:text="@string/no_clues_yet"
                 android:textColor="@color/black"
