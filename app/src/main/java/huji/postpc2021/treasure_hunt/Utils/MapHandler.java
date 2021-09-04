@@ -160,6 +160,7 @@ public class MapHandler {
         mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(final Location location) {
+                if (location == null) return;
                 currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
                 if (locationChangedCallback != null) {
