@@ -19,6 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
@@ -55,6 +60,8 @@ public class CreatorLoginFragment extends Fragment {
 
         creatorLoginButton.setOnClickListener(v -> {
             if (UtilsFunctions.validateEmail(emailEditText) & validatePassword(passwordEditText)) {
+                // disable button until get result
+                creatorLoginButton.setEnabled(false);
                 db.auth.signInWithEmailAndPassword(emailEditText.getText().toString(),
                         passwordEditText.getText().toString()).addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
@@ -62,10 +69,20 @@ public class CreatorLoginFragment extends Fragment {
                         Log.d("CreatorLoginFragment", "signInWithEmail:success");
                         creatorViewModel.loginCreator(view);
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("CreatorLoginFragment", "signInWithEmail:failure", task.getException());
-                        Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                        Exception exc = task.getException();
+                        if (exc instanceof FirebaseAuthInvalidUserException) {
+                            Toast.makeText(requireContext(), "Unknown email", Toast.LENGTH_SHORT).show();
+                        } else if (exc instanceof FirebaseAuthInvalidCredentialsException) {
+                            Toast.makeText(requireContext(), "Invalid password", Toast.LENGTH_SHORT).show();
+                        } else if (exc instanceof FirebaseNetworkException) {
+                            Toast.makeText(requireContext(), "Network error", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                        }
+                        Log.w("CreatorLoginFragment", "signInWithEmail:failure", exc);
                     }
+                    // enable button after result came
+                    creatorLoginButton.setEnabled(true);
                 });
             }
         });

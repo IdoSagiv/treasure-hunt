@@ -15,6 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+
 import java.util.regex.Pattern;
 
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
@@ -70,9 +76,9 @@ public class CreatorRegisterFragment extends Fragment {
             if (!UtilsFunctions.validateEmail(emailEditText) | !validatePassword() | !validateRePassword()) {
                 return;
             }
+            sighInBtn.setEnabled(false);
 
             LocalDB db = TreasureHuntApp.getInstance().getDb();
-
             db.auth.createUserWithEmailAndPassword(emailEditText.getText().toString(),
                     passEditText.getText().toString()).addOnCompleteListener(requireActivity(), task -> {
                 if (task.isSuccessful()) {
@@ -80,9 +86,20 @@ public class CreatorRegisterFragment extends Fragment {
                     creatorViewModel.registerNewUSer(view);
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("CreatorRegisterFragment", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(requireContext(), "Register failed", Toast.LENGTH_SHORT).show();
+                    Exception exc = task.getException();
+                    if (exc instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(requireContext(), "The email address is already in use", Toast.LENGTH_SHORT).show();
+                    } else if (exc instanceof FirebaseAuthWeakPasswordException) {
+                        Toast.makeText(requireContext(), "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    } else if (exc instanceof FirebaseNetworkException) {
+                        Toast.makeText(requireContext(), "Network error", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(requireContext(), "Register failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Log.w("CreatorRegisterFragment", "createUserWithEmail:failure", exc);
                 }
+                sighInBtn.setEnabled(true);
             });
         });
     }
