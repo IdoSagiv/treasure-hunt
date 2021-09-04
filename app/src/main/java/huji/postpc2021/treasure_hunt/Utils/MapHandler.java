@@ -35,7 +35,7 @@ import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class MapHandler {
-    //    private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
+    private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
     private static final double MAP_DEFAULT_ZOOM = 18.0;
     private static final double MAP_MAX_ZOOM = 22.0;
     private static final double MAP_MIN_ZOOM = 9.0;
@@ -186,7 +186,11 @@ public class MapHandler {
             // if start point was not specified, start in the last known location of the user
             if (startPoint == null) {
                 Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                startPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
+                if (lastLocation != null) {
+                    startPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
+                } else {
+                    startPoint = DEFAULT_START_POINT;
+                }
             }
 
             Log.i("LocationServices", "Start location updates");
