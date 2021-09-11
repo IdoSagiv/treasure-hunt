@@ -210,6 +210,9 @@
             app:destination="@id/playerGameOver"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_playerGame_to_arScreen"
+            app:destination="@id/arScreen" />
     </fragment>
 
     <fragment
@@ -226,11 +229,22 @@
     <fragment
         android:id="@+id/creatorGameOver"
         android:name="huji.postpc2021.treasure_hunt.CreatorFlow.Fragments.CreatorGameOverFragment"
-        android:label="CreatorGameOverFragment">
+        android:label="CreatorGameOverFragment"
+        tools:layout="@layout/fragment_game_over">
         <action
             android:id="@+id/action_creatorGameOver_to_creatorHomeScreen"
             app:destination="@id/creatorHomeScreen"
             app:enterAnim="@anim/slide_in_left"
             app:popEnterAnim="@anim/slide_in_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/arScreen"
+        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.arFragment"
+        android:label="fragment_ar"
+        tools:layout="@layout/fragment_ar">
+        <action
+            android:id="@+id/action_arScreen_to_playerGame"
+            app:destination="@id/playerGame" />
     </fragment>
 </navigation>

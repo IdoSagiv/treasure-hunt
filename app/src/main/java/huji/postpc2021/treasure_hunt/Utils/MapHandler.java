@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import org.osmdroid.api.IGeoPoint;
@@ -34,20 +36,21 @@ import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class MapHandler {
+public class MapHandler implements LocationListener {
     private static final GeoPoint DEFAULT_START_POINT = new GeoPoint(32.1007, 34.8070);
     private static final double MAP_DEFAULT_ZOOM = 18.0;
     private static final double MAP_MAX_ZOOM = 22.0;
     private static final double MAP_MIN_ZOOM = 9.0;
     private final MapView mMapView;
     private GeoPoint startPoint;
-    private GeoPoint currentLocation = null;
+    private final GeoPoint currentLocation = null;
     private final MarkersType markersType;
-    private LocationListener mLocationListener;
+    //    private LocationListener mLocationListener;
     public OnLocationChangedCallback locationChangedCallback = null;
     public OnMapLongPressCallback longPressCallback = null;
     private final Context context;
     public Marker.OnMarkerDragListener markerDragListener = null;
+    private MyLocationNewOverlay myLocationOverlay = null;
 
     /**
      * @param mapView the founded mapView
@@ -151,37 +154,38 @@ public class MapHandler {
     }
 
     public void stopLocationUpdates() {
-        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-        mLocationManager.removeUpdates(mLocationListener);
+//        todo: delete
+//        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+//        mLocationManager.removeUpdates(mLocationListener);
         Log.i("LocationServices", "Stop location updates");
     }
 
     private void startLocationUpdates() {
-        mLocationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(final Location location) {
-                if (location == null) return;
-                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-
-                if (locationChangedCallback != null) {
-                    locationChangedCallback.onLocationChanged(location);
-                }
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-            }
-        };
+//        LocationListener mLocationListener = new LocationListener() {
+//            @Override
+//            public void onLocationChanged(final Location location) {
+//                if (location == null) return;
+//                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+//
+//                if (locationChangedCallback != null) {
+//                    locationChangedCallback.onLocationChanged(location);
+//                }
+//            }
+//
+//            @Override
+//            public void onProviderEnabled(String s) {
+//            }
+//
+//            @Override
+//            public void onProviderDisabled(String s) {
+//            }
+//        };
 
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, mLocationListener);
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
 
             // if start point was not specified, start in the last known location of the user
             if (startPoint == null) {
@@ -192,8 +196,6 @@ public class MapHandler {
                     startPoint = DEFAULT_START_POINT;
                 }
             }
-
-            Log.i("LocationServices", "Start location updates");
         } else {
             Log.e("MapHandler", "missing permissions for location updates");
         }
@@ -201,7 +203,7 @@ public class MapHandler {
 
     private void addMyLocationIconOnMap() {
         // set my location on the map
-        MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
+        myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.setOptionsMenuEnabled(true);
         myLocationOverlay.setDrawAccuracyEnabled(false);
@@ -214,8 +216,8 @@ public class MapHandler {
     }
 
     public void mapToCurrentLocation() {
-        if (currentLocation != null) {
-            centerMapTo(currentLocation);
+        if (myLocationOverlay != null) {
+            centerMapTo(myLocationOverlay.getMyLocation());
         }
     }
 
@@ -235,6 +237,14 @@ public class MapHandler {
                 centerMapTo(marker.getPosition());
             }
         }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        Log.i("LocationListener", "map handler location listener");
+        // listen once in order to remember
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        mLocationManager.removeUpdates(this);
     }
 
     public enum MarkersType {

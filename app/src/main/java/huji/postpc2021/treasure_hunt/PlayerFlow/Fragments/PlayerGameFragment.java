@@ -1,6 +1,10 @@
 package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,14 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +46,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     private DrawerLayout scoreListDrawerLayout;
     private PlayerViewModel playerViewModel;
     private MapHandler mapHandler;
+    private LocationListener locationListener;
 
     public PlayerGameFragment() {
         // Required empty public constructor
@@ -84,15 +92,22 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
     @Override
     public void onDestroy() {
+        stopLocationUpdates();
+//        mapHandler.stopLocationUpdates();
         super.onDestroy();
-        mapHandler.stopLocationUpdates();
     }
 
     @Nullable
     @Override
     public Object getExitTransition() {
-        mapHandler.stopLocationUpdates();
+        stopLocationUpdates();
+//        mapHandler.stopLocationUpdates();
         return super.getExitTransition();
+    }
+
+    private void stopLocationUpdates() {
+        LocationManager locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
+        locationManager.removeUpdates(locationListener);
     }
 
     @Override
@@ -120,32 +135,85 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
             }
         });
 
-        mapHandler.locationChangedCallback = location -> {
-            GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-            if (playerViewModel.isCloseEnoughToClue(userLocation)) {
-                // todo: open AR
-                playerViewModel.clueFound();
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(final Location location) {
+                Log.i("LocationListener", "player game location listener");
+                if (location == null) return;
 
-                if (playerViewModel.isFinishedGame(playerViewModel.currentPlayerId())) {
-                    // found the last hint
-                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
-                    dialog.setTitle("Congrats!")
-                            .setMessage("You found all hints!")
-                            .setOkButton("Ok", v -> {
-                            })
-                            .show();
-                    playerViewModel.gameOver(view);
-                    mapHandler.locationChangedCallback = null;
-                } else {
-                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
-                    dialog.setTitle("Congrats!")
-                            .setMessage("You found a hint!\nGo search for the next one")
-                            .setOkButton("Ok", v -> {
-                            })
-                            .show();
+                GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+                if (playerViewModel.isCloseEnoughToOpenCamera(userLocation)) {
+                    // todo: open AR
+                    playerViewModel.clueFound();
+
+                    if (playerViewModel.isFinishedGame(playerViewModel.currentPlayerId())) {
+                        // found the last hint
+                        MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+                        dialog.setTitle("Congrats!")
+                                .setMessage("You found all hints!")
+                                .setOkButton("Ok", v -> {
+                                })
+                                .show();
+                        playerViewModel.gameOver(view);
+                        mapHandler.locationChangedCallback = null;
+                    } else {
+//                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+//                    dialog.setTitle("Congrats!")
+//                            .setMessage("You found a hint!\nGo search for the next one")
+//                            .setOkButton("Ok", v -> {
+//                            })
+//                            .show();
+                        Toast.makeText(requireContext(), "open camera", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToArScreen());
+                    }
                 }
             }
+
+            @Override
+            public void onProviderEnabled(String s) {
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+            }
         };
+
+        LocationManager locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // start location updates
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
+        }
+
+//        mapHandler.locationChangedCallback = location -> {
+//            GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+//            if (playerViewModel.isCloseEnoughToOpenCamera(userLocation)) {
+//                // todo: open AR
+//                playerViewModel.clueFound();
+//
+//                if (playerViewModel.isFinishedGame(playerViewModel.currentPlayerId())) {
+//                    // found the last hint
+//                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+//                    dialog.setTitle("Congrats!")
+//                            .setMessage("You found all hints!")
+//                            .setOkButton("Ok", v -> {
+//                            })
+//                            .show();
+//                    playerViewModel.gameOver(view);
+//                    mapHandler.locationChangedCallback = null;
+//                } else {
+////                    MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+////                    dialog.setTitle("Congrats!")
+////                            .setMessage("You found a hint!\nGo search for the next one")
+////                            .setOkButton("Ok", v -> {
+////                            })
+////                            .show();
+//                    Toast.makeText(requireContext(), "open camera", Toast.LENGTH_SHORT).show();
+//                    Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToArScreen());
+//                }
+//            }
+//        };
 
         // on back pressed callback for this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

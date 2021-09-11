@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.PlayerGameFragmentDirections;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
@@ -26,7 +25,8 @@ import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class PlayerViewModel extends ViewModel {
-    private static final double THRESHOLD_DISTANCE = 10d;
+    private static final double OPEN_CAMERA_THRESHOLD_DISTANCE = 10d;
+    private static final double SHOW_AR_THRESHOLD_DISTANCE = 3d;
     private static PlayerViewModel instance = null;
     private final LocalDB db;
     public LiveData<Game> gameLiveData = new MutableLiveData<>();
@@ -132,7 +132,7 @@ public class PlayerViewModel extends ViewModel {
     }
 
 
-    public boolean isCloseEnoughToClue(GeoPoint userLocation) {
+    public boolean isCloseEnoughToOpenCamera(GeoPoint userLocation) {
         Game game = gameLiveData.getValue();
         if (game == null) {
             Log.e("PlayerGame", "null game value while trying to get clues");
@@ -140,7 +140,18 @@ public class PlayerViewModel extends ViewModel {
         }
 
         Clue clue = game.getClueAt(game.getPlayer(currentPlayerId).getClueIndex());
-        return clue.location().distanceToAsDouble(userLocation) < THRESHOLD_DISTANCE;
+        return clue.location().distanceToAsDouble(userLocation) < OPEN_CAMERA_THRESHOLD_DISTANCE;
+    }
+
+    public boolean isCloseEnoughToShowAr(GeoPoint userLocation) {
+        Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("PlayerGame", "null game value while trying to get clues");
+            return false;
+        }
+
+        Clue clue = game.getClueAt(game.getPlayer(currentPlayerId).getClueIndex());
+        return clue.location().distanceToAsDouble(userLocation) < SHOW_AR_THRESHOLD_DISTANCE;
     }
 
     public void clueFound() {
@@ -153,13 +164,16 @@ public class PlayerViewModel extends ViewModel {
     }
 
     public void gameOver(View view) {
-        Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToPlayerGameOver());
+        Navigation.findNavController(view).navigate(R.id.action_playerGame_to_playerGameOver);
     }
 
     public boolean isFinishedGame(String playerId) {
         Game game = gameLiveData.getValue();
+        if (game == null) {
+            Log.e("PlayerGame", "null game value");
+            return false;
+        }
         Player player = game.getPlayer(playerId);
-        // todo: ==size? or ==size-1?
         return player.getClueIndex() >= game.getClues().size();
     }
 }

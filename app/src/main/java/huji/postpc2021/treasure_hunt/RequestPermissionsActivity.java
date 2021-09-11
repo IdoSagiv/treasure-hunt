@@ -31,6 +31,7 @@ public class RequestPermissionsActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE,
                 Manifest.permission.INTERNET
+                ,Manifest.permission.CAMERA // todo: move to the player flow
         };
 
         if (!needToAskPermissions(permissions)) {
