@@ -27,6 +27,8 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Pose;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.Scene;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -50,6 +52,7 @@ public class arFragment extends Fragment {
     private boolean ar_placed = false;
     private LocationListener locationListener;
     private View view;
+    private Scene.OnUpdateListener onUpdateListener;
 
     public arFragment() {
         // Required empty public constructor
@@ -85,14 +88,13 @@ public class arFragment extends Fragment {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(final Location location) {
-                Log.i("LocationListener", "ar location listener");
                 if (location == null) return;
-
                 GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                 if (!ar_placed && playerViewModel.isCloseEnoughToShowAr(userLocation)) {
                     Log.i("LocationListener", "try to add ar object");
-                    Toast.makeText(requireContext(), "try to add ar object", Toast.LENGTH_SHORT).show();
-                    ar_placed = placeArObject();
+                    Toast.makeText(requireContext(), "try to add ar object!!!!!!!", Toast.LENGTH_SHORT).show();
+                    placeArObject();
+                    playerViewModel.clueFound();
                 }
             }
 
@@ -113,66 +115,59 @@ public class arFragment extends Fragment {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
         }
 
-//        showArButton.setOnClickListener(v ->
-//                arFragment.getArSceneView().
-//
-//                        getScene().
-//
-//                        addOnUpdateListener(frameTime ->
-//
-//                        {
-//                            if (!ar_placed) {
-//                                ar_placed = placeArObject();
-//                            }
-//                        }));
     }
 
-    private boolean placeArObject() {
-        boolean succeeded = false;
-        //get the frame from the scene for shorthand
-        Frame frame = arFragment.getArSceneView().getArFrame();
+    private void placeArObject() {
+         onUpdateListener = new Scene.OnUpdateListener() {
+            @Override
+            public void onUpdate(FrameTime frameTime) {
+                //get the frame from the scene for shorthand
+                Frame frame = arFragment.getArSceneView().getArFrame();
+                if (frame != null && !ar_placed) {
+                    //get the trackables to ensure planes are detected
+                    Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
+                    if (planeIterator.hasNext()) {
+                        System.out.println("----foundPlane");
+                        Plane plane = planeIterator.next();
 
-        if (frame != null) {
-            //get the trackables to ensure planes are detected
-            Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
-            if (planeIterator.hasNext()) {
-                Plane plane = planeIterator.next();
+                        //If a plane has been detected & is being tracked by ARCore
+                        if (plane.getTrackingState() == TrackingState.TRACKING) {
 
-                //If a plane has been detected & is being tracked by ARCore
-                if (plane.getTrackingState() == TrackingState.TRACKING) {
+                            //Hide the plane discovery helper animation
+                            arFragment.getPlaneDiscoveryController().hide();
 
-                    //Hide the plane discovery helper animation
-                    arFragment.getPlaneDiscoveryController().hide();
+                            //Perform a hit test at the center of the screen to place an object without tapping
+                            List<HitResult> hitTest = frame.hitTest(screenCenter().x, screenCenter().y);
 
-                    //Perform a hit test at the center of the screen to place an object without tapping
-                    List<HitResult> hitTest = frame.hitTest(screenCenter().x, screenCenter().y);
+                            //iterate through all hits
+                            Iterator<HitResult> hitTestIterator = hitTest.iterator();
+                            if (hitTestIterator.hasNext()) {
+                                ar_placed = true;
+                                HitResult hitResult = hitTestIterator.next();
 
-                    //iterate through all hits
-                    Iterator<HitResult> hitTestIterator = hitTest.iterator();
-                    if (hitTestIterator.hasNext()) {
-                        succeeded = true;
-                        HitResult hitResult = hitTestIterator.next();
+                                //Create an anchor at the plane hit
+                                Anchor modelAnchor = plane.createAnchor(hitResult.getHitPose());
 
+                                //Attach a node to this anchor with the scene as the parent
+                                AnchorNode anchorNode = new AnchorNode(modelAnchor);
+                                anchorNode.setParent(arFragment.getArSceneView().getScene());
+                                anchorNode.setRenderable(modelRenderable);
+                                anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
+                                        modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
+                                        modelAnchor.getPose().tz()));
+                                anchorNode.setOnTapListener((hitTestResult, motionEvent) -> {
+                                    Toast toast = Toast.makeText(requireContext(), "message", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                });
+                                arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);
+                            }
+                        }
 
-                        //Create an anchor at the plane hit
-                        Anchor modelAnchor = plane.createAnchor(hitResult.getHitPose());
-
-                        //Attach a node to this anchor with the scene as the parent
-                        AnchorNode anchorNode = new AnchorNode(modelAnchor);
-                        anchorNode.setParent(arFragment.getArSceneView().getScene());
-                        anchorNode.setRenderable(modelRenderable);
-                        anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
-                                modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
-                                modelAnchor.getPose().tz()));
-                        anchorNode.setOnTapListener((hitTestResult, motionEvent) -> {
-                            Toast toast = Toast.makeText(requireContext(), "ar object touched", Toast.LENGTH_SHORT);
-                            toast.show();
-                        });
                     }
                 }
             }
-        }
-        return succeeded;
+        };
+        arFragment.getArSceneView().getScene().addOnUpdateListener(onUpdateListener);
     }
 
     private Vector3 screenCenter() {

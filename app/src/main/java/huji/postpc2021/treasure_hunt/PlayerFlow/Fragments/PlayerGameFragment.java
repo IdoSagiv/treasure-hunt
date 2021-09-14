@@ -113,7 +113,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Toast.makeText(requireContext(),"onViewCreated",Toast.LENGTH_LONG).show();
         scoreListDrawerLayout = view.findViewById(R.id.drawerLayoutScoreList);
         scoreListDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -144,8 +144,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                 GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                 if (playerViewModel.isCloseEnoughToOpenCamera(userLocation)) {
                     // todo: open AR
-                    playerViewModel.clueFound();
-
                     if (playerViewModel.isFinishedGame(playerViewModel.currentPlayerId())) {
                         // found the last hint
                         MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
