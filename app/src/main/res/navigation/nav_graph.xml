@@ -246,5 +246,10 @@
         <action
             android:id="@+id/action_arScreen_to_playerGame"
             app:destination="@id/playerGame" />
+        <action
+            android:id="@+id/action_arScreen_to_playerGameOver"
+            app:destination="@id/playerGameOver"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
 </navigation>
