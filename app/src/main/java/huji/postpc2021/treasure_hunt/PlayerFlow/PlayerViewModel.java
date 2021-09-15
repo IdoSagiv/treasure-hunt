@@ -171,6 +171,10 @@ public class PlayerViewModel extends ViewModel {
         Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGameOver);
     }
 
+    public void backToGameFromAr(View view){
+        Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGame);
+    }
+
     public boolean isFinishedGame(String playerId) {
         Game game = gameLiveData.getValue();
         if (game == null) {

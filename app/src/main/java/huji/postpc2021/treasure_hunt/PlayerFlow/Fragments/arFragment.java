@@ -92,51 +92,47 @@ public class arFragment extends Fragment implements LocationListener {
     }
 
     private void placeArObject() {
-        onUpdateListener = new Scene.OnUpdateListener() {
-            @Override
-            public void onUpdate(FrameTime frameTime) {
-                //get the frame from the scene for shorthand
-                Frame frame = arFragment.getArSceneView().getArFrame();
-                if (frame != null && !ar_placed) {
-                    //get the trackables to ensure planes are detected
-                    Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
-                    if (planeIterator.hasNext()) {
-                        Plane plane = planeIterator.next();
+        arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
+            //get the frame from the scene for shorthand
+            Frame frame = arFragment.getArSceneView().getArFrame();
+            if (frame != null && !ar_placed) {
+                //get the trackables to ensure planes are detected
+                Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
+                if (planeIterator.hasNext()) {
+                    Plane plane = planeIterator.next();
 
-                        //If a plane has been detected & is being tracked by ARCore
-                        if (plane.getTrackingState() == TrackingState.TRACKING) {
+                    //If a plane has been detected & is being tracked by ARCore
+                    if (plane.getTrackingState() == TrackingState.TRACKING) {
 
-                            //Hide the plane discovery helper animation
-                            arFragment.getPlaneDiscoveryController().hide();
+                        //Hide the plane discovery helper animation
+                        arFragment.getPlaneDiscoveryController().hide();
 
-                            //Perform a hit test at the center of the screen to place an object without tapping
-                            List<HitResult> hitTest = frame.hitTest(screenCenter().x, screenCenter().y);
+                        //Perform a hit test at the center of the screen to place an object without tapping
+                        List<HitResult> hitTest = frame.hitTest(screenCenter().x, screenCenter().y);
 
-                            //iterate through all hits
-                            Iterator<HitResult> hitTestIterator = hitTest.iterator();
-                            if (hitTestIterator.hasNext()) {
-                                ar_placed = true;
-                                HitResult hitResult = hitTestIterator.next();
+                        //iterate through all hits
+                        Iterator<HitResult> hitTestIterator = hitTest.iterator();
+                        if (hitTestIterator.hasNext()) {
+                            ar_placed = true;
+                            HitResult hitResult = hitTestIterator.next();
 
-                                //Create an anchor at the plane hit
-                                Anchor modelAnchor = plane.createAnchor(hitResult.getHitPose());
+                            //Create an anchor at the plane hit
+                            Anchor modelAnchor = plane.createAnchor(hitResult.getHitPose());
 
-                                //Attach a node to this anchor with the scene as the parent
-                                AnchorNode anchorNode = new AnchorNode(modelAnchor);
-                                anchorNode.setParent(arFragment.getArSceneView().getScene());
-                                anchorNode.setRenderable(modelRenderable);
-                                anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
-                                        modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
-                                        modelAnchor.getPose().tz()));
-                                anchorNode.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
-                                arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);
-                            }
+                            //Attach a node to this anchor with the scene as the parent
+                            AnchorNode anchorNode = new AnchorNode(modelAnchor);
+                            anchorNode.setParent(arFragment.getArSceneView().getScene());
+                            anchorNode.setRenderable(modelRenderable);
+                            anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
+                                    modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
+                                    modelAnchor.getPose().tz()));
+                            anchorNode.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
+                            arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);
                         }
                     }
                 }
             }
-        };
-        arFragment.getArSceneView().getScene().addOnUpdateListener(onUpdateListener);
+        });
     }
 
     private Vector3 screenCenter() {
@@ -184,12 +180,8 @@ public class arFragment extends Fragment implements LocationListener {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
             builder.setTitle("Congrats!")
                     .setCancelable(false)
-                    .setMessage("You found a hint!\n" +
-                            "The next clue is: " + playerViewModel.getCurrentClueHint())
-                    .setNeutralButton("Ok", (dialogInterface, i) -> {
-                        // todo: go back to the game screen
-                        onDestroy();
-                    })
+                    .setMessage("You found the hint!")
+                    .setNeutralButton("Ok", (dialogInterface, i) -> playerViewModel.backToGameFromAr(view))
                     .show();
         }
     }
@@ -198,8 +190,6 @@ public class arFragment extends Fragment implements LocationListener {
     public void onLocationChanged(@NonNull Location location) {
         GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
         if (!ar_placed && playerViewModel.isCloseEnoughToShowAr(userLocation)) {
-            Log.i("LocationListener", "try to add ar object");
-            Toast.makeText(requireContext(), "try to add ar object!!!!!!!", Toast.LENGTH_SHORT).show();
             placeArObject();
         }
     }
