@@ -46,7 +46,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     private DrawerLayout scoreListDrawerLayout;
     private PlayerViewModel playerViewModel;
     private MapHandler mapHandler;
-    //    private LocationListener locationListener;
+    private ImageView openArButton;
     private View view;
 
     public PlayerGameFragment() {
@@ -65,6 +65,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         ImageView exitGameButton = view.findViewById(R.id.buttonExitGamePlayerGame);
         ImageView centerMapButton = view.findViewById(R.id.buttonCenterLocationPlayerGame);
         Button seeHintButton = view.findViewById(R.id.buttonSeeHint);
+        openArButton = view.findViewById(R.id.buttonOpenAr);
 
         mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.Player, getContext());
 
@@ -76,6 +77,9 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                 scoreListDrawerLayout.openDrawer(GravityCompat.START));
 
         exitGameButton.setOnClickListener(v -> leaveGame(view));
+
+        openArButton.setVisibility(View.GONE);
+        openArButton.setOnClickListener(v -> playerViewModel.openAr(view));
 
         seeHintButton.setOnClickListener(v -> showNextClueHint());
 
@@ -111,7 +115,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(requireContext(), "onViewCreated", Toast.LENGTH_LONG).show();
         scoreListDrawerLayout = view.findViewById(R.id.drawerLayoutScoreList);
         scoreListDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -170,7 +173,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage("leave game?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener)
@@ -190,7 +193,11 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         if (playerViewModel.isCloseEnoughToOpenCamera(userLocation)) {
             Toast.makeText(requireContext(), "open camera", Toast.LENGTH_SHORT).show();  // todo: delete
             Log.i("PlayerGameFragment", "open camera fragment");
-            Navigation.findNavController(view).navigate(PlayerGameFragmentDirections.actionPlayerGameToArScreen());
+
+            openArButton.setVisibility(View.VISIBLE);
+            playerViewModel.openAr(view);
+        } else {
+            openArButton.setVisibility(View.GONE);
         }
     }
 }

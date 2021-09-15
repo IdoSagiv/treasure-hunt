@@ -115,11 +115,11 @@ public class arFragment extends Fragment implements LocationListener {
 
                             //Attach a node to this anchor with the scene as the parent
                             AnchorNode anchorNode = new AnchorNode(modelAnchor);
-                            anchorNode.setParent(arFragment.getArSceneView().getScene());
-                            anchorNode.setRenderable(modelRenderable);
                             anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
                                     modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
                                     modelAnchor.getPose().tz()));
+                            anchorNode.setParent(arFragment.getArSceneView().getScene());
+                            anchorNode.setRenderable(modelRenderable);
 
                             anchorNode.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
                             arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);

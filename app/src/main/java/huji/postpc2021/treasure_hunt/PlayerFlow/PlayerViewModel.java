@@ -163,6 +163,10 @@ public class PlayerViewModel extends ViewModel {
         game.foundClueUpdates(currentPlayerId);
     }
 
+    public void openAr(View view) {
+        Navigation.findNavController(view).navigate((R.id.action_playerGame_to_arScreen));
+    }
+
     public void gameOver(View view) {
         Navigation.findNavController(view).navigate(R.id.action_playerGame_to_playerGameOver);
     }
@@ -171,7 +175,7 @@ public class PlayerViewModel extends ViewModel {
         Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGameOver);
     }
 
-    public void backToGameFromAr(View view){
+    public void backToGameFromAr(View view) {
         Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGame);
     }
 
