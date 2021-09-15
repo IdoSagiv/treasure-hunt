@@ -2,18 +2,15 @@ package huji.postpc2021.treasure_hunt.PlayerFlow.Fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,12 +25,10 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Pose;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
-import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Scene;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
-
 
 import org.osmdroid.util.GeoPoint;
 
@@ -42,7 +37,6 @@ import java.util.List;
 
 import huji.postpc2021.treasure_hunt.PlayerFlow.PlayerViewModel;
 import huji.postpc2021.treasure_hunt.R;
-import huji.postpc2021.treasure_hunt.Utils.MessageBoxDialog;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -92,7 +86,7 @@ public class arFragment extends Fragment implements LocationListener {
     }
 
     private void placeArObject() {
-        arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
+        onUpdateListener = frameTime -> {
             //get the frame from the scene for shorthand
             Frame frame = arFragment.getArSceneView().getArFrame();
             if (frame != null && !ar_placed) {
@@ -126,13 +120,15 @@ public class arFragment extends Fragment implements LocationListener {
                             anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
                                     modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
                                     modelAnchor.getPose().tz()));
+
                             anchorNode.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
                             arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);
                         }
                     }
                 }
             }
-        });
+        };
+        arFragment.getArSceneView().getScene().addOnUpdateListener(onUpdateListener);
     }
 
     private Vector3 screenCenter() {
@@ -160,9 +156,7 @@ public class arFragment extends Fragment implements LocationListener {
 
 
     private void onArClick() {
-        //  todo: delete
-        Toast toast = Toast.makeText(requireContext(), "ar object clicked (hint found)", Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(requireContext(), "ar object clicked (hint found)", Toast.LENGTH_SHORT).show(); //  todo: delete
 
         // notify db
         playerViewModel.clueFound();
@@ -172,10 +166,9 @@ public class arFragment extends Fragment implements LocationListener {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
             builder.setTitle("Congrats!")
                     .setCancelable(false)
-                    .setMessage("You found all hints!")
+                    .setMessage("You found all the hints!")
                     .setNeutralButton("Ok", (dialogInterface, i) -> playerViewModel.allCluesFound(view))
                     .show();
-
         } else {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
             builder.setTitle("Congrats!")

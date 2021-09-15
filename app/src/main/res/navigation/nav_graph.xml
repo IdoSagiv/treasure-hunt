@@ -245,7 +245,9 @@
         tools:layout="@layout/fragment_ar">
         <action
             android:id="@+id/action_arScreen_to_playerGame"
-            app:destination="@id/playerGame" />
+            app:destination="@id/playerGame"
+            app:enterAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_in_left" />
         <action
             android:id="@+id/action_arScreen_to_playerGameOver"
             app:destination="@id/playerGameOver"
