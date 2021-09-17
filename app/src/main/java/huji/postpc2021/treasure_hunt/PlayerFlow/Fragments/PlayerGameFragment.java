@@ -51,6 +51,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     private MapHandler mapHandler;
     private ImageView openArButton;
     private View view;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     public PlayerGameFragment() {
         // Required empty public constructor
@@ -167,6 +168,21 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        playerViewModel.openAr(view);
+                    } else {
+                        Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                        builder.setTitle("Permissions needed")
+                                .setMessage("In order to search the clue using AR\nwe need your permission to use the camera")
+                                .setPositiveButton("Grant permissions", (dialogInterface, i) -> openArScreen())
+                                .setNegativeButton("Not now", null)
+                                .show();
+                    }
+                });
+
         // show the first hint at the beginning
         showNextClueHint();
     }
@@ -224,20 +240,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             playerViewModel.openAr(view);
         } else {
-            ActivityResultLauncher<String> requestPermissionLauncher =
-                    registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                        if (isGranted) {
-                            playerViewModel.openAr(view);
-                        } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                            builder.setTitle("Permissions needed")
-                                    .setMessage("In order to search the clue using AR\nwe need your permission to use the camera")
-                                    .setPositiveButton("Grant permissions", (dialogInterface, i) -> openArScreen())
-                                    .setNegativeButton("Not now", null)
-                                    .show();
-                        }
-                    });
-
             requestPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
     }
