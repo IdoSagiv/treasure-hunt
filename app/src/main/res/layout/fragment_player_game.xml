@@ -68,8 +68,10 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/binoculars"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/buttonSeeHint"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
 
 
         <ImageView

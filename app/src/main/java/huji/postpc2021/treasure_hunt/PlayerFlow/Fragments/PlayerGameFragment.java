@@ -17,10 +17,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -69,6 +72,14 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         mapHandler = new MapHandler(mMapView, MapHandler.MarkersType.Player, getContext());
 
+        LocationManager locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // start location updates
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
+        }
+
         // set buttons behavior
 
         centerMapButton.setOnClickListener(v -> mapHandler.mapToCurrentLocation());
@@ -78,8 +89,15 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         exitGameButton.setOnClickListener(v -> leaveGame(view));
 
-        openArButton.setVisibility(View.GONE);
-        openArButton.setOnClickListener(v -> playerViewModel.openAr(view));
+        // first check of the users location
+        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (lastKnownLocation != null) {
+            if (playerViewModel.isCloseEnoughToShowAr(new GeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()))) {
+                openArButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        openArButton.setOnClickListener(v -> openArScreen());
 
         seeHintButton.setOnClickListener(v -> showNextClueHint());
 
@@ -136,14 +154,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
             }
         });
 
-        LocationManager locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // start location updates
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
-        }
-
         // on back pressed callback for this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -191,13 +201,44 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
         if (playerViewModel.isCloseEnoughToOpenCamera(userLocation)) {
-            Toast.makeText(requireContext(), "open camera", Toast.LENGTH_SHORT).show();  // todo: delete
-            Log.i("PlayerGameFragment", "open camera fragment");
+            if (openArButton.getVisibility() == View.VISIBLE) {
+                return;
+            }
 
             openArButton.setVisibility(View.VISIBLE);
-            playerViewModel.openAr(view);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("You are close!")
+                    .setMessage("The hint is very close to you!\nOpen the camera and search it")
+                    .setPositiveButton("Open camera", (dialogInterface, i) -> openArScreen())
+                    .setNegativeButton("Not now", null)
+                    .show();
         } else {
             openArButton.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void openArScreen() {
+        // check if there is permission to use the camera
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            playerViewModel.openAr(view);
+        } else {
+            ActivityResultLauncher<String> requestPermissionLauncher =
+                    registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                        if (isGranted) {
+                            playerViewModel.openAr(view);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                            builder.setTitle("Permissions needed")
+                                    .setMessage("In order to search the clue using AR\nwe need your permission to use the camera")
+                                    .setPositiveButton("Grant permissions", (dialogInterface, i) -> openArScreen())
+                                    .setNegativeButton("Not now", null)
+                                    .show();
+                        }
+                    });
+
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
     }
 }
