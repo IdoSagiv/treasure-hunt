@@ -8,14 +8,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.ar.core.Anchor;
@@ -83,12 +86,22 @@ public class arFragment extends Fragment implements LocationListener {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
         }
+
+        // on back pressed callback for this fragment
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                    playerViewModel.backToGameFromAr(view);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void placeArObject() {
         onUpdateListener = frameTime -> {
             //get the frame from the scene for shorthand
             Frame frame = arFragment.getArSceneView().getArFrame();
+//            Log.i("shit","onUpdate");
             if (frame != null && !ar_placed) {
                 //get the trackables to ensure planes are detected
                 Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
@@ -122,7 +135,6 @@ public class arFragment extends Fragment implements LocationListener {
                             anchorNode.setRenderable(modelRenderable);
 
                             anchorNode.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
-                            arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);
                         }
                     }
                 }

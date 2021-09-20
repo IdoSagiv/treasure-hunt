@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -52,6 +53,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     private ImageView openArButton;
     private View view;
     private ActivityResultLauncher<String> requestPermissionLauncher;
+    private boolean openArFlag = false;
 
     public PlayerGameFragment() {
         // Required empty public constructor
@@ -59,9 +61,12 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_player_game, container, false);
         playerViewModel = PlayerViewModel.getInstance();
+//        Toast.makeText(requireContext(),"onCreateView1 arFlag:"+openArFlag, Toast.LENGTH_SHORT).show();
+        openArFlag = false;
 
         // find views
         MapView mMapView = view.findViewById(R.id.mapViewPlayerGame);
@@ -171,6 +176,8 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
+                        openArButton.setVisibility(View.VISIBLE);
+                        openArFlag = true;
                         playerViewModel.openAr(view);
                     } else {
                         Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_SHORT).show();
@@ -217,11 +224,12 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         GeoPoint userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
         if (playerViewModel.isCloseEnoughToOpenCamera(userLocation)) {
-            if (openArButton.getVisibility() == View.VISIBLE) {
+            if (openArFlag) {
                 return;
             }
 
             openArButton.setVisibility(View.VISIBLE);
+            openArFlag = true;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("You are close!")
@@ -230,7 +238,10 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                     .setNegativeButton("Not now", null)
                     .show();
         } else {
-            openArButton.setVisibility(View.GONE);
+            if (openArFlag) {
+                openArButton.setVisibility(View.GONE);
+                openArFlag = false;
+            }
         }
     }
 
