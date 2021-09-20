@@ -130,7 +130,7 @@ public class arFragment extends Fragment implements LocationListener {
 
                             //Attach a node to this anchor with the scene as the parent
                             AnchorNode anchorNode = new AnchorNode(modelAnchor);
-
+                            anchorNode.setParent(arFragment.getArSceneView().getScene());
                             TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
 
                             //rotate model to be rendered correctly
