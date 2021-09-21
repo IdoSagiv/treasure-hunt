@@ -19,6 +19,7 @@ import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Creator;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.GameStatus;
+import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 import huji.postpc2021.treasure_hunt.Utils.LocalDB;
 import huji.postpc2021.treasure_hunt.R;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
@@ -276,5 +277,20 @@ public class CreatorViewModel extends ViewModel {
         clue.setLocation(newLocation);
         game.upsertClue(clue);
         cluesMutableLiveData.setValue(game.getClues());
+    }
+
+    public boolean isAllPlayersFinished() {
+        Game game = currentGame.getValue();
+        if (game == null) {
+            Log.e("CreatorDoneEditing", "null game value");
+            return false;
+        }
+        int numClues = game.getClues().size();
+        for (Player player : game.getPlayers().values()) {
+            if (player.getClueIndex() < numClues) {
+                return false;
+            }
+        }
+        return true;
     }
 }

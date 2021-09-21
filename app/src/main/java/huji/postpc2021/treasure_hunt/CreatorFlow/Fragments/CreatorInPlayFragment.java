@@ -55,6 +55,13 @@ public class CreatorInPlayFragment extends Fragment {
             if (game == null) {
                 return;
             }
+
+            // if all the players found all the clues, end the game
+            if (creatorViewModel.isAllPlayersFinished()) {
+                creatorViewModel.endGame(view);
+                return;
+            }
+
             if (!firstMapCenter) {
                 firstMapCenter = true;
                 mapHandler.centerMapTo(game.getClueAt(0).location());
