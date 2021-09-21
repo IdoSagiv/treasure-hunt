@@ -240,7 +240,7 @@
 
     <fragment
         android:id="@+id/arScreen"
-        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.arFragment"
+        android:name="huji.postpc2021.treasure_hunt.PlayerFlow.Fragments.SearchHintArFragment"
         android:label="fragment_ar"
         tools:layout="@layout/fragment_ar">
         <action

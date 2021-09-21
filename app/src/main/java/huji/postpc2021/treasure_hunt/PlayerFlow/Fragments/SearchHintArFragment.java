@@ -8,10 +8,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -42,14 +42,14 @@ import huji.postpc2021.treasure_hunt.R;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class arFragment extends Fragment implements LocationListener {
+public class SearchHintArFragment extends Fragment implements LocationListener {
     private PlayerViewModel playerViewModel;
     private ArFragment arFragment;
     private ModelRenderable modelRenderable = null;
     private boolean ar_placed = false;
     private View view;
 
-    public arFragment() {
+    public SearchHintArFragment() {
         // Required empty public constructor
     }
 
@@ -96,26 +96,9 @@ public class arFragment extends Fragment implements LocationListener {
     }
 
     private void placeArObject() {
-        //get the frame from the scene for shorthand
-        //            Log.i("shit","onUpdate");
-        //get the trackables to ensure planes are detected
-        //If a plane has been detected & is being tracked by ARCore
-        //Hide the plane discovery helper animation
-        //Perform a hit test at the center of the screen to place an object without tapping
-        //iterate through all hits
-        //Create an anchor at the plane hit
-        //Attach a node to this anchor with the scene as the parent
-        //rotate model to be rendered correctly
-        // disable option to change model rotation/translation/scaling
-        //                            anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
-        //                                    modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
-        //                                    modelAnchor.getPose().tz()));
-        //                            anchorNode.setParent(arFragment.getArSceneView().getScene());
-        //                            anchorNode.setRenderable(modelRenderable);
         Scene.OnUpdateListener onUpdateListener = frameTime -> {
             //get the frame from the scene for shorthand
             Frame frame = arFragment.getArSceneView().getArFrame();
-//            Log.i("shit","onUpdate");
             if (frame != null && !ar_placed) {
                 //get the trackables to ensure planes are detected
                 Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
@@ -134,6 +117,7 @@ public class arFragment extends Fragment implements LocationListener {
                         //iterate through all hits
                         Iterator<HitResult> hitTestIterator = hitTest.iterator();
                         if (hitTestIterator.hasNext()) {
+                            Log.d("ArFragment", "ar object placed");
                             ar_placed = true;
                             HitResult hitResult = hitTestIterator.next();
 
@@ -152,15 +136,11 @@ public class arFragment extends Fragment implements LocationListener {
                             node.setParent(anchorNode);
                             node.setRenderable(modelRenderable);
                             node.select();
+
                             // disable option to change model rotation/translation/scaling
                             node.getRotationController().setEnabled(false);
                             node.getTranslationController().setEnabled(false);
                             node.getScaleController().setEnabled(false);
-//                            anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
-//                                    modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
-//                                    modelAnchor.getPose().tz()));
-//                            anchorNode.setParent(arFragment.getArSceneView().getScene());
-//                            anchorNode.setRenderable(modelRenderable);
 
                             node.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
                         }
@@ -196,7 +176,7 @@ public class arFragment extends Fragment implements LocationListener {
 
 
     private void onArClick() {
-        Toast.makeText(requireContext(), "ar object clicked (hint found)", Toast.LENGTH_SHORT).show(); //  todo: delete
+        Log.d("ArFragment", "ar object clicked (hint found)");
 
         // notify db
         playerViewModel.clueFound();
