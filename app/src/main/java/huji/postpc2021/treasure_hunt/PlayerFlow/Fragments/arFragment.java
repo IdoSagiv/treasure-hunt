@@ -22,13 +22,14 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
-import com.google.ar.core.Pose;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Scene;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
+import com.google.ar.sceneform.ux.TransformableNode;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -46,7 +47,6 @@ public class arFragment extends Fragment implements LocationListener {
     private ModelRenderable modelRenderable = null;
     private boolean ar_placed = false;
     private View view;
-    private Scene.OnUpdateListener onUpdateListener;
 
     public arFragment() {
         // Required empty public constructor
@@ -68,7 +68,7 @@ public class arFragment extends Fragment implements LocationListener {
         super.onViewCreated(view, savedInstanceState);
 
         // build the AR object
-        ModelRenderable.builder().setSource(requireContext(), Uri.parse("Mail.sfb")).build()
+        ModelRenderable.builder().setSource(requireContext(), Uri.parse("chest.sfb")).build()
                 .thenAccept(modelRenderable -> this.modelRenderable = modelRenderable)
                 .exceptionally(throwable -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -83,12 +83,38 @@ public class arFragment extends Fragment implements LocationListener {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
         }
+//
+//        // on back pressed callback for this fragment
+//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                    playerViewModel.backToGameFromAr(view);
+//            }
+//        };
+//        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void placeArObject() {
-        onUpdateListener = frameTime -> {
+        //get the frame from the scene for shorthand
+        //            Log.i("shit","onUpdate");
+        //get the trackables to ensure planes are detected
+        //If a plane has been detected & is being tracked by ARCore
+        //Hide the plane discovery helper animation
+        //Perform a hit test at the center of the screen to place an object without tapping
+        //iterate through all hits
+        //Create an anchor at the plane hit
+        //Attach a node to this anchor with the scene as the parent
+        //rotate model to be rendered correctly
+        // disable option to change model rotation/translation/scaling
+        //                            anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
+        //                                    modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
+        //                                    modelAnchor.getPose().tz()));
+        //                            anchorNode.setParent(arFragment.getArSceneView().getScene());
+        //                            anchorNode.setRenderable(modelRenderable);
+        Scene.OnUpdateListener onUpdateListener = frameTime -> {
             //get the frame from the scene for shorthand
             Frame frame = arFragment.getArSceneView().getArFrame();
+//            Log.i("shit","onUpdate");
             if (frame != null && !ar_placed) {
                 //get the trackables to ensure planes are detected
                 Iterator<Plane> planeIterator = frame.getUpdatedTrackables(Plane.class).iterator();
@@ -115,14 +141,27 @@ public class arFragment extends Fragment implements LocationListener {
 
                             //Attach a node to this anchor with the scene as the parent
                             AnchorNode anchorNode = new AnchorNode(modelAnchor);
-                            anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
-                                    modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
-                                    modelAnchor.getPose().tz()));
                             anchorNode.setParent(arFragment.getArSceneView().getScene());
-                            anchorNode.setRenderable(modelRenderable);
+                            TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
 
-                            anchorNode.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
-                            arFragment.getArSceneView().getScene().removeOnUpdateListener(onUpdateListener);
+                            //rotate model to be rendered correctly
+                            node.setLocalRotation(Quaternion.axisAngle(new Vector3(1f, 0f, 0f), 180f));
+                            node.setLocalRotation(Quaternion.axisAngle(new Vector3(0f, 1f, 0f), 180f));
+
+                            node.setParent(anchorNode);
+                            node.setRenderable(modelRenderable);
+                            node.select();
+                            // disable option to change model rotation/translation/scaling
+                            node.getRotationController().setEnabled(false);
+                            node.getTranslationController().setEnabled(false);
+                            node.getScaleController().setEnabled(false);
+//                            anchorNode.setWorldPosition(new Vector3(modelAnchor.getPose().tx(),
+//                                    modelAnchor.getPose().compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
+//                                    modelAnchor.getPose().tz()));
+//                            anchorNode.setParent(arFragment.getArSceneView().getScene());
+//                            anchorNode.setRenderable(modelRenderable);
+
+                            node.setOnTapListener((hitTestResult, motionEvent) -> onArClick());
                         }
                     }
                 }
