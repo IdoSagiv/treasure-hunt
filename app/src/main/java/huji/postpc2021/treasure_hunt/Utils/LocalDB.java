@@ -142,6 +142,7 @@ public class LocalDB {
     }
 
     public void upsertCreator(Creator creator) {
+        allCreators.put(creator.getId(), creator);
         fireStore.collection(CREATORS_FB_COLLECTION).document(creator.getId()).set(creator);
     }
 

@@ -79,13 +79,14 @@ public class CreatorViewModel extends ViewModel {
         cluesMutableLiveData.setValue(new HashMap<>(game.getClues()));
     }
 
-    public void registerNewUSer(View view) {
+    public void registerNewUser(View view) {
         FirebaseUser user = db.auth.getCurrentUser();
         if (user == null) {
             Log.e("CreatorRegister", "null user value while trying to register");
             return;
         }
         db.addCreator(user.getUid());
+        currentCreator = db.getCreator(user.getUid());
         Navigation.findNavController(view).navigate(R.id.action_creatorRegister_to_creatorHomeScreen);
     }
 

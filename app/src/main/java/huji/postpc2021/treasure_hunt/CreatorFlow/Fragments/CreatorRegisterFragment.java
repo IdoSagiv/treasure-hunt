@@ -2,7 +2,6 @@ package huji.postpc2021.treasure_hunt.CreatorFlow.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.google.firebase.FirebaseNetworkException;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
@@ -55,15 +51,10 @@ public class CreatorRegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_creator_register, container, false);
         creatorViewModel = CreatorViewModel.getInstance();
 
-        Button creatorSignInButton = view.findViewById(R.id.buttonSignIn);
-
         emailEditText = view.findViewById(R.id.editTextNewEmail);
         passEditText = view.findViewById(R.id.editTextNewPassword);
         rePassEditText = view.findViewById(R.id.editTextNewRePassword);
 
-        creatorSignInButton.setOnClickListener(v ->
-                Navigation.findNavController(view)
-                        .navigate(CreatorRegisterFragmentDirections.actionCreatorRegisterToCreatorHomeScreen()));
         return view;
     }
 
@@ -83,7 +74,7 @@ public class CreatorRegisterFragment extends Fragment {
                     passEditText.getText().toString()).addOnCompleteListener(requireActivity(), task -> {
                 if (task.isSuccessful()) {
                     Log.d("CreatorRegisterFragment", "createUserWithEmail:success");
-                    creatorViewModel.registerNewUSer(view);
+                    creatorViewModel.registerNewUser(view);
                 } else {
                     // If sign in fails, display a message to the user.
                     Exception exc = task.getException();
