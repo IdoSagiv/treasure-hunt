@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -83,15 +84,15 @@ public class arFragment extends Fragment implements LocationListener {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
         }
-//
-//        // on back pressed callback for this fragment
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                    playerViewModel.backToGameFromAr(view);
-//            }
-//        };
-//        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
+        // on back pressed callback for this fragment
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                playerViewModel.backToGameFromArWithoutFindClue(view);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void placeArObject() {
@@ -213,7 +214,7 @@ public class arFragment extends Fragment implements LocationListener {
             builder.setTitle("Congrats!")
                     .setCancelable(false)
                     .setMessage("You found the hint!")
-                    .setNeutralButton("Ok", (dialogInterface, i) -> playerViewModel.backToGameFromAr(view))
+                    .setNeutralButton("Ok", (dialogInterface, i) -> playerViewModel.backToGameFromArAfterFindClue(view))
                     .show();
         }
     }

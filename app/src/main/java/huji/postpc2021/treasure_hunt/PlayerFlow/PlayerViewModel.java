@@ -1,5 +1,6 @@
 package huji.postpc2021.treasure_hunt.PlayerFlow;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -175,9 +176,17 @@ public class PlayerViewModel extends ViewModel {
         Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGameOver);
     }
 
-    public void backToGameFromAr(View view) {
+    public void backToGameFromArAfterFindClue(View view) {
         Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGame);
     }
+
+    public void backToGameFromArWithoutFindClue(View view) {
+        Bundle b = new Bundle();
+        b.putBoolean("showOpenArButton", true);
+        // navigate back to the game fragment and leave the openAr button visible
+        Navigation.findNavController(view).navigate(R.id.action_arScreen_to_playerGame, b);
+    }
+
 
     public boolean isFinishedGame(String playerId) {
         Game game = gameLiveData.getValue();

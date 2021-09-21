@@ -57,6 +57,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("PlayerGameFragment", "onCreateView");
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_player_game, container, false);
         playerViewModel = PlayerViewModel.getInstance();
@@ -88,14 +89,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         exitGameButton.setOnClickListener(v -> leaveGame(view));
 
-        // first check of the users location
-        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (lastKnownLocation != null) {
-            if (playerViewModel.isCloseEnoughToShowAr(new GeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()))) {
-                openArButton.setVisibility(View.VISIBLE);
-            }
-        }
-
         openArButton.setOnClickListener(v -> openArScreen());
 
         seeHintButton.setOnClickListener(v -> showNextClueHint());
@@ -103,16 +96,9 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         return view;
     }
 
-    private void showNextClueHint() {
-        MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
-        dialog.setTitle("Hint to the next clue")
-                .setMessage(playerViewModel.getCurrentClueHint())
-                .setOkButton("Ok", null)
-                .show();
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d("PlayerGameFragment", "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         scoreListDrawerLayout = view.findViewById(R.id.drawerLayoutScoreList);
         scoreListDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -151,7 +137,7 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
-                        playerViewModel.openAr(view);
+                        openArScreen();
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                         builder.setTitle("Permission is needed")
@@ -162,8 +148,15 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                     }
                 });
 
-        // show the first hint at the beginning
-        showNextClueHint();
+        // check if the openAr button should be visible at the beginning
+        if (getArguments() != null && getArguments().getBoolean("showOpenArButton", false)) {
+            openArButton.setVisibility(View.VISIBLE);
+        } else {
+            openArButton.setVisibility(View.GONE);
+
+            // show the next hint at the beginning
+            showNextClueHint();
+        }
     }
 
     @Override
@@ -200,6 +193,14 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
         builder.setMessage("leave game?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener)
+                .show();
+    }
+
+    private void showNextClueHint() {
+        MessageBoxDialog dialog = new MessageBoxDialog(requireActivity());
+        dialog.setTitle("Hint to the next clue")
+                .setMessage(playerViewModel.getCurrentClueHint())
+                .setOkButton("Ok", null)
                 .show();
     }
 
