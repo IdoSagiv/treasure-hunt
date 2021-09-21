@@ -12,7 +12,7 @@ public class TreasureHuntApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        localDdb = new LocalDB(this);
+        localDdb = new LocalDB();
     }
 
     public static TreasureHuntApp getInstance() {

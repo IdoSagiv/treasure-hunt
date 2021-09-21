@@ -1,6 +1,6 @@
 package huji.postpc2021.treasure_hunt.Utils;
 
-import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Creator;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Game;
@@ -20,20 +20,18 @@ public class LocalDB {
     private final static String GAMES_FB_COLLECTION = "Games";
     private final static String CREATORS_FB_COLLECTION = "Creators";
 
-    private final Context context; // todo: need?
     private final FirebaseFirestore fireStore;
 
-    private final MutableLiveData<ArrayList<Game>> availableGamesMutableLD = new MutableLiveData<>();
-    private final LiveData<ArrayList<Game>> availableGamesLD = availableGamesMutableLD;
+    // set with the game codes of the available games
+    private final HashSet<String> availableGamesCodes = new HashSet<>();
 
-    private final HashMap<String, Game> allGames = new HashMap<>(); // todo: need?
+    private final HashMap<String, Game> allGames = new HashMap<>();
 
-    private final HashMap<String, Creator> allCreators = new HashMap<>(); // todo: need?
+    private final HashMap<String, Creator> allCreators = new HashMap<>();
 
     public FirebaseAuth auth;
 
-    public LocalDB(Context context) {
-        this.context = context;
+    public LocalDB() {
         this.fireStore = FirebaseFirestore.getInstance();
         this.auth = FirebaseAuth.getInstance();
 
@@ -44,20 +42,21 @@ public class LocalDB {
     private void gamesListener() {
         fireStore.collection(GAMES_FB_COLLECTION).addSnapshotListener((value, error) -> {
             allGames.clear();
-            ArrayList<Game> availableGames = new ArrayList<>();
+            availableGamesCodes.clear();
             if (error != null) {
-                // todo: error
+                Log.e("LocalDB", "error occurred while trying to read the Games collection from FireStore");
             } else if (value == null) {
-                // todo: collection deleted -> error?
+                Log.e("LocalDB", "Games collection dose not exists in FireStore while trying to read it");
             } else {
                 for (DocumentSnapshot gameDoc : value.getDocuments()) {
                     Game game = gameDoc.toObject(Game.class);
-                    allGames.put(game.getId(), game);
-                    if (game.getStatus() == GameStatus.waiting) {
-                        availableGames.add(game);
+                    if (game != null) {
+                        allGames.put(game.getId(), game);
+                        if (game.getStatus() == GameStatus.waiting) {
+                            availableGamesCodes.add(game.getCode());
+                        }
                     }
                 }
-                availableGamesMutableLD.setValue(availableGames);
             }
         });
     }
@@ -66,20 +65,18 @@ public class LocalDB {
         fireStore.collection(CREATORS_FB_COLLECTION).addSnapshotListener((value, error) -> {
             allCreators.clear();
             if (error != null) {
-                // todo: error
+                Log.e("LocalDB", "error occurred while trying to read the Creators collection from FireStore");
             } else if (value == null) {
-                // todo: collection deleted -> error?
+                Log.e("LocalDB", "Creators collection dose not exists in FireStore while trying to read it");
             } else {
                 for (DocumentSnapshot creatorDoc : value.getDocuments()) {
                     Creator creator = creatorDoc.toObject(Creator.class);
-                    allCreators.put(creator.getId(), creator);
+                    if (creator != null) {
+                        allCreators.put(creator.getId(), creator);
+                    }
                 }
             }
         });
-    }
-
-    public LiveData<ArrayList<Game>> getAvailableGames() {
-        return availableGamesLD;
     }
 
     public LiveData<Game> getGameInfo(String gameId) {
@@ -91,9 +88,9 @@ public class LocalDB {
 
         fireStore.collection(GAMES_FB_COLLECTION).document(gameId).addSnapshotListener((value, error) -> {
             if (error != null) {
-                // todo: error
+                Log.e("LocalDB", "error occurred while trying to read a games document from FireStore");
             } else if (value == null) {
-                // todo: collection deleted -> error?
+                Log.e("LocalDB", "a game document dose not exists in FireStore while trying to read it");
             } else {
                 Game game = value.toObject(Game.class);
                 gameLD.setValue(game);
@@ -117,14 +114,7 @@ public class LocalDB {
      * @return true in the given code is associated to a game that is waiting for players
      */
     public boolean isAvailableGame(String gameCode) {
-        if (availableGamesMutableLD.getValue() != null) {
-            for (Game game : availableGamesMutableLD.getValue()) {
-                if (game.getCode().equals(gameCode)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return availableGamesCodes.contains(gameCode);
     }
 
     /**
@@ -160,9 +150,9 @@ public class LocalDB {
 
         fireStore.collection(CREATORS_FB_COLLECTION).document(creatorId).addSnapshotListener((value, error) -> {
             if (error != null) {
-                // todo: error
+                Log.e("LocalDB", "error occurred while trying to read a creator document from FireStore");
             } else if (value == null) {
-                // todo: collection deleted -> error?
+                Log.e("LocalDB", "a creator document dose not exists in FireStore while trying to read it");
             } else {
                 Creator c = value.toObject(Creator.class);
                 creatorLD.setValue(c);
@@ -171,7 +161,4 @@ public class LocalDB {
 
         return creatorLD;
     }
-
-    // TODO add AR
-
 }
