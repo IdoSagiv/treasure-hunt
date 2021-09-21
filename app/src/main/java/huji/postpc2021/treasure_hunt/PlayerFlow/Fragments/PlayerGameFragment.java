@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -27,7 +26,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -114,24 +112,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
     }
 
     @Override
-    public void onDestroy() {
-        stopLocationUpdates();
-        super.onDestroy();
-    }
-
-    @Nullable
-    @Override
-    public Object getExitTransition() {
-        stopLocationUpdates();
-        return super.getExitTransition();
-    }
-
-    private void stopLocationUpdates() {
-        LocationManager locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
-        locationManager.removeUpdates(this);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         scoreListDrawerLayout = view.findViewById(R.id.drawerLayoutScoreList);
@@ -173,9 +153,8 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
                     if (isGranted) {
                         playerViewModel.openAr(view);
                     } else {
-                        Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_SHORT).show();
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                        builder.setTitle("Permissions needed")
+                        builder.setTitle("Permission is needed")
                                 .setMessage("In order to search the clue using AR\nwe need your permission to use the camera")
                                 .setPositiveButton("Grant permissions", (dialogInterface, i) -> openArScreen())
                                 .setNegativeButton("Not now", null)
@@ -185,6 +164,24 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
 
         // show the first hint at the beginning
         showNextClueHint();
+    }
+
+    @Override
+    public void onDestroy() {
+        stopLocationUpdates();
+        super.onDestroy();
+    }
+
+    @Nullable
+    @Override
+    public Object getExitTransition() {
+        stopLocationUpdates();
+        return super.getExitTransition();
+    }
+
+    private void stopLocationUpdates() {
+        LocationManager locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
+        locationManager.removeUpdates(this);
     }
 
     private void leaveGame(View view) {
@@ -233,7 +230,6 @@ public class PlayerGameFragment extends Fragment implements NavigationView.OnNav
             openArButton.setVisibility(View.GONE);
         }
     }
-
 
     private void openArScreen() {
         // check if there is permission to use the camera
