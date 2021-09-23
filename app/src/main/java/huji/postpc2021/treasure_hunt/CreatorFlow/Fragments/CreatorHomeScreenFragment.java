@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import huji.postpc2021.treasure_hunt.CreatorFlow.CreatorViewModel;
 import huji.postpc2021.treasure_hunt.R;
 
-
 public class CreatorHomeScreenFragment extends Fragment {
     private CreatorViewModel creatorViewModel;
 
@@ -77,7 +76,6 @@ public class CreatorHomeScreenFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-
 
         return view;
     }
@@ -141,6 +139,4 @@ public class CreatorHomeScreenFragment extends Fragment {
             }
         });
     }
-
-
 }

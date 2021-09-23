@@ -6,11 +6,9 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.text.InputType;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseNetworkException;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,9 +50,7 @@ public class CreatorLoginFragment extends Fragment {
         EditText passwordEditText = view.findViewById(R.id.editTextPasswordLogin);
         TextView forgotPassButton = view.findViewById(R.id.textViewForgotPassword);
 
-        creatorRegisterButton.setOnClickListener(v ->
-                Navigation.findNavController(view)
-                        .navigate(CreatorLoginFragmentDirections.actionCreatorLoginToCreatorRegister()));
+        creatorRegisterButton.setOnClickListener(v -> creatorViewModel.goToRegister(view));
 
         creatorLoginButton.setOnClickListener(v -> {
             if (UtilsFunctions.validateEmail(emailEditText) & validatePassword(passwordEditText)) {

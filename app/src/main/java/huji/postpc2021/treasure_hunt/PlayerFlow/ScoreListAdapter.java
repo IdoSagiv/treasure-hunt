@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Player;
 import huji.postpc2021.treasure_hunt.R;
@@ -22,7 +21,7 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListItemViewHold
         this.players.addAll(players);
 
         // sort by score
-        Collections.sort(this.players, (p1, p2) -> -1 * Integer.compare(p1.getScore(), p2.getScore()));
+        this.players.sort((p1, p2) -> -1 * Integer.compare(p1.getScore(), p2.getScore()));
         notifyDataSetChanged();
     }
 
@@ -45,7 +44,7 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListItemViewHold
                         : R.drawable.recyclerview_general_item_background);
 
         holder.nicknameTextView.setText(player.getNickname());
-        holder.scoreTextView.setText(Integer.toString(player.getScore()));
+        holder.scoreTextView.setText(player.getScore());
     }
 
     @Override

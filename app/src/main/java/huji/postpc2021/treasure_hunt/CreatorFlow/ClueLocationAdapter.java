@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import huji.postpc2021.treasure_hunt.ReorderCluesCallback;
 import huji.postpc2021.treasure_hunt.Utils.DataObjects.Clue;
@@ -35,7 +34,7 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
     public void setItems(Collection<Clue> clues) {
         this.clues.clear();
         this.clues.addAll(clues);
-        Collections.sort(this.clues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+        this.clues.sort((c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
 
         notifyDataSetChanged();
     }
@@ -89,6 +88,5 @@ public class ClueLocationAdapter extends RecyclerView.Adapter<ClueLocationViewHo
             Clue movedClue = clues.get(from);
             reorderClue.moveClue(movedClue.getId(), to);
         }
-//        notifyDataSetChanged();
     }
 }

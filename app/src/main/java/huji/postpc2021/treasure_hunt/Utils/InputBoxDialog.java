@@ -3,9 +3,7 @@ package huji.postpc2021.treasure_hunt.Utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
-import android.provider.ContactsContract;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +22,6 @@ public class InputBoxDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_input_box_layout);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
     }
 
     public InputBoxDialog setInputValidation(InputValidationFunction inputValidation) {
@@ -94,6 +91,5 @@ public class InputBoxDialog {
     public void show() {
         dialog.show();
     }
-
 }
 

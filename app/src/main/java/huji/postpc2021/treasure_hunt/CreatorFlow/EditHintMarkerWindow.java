@@ -2,12 +2,10 @@ package huji.postpc2021.treasure_hunt.CreatorFlow;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;

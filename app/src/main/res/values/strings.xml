@@ -48,5 +48,9 @@
     <string name="game_code_title">Game Code</string>
     <string name="no_players_yet">No players yet</string>
     <string name="no_clues_yet">No clues yet</string>
+    <string name="game_name_hint">Game Name</string>
+    <string name="delete_game_button">Delete Game</string>
+    <string name="see_hint_button">see hint</string>
+    <string name="player_status_clue">clue</string>
 
 </resources>

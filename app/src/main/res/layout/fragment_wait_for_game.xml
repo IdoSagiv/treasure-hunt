@@ -55,7 +55,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="80dp"
-        android:background="@drawable/round_corner_background"
         android:fontFamily="@string/app_font"
         android:gravity="center"
         android:paddingStart="4dp"

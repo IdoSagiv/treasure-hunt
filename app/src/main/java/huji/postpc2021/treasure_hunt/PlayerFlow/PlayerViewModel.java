@@ -48,6 +48,7 @@ public class PlayerViewModel extends ViewModel {
     }
 
     public void clickEnterGame(View view) {
+        if (gameCode.getValue() == null) return;
         String code = gameCode.getValue().toUpperCase();
         if (db.isAvailableGame(code)) {
             gameLiveData = db.getGameFromCode(code);
@@ -196,5 +197,9 @@ public class PlayerViewModel extends ViewModel {
         }
         Player player = game.getPlayer(playerId);
         return player.getClueIndex() >= game.getClues().size();
+    }
+
+    public void openGame(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_waitForGame_to_playerGame);
     }
 }

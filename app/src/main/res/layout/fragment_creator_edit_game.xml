@@ -106,7 +106,7 @@
                     android:id="@+id/editTextGameNameInSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Game Name"
+                    android:hint="@string/game_name_hint"
                     android:inputType="textShortMessage"
                     android:lines="1"
                     android:textAlignment="center" />
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#A3EA2828"
-                    android:text="Delete Game" />
+                    android:text="@string/delete_game_button" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>

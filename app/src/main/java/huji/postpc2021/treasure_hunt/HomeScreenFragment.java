@@ -30,7 +30,6 @@ public class HomeScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
-//        PlayerViewModel playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         PlayerViewModel playerViewModel = PlayerViewModel.getInstance();
 
         Button enterGameButton = view.findViewById(R.id.buttonEnterGame);
@@ -59,12 +58,8 @@ public class HomeScreenFragment extends Fragment {
         // enter game button
         enterGameButton.setOnClickListener(v -> playerViewModel.clickEnterGame(view));
 
-        // todo: move to the viewModel
         enterGameAsCreator.setOnClickListener(v ->
-        {
-//            Navigation.findNavController(view).navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreatorLoginFragment());
-            Navigation.findNavController(view).navigate(R.id.action_homeScreen_to_creatorLogin);
-        });
+                Navigation.findNavController(view).navigate(R.id.action_homeScreen_to_creatorLogin));
 
 
         return view;
@@ -89,7 +84,7 @@ public class HomeScreenFragment extends Fragment {
                     }
                 };
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setMessage("close app?")
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener)

@@ -17,8 +17,8 @@ public class Player {
         this.clueIndex = 0;
     }
 
-    // empty constructor for firebase
     public Player() {
+        // Required empty public constructor for FireBase
     }
 
     public String getId() {

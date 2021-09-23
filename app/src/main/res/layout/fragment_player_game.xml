@@ -30,7 +30,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--     the old score list icon -  @android:drawable/btn_star_big_on-->
         <ImageView
             android:id="@+id/buttonSeeScore"
             android:layout_width="wrap_content"
@@ -50,7 +49,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@string/app_font"
-            android:text="see hint"
+            android:text="@string/see_hint_button"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:backgroundTint="@color/buttons_background"

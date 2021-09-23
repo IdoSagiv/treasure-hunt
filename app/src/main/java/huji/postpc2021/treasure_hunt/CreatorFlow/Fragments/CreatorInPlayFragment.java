@@ -81,19 +81,6 @@ public class CreatorInPlayFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapHandler.stopLocationUpdates();
-    }
-
-    @Nullable
-    @Override
-    public Object getExitTransition() {
-        mapHandler.stopLocationUpdates();
-        return super.getExitTransition();
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

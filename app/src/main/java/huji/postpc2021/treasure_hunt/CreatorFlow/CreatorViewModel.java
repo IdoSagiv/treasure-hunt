@@ -98,6 +98,11 @@ public class CreatorViewModel extends ViewModel {
             return;
         }
         currentCreator = db.getCreator(user.getUid());
+        if (currentCreator == null || currentCreator.getValue() == null) {
+            Log.e("CreatorLogin", "null user value while trying to login");
+            return;
+        }
+
         loadGame(currentCreator.getValue().getGameId());
         Navigation.findNavController(view).navigate(R.id.action_creatorLogin_to_creatorHomeScreen);
     }
@@ -292,5 +297,9 @@ public class CreatorViewModel extends ViewModel {
             }
         }
         return true;
+    }
+
+    public void goToRegister(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_creatorLogin_to_creatorRegister);
     }
 }

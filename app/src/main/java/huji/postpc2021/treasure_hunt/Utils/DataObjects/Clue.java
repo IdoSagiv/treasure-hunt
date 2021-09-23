@@ -14,10 +14,9 @@ public class Clue {
 
     private ArrayList<String> visitedPlayersId;
     private int index;
-    // TODO AR
 
     public Clue() {
-        // empty constructor for fireBase
+        // Required empty public constructor for FireBase
     }
 
     public Clue(String description, int index, GeoPoint location) {

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -43,21 +42,11 @@ public class MapHandler implements LocationListener {
     private static final double MAP_MIN_ZOOM = 9.0;
     private final MapView mMapView;
     private GeoPoint startPoint;
-    private final GeoPoint currentLocation = null;
     private final MarkersType markersType;
-    //    private LocationListener mLocationListener;
-    public OnLocationChangedCallback locationChangedCallback = null;
     public OnMapLongPressCallback longPressCallback = null;
     private final Context context;
     public Marker.OnMarkerDragListener markerDragListener = null;
     private MyLocationNewOverlay myLocationOverlay = null;
-
-    /**
-     * @param mapView the founded mapView
-     */
-    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
-        this(mapView, markersType, context, null);
-    }
 
     /**
      * @param mapView the founded mapView
@@ -68,39 +57,15 @@ public class MapHandler implements LocationListener {
         this.context = context;
         this.markersType = markersType;
 
-        startLocationUpdates();
+        initStartPoint();
         initMap();
     }
 
-    public void initMap() {
-        // initialize the map
-        mMapView.getOverlay().clear();
-        mMapView.setTileSource(TileSourceFactory.MAPNIK);
-        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
-        mMapView.setMultiTouchControls(true);
-        mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
-        mMapView.setMaxZoomLevel(MAP_MAX_ZOOM);
-        mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
-
-        mMapView.getController().setCenter(startPoint);
-
-        final MapEventsReceiver mReceive = new MapEventsReceiver() {
-            @Override
-            public boolean singleTapConfirmedHelper(GeoPoint p) {
-                return false;
-            }
-
-            @Override
-            public boolean longPressHelper(GeoPoint p) {
-                if (longPressCallback != null) {
-                    longPressCallback.OnLongPressCallback(p);
-                }
-                return false;
-            }
-        };
-        mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
-
-        addMyLocationIconOnMap();
+    /**
+     * @param mapView the founded mapView
+     */
+    public MapHandler(MapView mapView, MarkersType markersType, Context context) {
+        this(mapView, markersType, context, null);
     }
 
     private void showHintOnMap(Clue clue) {
@@ -112,7 +77,7 @@ public class MapHandler implements LocationListener {
         myMarker.setTitle(clue.getDescription());
         myMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
 
-        // todo: change icon
+        // todo: choose marker icon
 //        myMarker.setIcon(ResourcesCompat.getDrawable(context.getResources(), R.drawable.pirate_flag, context.getTheme()));
 
         switch (markersType) {
@@ -149,56 +114,61 @@ public class MapHandler implements LocationListener {
         mMapView.getOverlays().add(myMarker);
     }
 
-    public void closeAllMarkers() {
-        InfoWindow.closeAllInfoWindowsOn(mMapView);
+    public void initMap() {
+        // initialize the map
+        mMapView.getOverlay().clear();
+        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+        mMapView.setMultiTouchControls(true);
+        mMapView.getController().setZoom(MAP_DEFAULT_ZOOM);
+        mMapView.setMaxZoomLevel(MAP_MAX_ZOOM);
+        mMapView.setMinZoomLevel(MAP_MIN_ZOOM);
+
+        mMapView.getController().setCenter(startPoint);
+
+        final MapEventsReceiver mReceive = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                if (longPressCallback != null) {
+                    longPressCallback.OnLongPressCallback(p);
+                }
+                return false;
+            }
+        };
+        mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
+
+        addMyLocationIconOnMap();
     }
 
-    public void stopLocationUpdates() {
-//        todo: delete
-//        LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-//        mLocationManager.removeUpdates(mLocationListener);
-        Log.i("LocationServices", "Stop location updates");
-    }
-
-    private void startLocationUpdates() {
-//        LocationListener mLocationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(final Location location) {
-//                if (location == null) return;
-//                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-//
-//                if (locationChangedCallback != null) {
-//                    locationChangedCallback.onLocationChanged(location);
-//                }
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String s) {
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String s) {
-//            }
-//        };
+    /**
+     * if start point was not specified, start in the last known location of the user
+     */
+    private void initStartPoint() {
+        if (startPoint != null) return;
 
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this);
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this);
-
-            // if start point was not specified, start in the last known location of the user
-            if (startPoint == null) {
-                Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if (lastLocation != null) {
-                    startPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
-                } else {
-                    startPoint = DEFAULT_START_POINT;
-                }
+            Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (lastLocation != null) {
+                startPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
+            } else {
+                startPoint = DEFAULT_START_POINT;
             }
         } else {
             Log.e("MapHandler", "missing permissions for location updates");
         }
+    }
+
+    public void closeAllMarkers() {
+        InfoWindow.closeAllInfoWindowsOn(mMapView);
     }
 
     private void addMyLocationIconOnMap() {
@@ -209,10 +179,16 @@ public class MapHandler implements LocationListener {
         myLocationOverlay.setDrawAccuracyEnabled(false);
         myLocationOverlay.getMyLocation();
 
-        myLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.pirate_icon));  // todo: choose an icon
+        myLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.pirate_icon));
 
         // add to map
         mMapView.getOverlays().add(myLocationOverlay);
+    }
+
+    public enum MarkersType {
+        Player,
+        CreatorEdit,
+        CreatorInPlay
     }
 
     public void mapToCurrentLocation() {
@@ -245,12 +221,6 @@ public class MapHandler implements LocationListener {
         // listen once in order to remember
         LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         mLocationManager.removeUpdates(this);
-    }
-
-    public enum MarkersType {
-        Player,
-        CreatorEdit,
-        CreatorInPlay
     }
 
     public void showHints(Collection<Clue> clues) {

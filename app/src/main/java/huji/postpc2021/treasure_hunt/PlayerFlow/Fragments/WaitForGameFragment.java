@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +32,6 @@ public class WaitForGameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_wait_for_game, container, false);
-//        playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         playerViewModel = PlayerViewModel.getInstance();
 
         view.findViewById(R.id.buttonLeaveGameInWaitScreen).setOnClickListener(v -> leaveGame(view));
@@ -50,8 +48,7 @@ public class WaitForGameFragment extends Fragment {
                     }
                     adapter.setItems(game.getPlayers().values());
                     if (game.getStatus() == GameStatus.running) {
-//                        playerViewModel.startGame(); todo
-                        Navigation.findNavController(view).navigate(WaitForGameFragmentDirections.actionWaitForGameToPlayerGame());
+                        playerViewModel.openGame(view);
                     }
                 }
         );
@@ -85,7 +82,7 @@ public class WaitForGameFragment extends Fragment {
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage("leave game?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener)

@@ -1,12 +1,10 @@
 package huji.postpc2021.treasure_hunt.Utils.DataObjects;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import huji.postpc2021.treasure_hunt.MainActivity;
 import huji.postpc2021.treasure_hunt.TreasureHuntApp;
 
 public class Game {
@@ -30,10 +28,8 @@ public class Game {
         return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 5);
     }
 
-    /**
-     * empty constructor for fireBase
-     */
     public Game() {
+        // Required empty public constructor for FireBase
     }
 
     // Getters
@@ -75,7 +71,7 @@ public class Game {
             return null;
         }
         ArrayList<Clue> sortedClues = new ArrayList<>(clues.values());
-        Collections.sort(sortedClues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+        sortedClues.sort((c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
         return sortedClues.get(index);
     }
 
@@ -84,7 +80,7 @@ public class Game {
             return null;
         }
         ArrayList<Clue> sortedClues = new ArrayList<>(clues.values());
-        Collections.sort(sortedClues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+        sortedClues.sort((c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
 
         if (index >= clues.size()) {
             return sortedClues;
@@ -122,7 +118,7 @@ public class Game {
             clues.remove(clueId);
 
             List<Clue> sortedClues = new ArrayList<>(clues.values());
-            Collections.sort(sortedClues, (c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
+            sortedClues.sort((c1, c2) -> Integer.compare(c1.getIndex(), c2.getIndex()));
             int i = 1;
             for (Clue clue : sortedClues) {
                 clue.changeIndex(i);

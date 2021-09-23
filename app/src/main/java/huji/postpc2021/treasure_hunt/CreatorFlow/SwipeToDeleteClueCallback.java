@@ -19,7 +19,6 @@ public class SwipeToDeleteClueCallback extends ItemTouchHelper.SimpleCallback {
     private final ColorDrawable background;
 
     public SwipeToDeleteClueCallback(ClueLocationAdapter adapter) {
-//        super(0, ItemTouchHelper.START | ItemTouchHelper.END);
         super(0, ItemTouchHelper.END);
         mAdapter = adapter;
         deleteIcon = ContextCompat.getDrawable(mAdapter.getContext(), R.drawable.ic_delete);
@@ -30,6 +29,7 @@ public class SwipeToDeleteClueCallback extends ItemTouchHelper.SimpleCallback {
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         return false;
     }
+
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
