@@ -44,7 +44,7 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListItemViewHold
                         : R.drawable.recyclerview_general_item_background);
 
         holder.nicknameTextView.setText(player.getNickname());
-        holder.scoreTextView.setText(player.getScore());
+        holder.scoreTextView.setText(Integer.toString(player.getScore()));
     }
 
     @Override
