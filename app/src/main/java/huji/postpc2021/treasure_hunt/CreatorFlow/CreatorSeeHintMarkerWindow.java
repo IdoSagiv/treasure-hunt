@@ -29,7 +29,7 @@ public class CreatorSeeHintMarkerWindow extends InfoWindow {
     public void onOpen(Object arg0) {
         CreatorViewModel creatorViewModel = CreatorViewModel.getInstance();
         Game game = creatorViewModel.currentGame.getValue();
-        Clue relatedClue = creatorViewModel.cluesLiveData.getValue().get(relatedMarker.getId());
+        Clue relatedClue = game.getClue(relatedMarker.getId());
 
         TextView hintContentEditText = mView.findViewById(R.id.textViewHintContentCreatorSeeHint);
         TextView clueIndexTextView = mView.findViewById(R.id.textViewHintIndexCreatorSeeMarkerWindow);
